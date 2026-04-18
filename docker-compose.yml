@@ -1,152 +1,96 @@
-version: "3.9"
+version: "3.8"
 
-# ─────────────────────────────────────────────
-#  NexusFlow — Predictive Supply Chain Platform
-#  docker-compose.yml
-# ─────────────────────────────────────────────
-#
-#  Required: copy .env.example → .env and fill
-#  in real values before running.
-#
-#  Usage:
-#    docker compose up --build          # start all services
-#    docker compose down -v             # stop + remove volumes
-# ─────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────────────────────────
+#  NexusFlow — docker-compose.yml
+#  6 services: zookeeper, kafka, redis, backend, frontend, kafka-ui
+# ─────────────────────────────────────────────────────────────────────────────
 
 services:
 
-  # ── ZooKeeper (Kafka coordinator) ──────────
+  # ── ZooKeeper ────────────────────────────────────────────────────────────────
+  # Coordinates the Kafka broker — manages leader election and cluster metadata.
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
-    container_name: nexus-zookeeper
-    restart: unless-stopped
+    ports:
+      - "2181:2181"
     environment:
-      ZOOKEEPER_CLIENT_PORT: ${ZOOKEEPER_CLIENT_PORT:-2181}
-      ZOOKEEPER_TICK_TIME: ${ZOOKEEPER_TICK_TIME:-2000}
-    networks:
-      - nexus-net
-    healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "2181"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
 
-  # ── Kafka (event streaming) ─────────────────
+  # ── Kafka ─────────────────────────────────────────────────────────────────────
+  # Event-streaming backbone. Exposes port 9092 to the host (PLAINTEXT_HOST
+  # listener) and 29092 internally for inter-container traffic (PLAINTEXT listener).
   kafka:
     image: confluentinc/cp-kafka:7.5.0
-    container_name: nexus-kafka
-    restart: unless-stopped
-    depends_on:
-      zookeeper:
-        condition: service_healthy
     ports:
-      - "${KAFKA_EXTERNAL_PORT:-9092}:9092"
+      - "9092:9092"
+    depends_on:
+      - zookeeper
     environment:
-      KAFKA_BROKER_ID: ${KAFKA_BROKER_ID:-1}
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:${ZOOKEEPER_CLIENT_PORT:-2181}
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:${KAFKA_EXTERNAL_PORT:-9092}
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: ${KAFKA_REPLICATION_FACTOR:-1}
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: ${KAFKA_AUTO_CREATE_TOPICS:-true}
-    networks:
-      - nexus-net
-    healthcheck:
-      test: ["CMD", "kafka-topics", "--bootstrap-server", "localhost:29092", "--list"]
-      interval: 15s
-      timeout: 10s
-      retries: 5
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
 
-  # ── Redis (caching / pub-sub) ───────────────
+  # ── Redis ─────────────────────────────────────────────────────────────────────
+  # In-memory cache and pub/sub broker. AOF persistence enabled so data survives
+  # container restarts. Health-checked via redis-cli ping.
   redis:
     image: redis:7-alpine
-    container_name: nexus-redis
-    restart: unless-stopped
-    command: >
-      redis-server
-      --requirepass ${REDIS_PASSWORD}
-      --maxmemory ${REDIS_MAX_MEMORY:-256mb}
-      --maxmemory-policy allkeys-lru
     ports:
-      - "${REDIS_PORT:-6379}:6379"
-    networks:
-      - nexus-net
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
     healthcheck:
-      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
-      interval: 10s
-      timeout: 5s
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
       retries: 5
 
-  # ── Backend (FastAPI) ───────────────────────
+  # ── Backend ───────────────────────────────────────────────────────────────────
+  # FastAPI application. Reads secrets and config from .env. Source-mounted for
+  # hot-reload during development — remove the volume bind in production builds.
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: nexus-backend
-    restart: unless-stopped
-    depends_on:
-      kafka:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
+    build: ./backend
     ports:
-      - "${BACKEND_PORT:-8000}:8000"
-    environment:
-      # App
-      APP_ENV: ${APP_ENV:-development}
-      SECRET_KEY: ${SECRET_KEY}
-      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:5173}
-
-      # Redis
-      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379/${REDIS_DB:-0}
-
-      # Kafka
-      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
-      KAFKA_CONSUMER_GROUP: ${KAFKA_CONSUMER_GROUP:-nexusflow-backend}
-      KAFKA_TOPIC_SUPPLY: ${KAFKA_TOPIC_SUPPLY:-supply-events}
-      KAFKA_TOPIC_ALERTS: ${KAFKA_TOPIC_ALERTS:-alert-events}
-
-      # ML / model paths (mount or bake into image)
-      MODEL_PATH: ${MODEL_PATH:-/app/models}
-    volumes:
-      - ./backend:/app              # hot-reload in dev; remove in prod
-      - nexus-models:/app/models    # persisted model artifacts
-    networks:
-      - nexus-net
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 15s
-      timeout: 5s
-      retries: 5
-
-  # ── Frontend UI (React + Vite) ──────────────
-  frontend-ui:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: nexus-frontend
-    restart: unless-stopped
+      - "8000:8000"
     depends_on:
-      backend:
-        condition: service_healthy
-    ports:
-      - "${FRONTEND_PORT:-5173}:5173"
-    environment:
-      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8000}
-      VITE_APP_TITLE: ${VITE_APP_TITLE:-NexusFlow}
+      - kafka
+      - redis
+    env_file:
+      - .env
     volumes:
-      - ./frontend:/app             # hot-reload in dev; remove in prod
-      - /app/node_modules           # keep node_modules inside container
-    networks:
-      - nexus-net
+      - ./backend:/app
 
-# ── Networks ────────────────────────────────
-networks:
-  nexus-net:
-    driver: bridge
-    name: nexus-net
+  # ── Frontend ──────────────────────────────────────────────────────────────────
+  # React + Vite UI. Source-mounted for hot-reload. Proxies API calls to the
+  # backend service. Waits for the backend to be available before starting.
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    env_file:
+      - .env
+    volumes:
+      - ./frontend:/app
 
-# ── Named Volumes ────────────────────────────
+  # ── Kafka UI ──────────────────────────────────────────────────────────────────
+  # Web-based Kafka management console. Browse topics, consumer groups, and
+  # messages without needing a CLI. Connects to Kafka via the internal listener.
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+
+# ── Named Volumes ─────────────────────────────────────────────────────────────
+# redis_data persists Redis AOF/RDB files across container restarts.
 volumes:
-  nexus-models:
-    driver: local
+  redis_data:
