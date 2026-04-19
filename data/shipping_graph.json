@@ -1,0 +1,5406 @@
+{
+  "nodes": [
+    {
+      "id": "P001",
+      "name": "Shanghai",
+      "lat": 31.2,
+      "lng": 121.5,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P002",
+      "name": "Rotterdam",
+      "lat": 51.9,
+      "lng": 4.5,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P003",
+      "name": "Singapore",
+      "lat": 1.3,
+      "lng": 103.8,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P004",
+      "name": "Los Angeles",
+      "lat": 33.7,
+      "lng": -118.3,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P005",
+      "name": "Dubai",
+      "lat": 25.0,
+      "lng": 55.1,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P006",
+      "name": "Hamburg",
+      "lat": 53.5,
+      "lng": 10.0,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P007",
+      "name": "Busan",
+      "lat": 35.1,
+      "lng": 129.0,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P008",
+      "name": "Hong Kong",
+      "lat": 22.3,
+      "lng": 114.2,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P009",
+      "name": "Antwerp",
+      "lat": 51.2,
+      "lng": 4.4,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P010",
+      "name": "New York",
+      "lat": 40.7,
+      "lng": -74.0,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P011",
+      "name": "Karachi",
+      "lat": 24.8,
+      "lng": 67.0,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P012",
+      "name": "Mumbai",
+      "lat": 19.1,
+      "lng": 72.9,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P013",
+      "name": "Colombo",
+      "lat": 6.9,
+      "lng": 79.8,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P014",
+      "name": "Port Klang",
+      "lat": 3.0,
+      "lng": 101.4,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P015",
+      "name": "Tanjung Pelepas",
+      "lat": 1.4,
+      "lng": 103.6,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P016",
+      "name": "Guangzhou",
+      "lat": 23.1,
+      "lng": 113.3,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P017",
+      "name": "Tianjin",
+      "lat": 39.0,
+      "lng": 117.7,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P018",
+      "name": "Qingdao",
+      "lat": 36.1,
+      "lng": 120.4,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P019",
+      "name": "Ningbo",
+      "lat": 29.9,
+      "lng": 121.6,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P020",
+      "name": "Shenzhen",
+      "lat": 22.5,
+      "lng": 114.1,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P021",
+      "name": "Tokyo",
+      "lat": 35.7,
+      "lng": 139.7,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P022",
+      "name": "Yokohama",
+      "lat": 35.4,
+      "lng": 139.6,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P023",
+      "name": "Nagoya",
+      "lat": 35.1,
+      "lng": 136.9,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P024",
+      "name": "Kaohsiung",
+      "lat": 22.6,
+      "lng": 120.3,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P025",
+      "name": "Laem Chabang",
+      "lat": 13.1,
+      "lng": 100.9,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P026",
+      "name": "Ho Chi Minh City",
+      "lat": 10.8,
+      "lng": 106.7,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P027",
+      "name": "Jakarta",
+      "lat": -6.2,
+      "lng": 106.8,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P028",
+      "name": "Manila",
+      "lat": 14.6,
+      "lng": 120.9,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P029",
+      "name": "Chittagong",
+      "lat": 22.3,
+      "lng": 91.8,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P030",
+      "name": "Jeddah",
+      "lat": 21.5,
+      "lng": 39.2,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P031",
+      "name": "Oman Sohar",
+      "lat": 24.3,
+      "lng": 56.6,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P032",
+      "name": "Djibouti",
+      "lat": 11.6,
+      "lng": 43.1,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P033",
+      "name": "Mombasa",
+      "lat": -4.1,
+      "lng": 39.7,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P034",
+      "name": "Durban",
+      "lat": -29.9,
+      "lng": 31.0,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P035",
+      "name": "Cape Town",
+      "lat": -33.9,
+      "lng": 18.4,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P036",
+      "name": "Lagos",
+      "lat": 6.4,
+      "lng": 3.4,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P037",
+      "name": "Dakar",
+      "lat": 14.7,
+      "lng": -17.4,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P038",
+      "name": "Casablanca",
+      "lat": 33.6,
+      "lng": -7.6,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P039",
+      "name": "Alexandria",
+      "lat": 31.2,
+      "lng": 29.9,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P040",
+      "name": "Piraeus",
+      "lat": 37.9,
+      "lng": 23.7,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P041",
+      "name": "Valencia",
+      "lat": 39.5,
+      "lng": -0.3,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P042",
+      "name": "Barcelona",
+      "lat": 41.4,
+      "lng": 2.2,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P043",
+      "name": "Marseille",
+      "lat": 43.3,
+      "lng": 5.3,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P044",
+      "name": "Genoa",
+      "lat": 44.4,
+      "lng": 8.9,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P045",
+      "name": "Felixstowe",
+      "lat": 51.9,
+      "lng": 1.3,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P046",
+      "name": "Le Havre",
+      "lat": 49.5,
+      "lng": 0.1,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P047",
+      "name": "Bremerhaven",
+      "lat": 53.5,
+      "lng": 8.6,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P048",
+      "name": "Gothenburg",
+      "lat": 57.7,
+      "lng": 12.0,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P049",
+      "name": "Santos",
+      "lat": -23.9,
+      "lng": -46.3,
+      "port_type": "seaport"
+    },
+    {
+      "id": "P050",
+      "name": "Buenos Aires",
+      "lat": -34.6,
+      "lng": -58.4,
+      "port_type": "seaport"
+    },
+    {
+      "id": "H001",
+      "name": "Chongqing Hub",
+      "lat": 29.6,
+      "lng": 106.6,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H002",
+      "name": "Chengdu Hub",
+      "lat": 30.7,
+      "lng": 104.1,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H003",
+      "name": "Xi'an Hub",
+      "lat": 34.3,
+      "lng": 108.9,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H004",
+      "name": "Zhengzhou Hub",
+      "lat": 34.7,
+      "lng": 113.6,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H005",
+      "name": "Wuhan Hub",
+      "lat": 30.6,
+      "lng": 114.3,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H006",
+      "name": "Beijing Hub",
+      "lat": 39.9,
+      "lng": 116.4,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H007",
+      "name": "Harbin Hub",
+      "lat": 45.8,
+      "lng": 126.5,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H008",
+      "name": "Shenyang Hub",
+      "lat": 41.8,
+      "lng": 123.4,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H009",
+      "name": "Ulaanbaatar Hub",
+      "lat": 47.9,
+      "lng": 106.9,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H010",
+      "name": "Almaty Hub",
+      "lat": 43.3,
+      "lng": 76.9,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H011",
+      "name": "Tashkent Hub",
+      "lat": 41.3,
+      "lng": 69.3,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H012",
+      "name": "Bishkek Hub",
+      "lat": 42.9,
+      "lng": 74.6,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H013",
+      "name": "Delhi Hub",
+      "lat": 28.6,
+      "lng": 77.2,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H014",
+      "name": "Chennai Hub",
+      "lat": 13.1,
+      "lng": 80.3,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H015",
+      "name": "Kolkata Hub",
+      "lat": 22.6,
+      "lng": 88.4,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H016",
+      "name": "Dhaka Hub",
+      "lat": 23.8,
+      "lng": 90.4,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H017",
+      "name": "Bangkok Hub",
+      "lat": 13.8,
+      "lng": 100.5,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H018",
+      "name": "Hanoi Hub",
+      "lat": 21.0,
+      "lng": 105.8,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H019",
+      "name": "Kuala Lumpur Hub",
+      "lat": 3.1,
+      "lng": 101.7,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H020",
+      "name": "Phnom Penh Hub",
+      "lat": 11.6,
+      "lng": 104.9,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H021",
+      "name": "Tehran Hub",
+      "lat": 35.7,
+      "lng": 51.4,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H022",
+      "name": "Baghdad Hub",
+      "lat": 33.3,
+      "lng": 44.4,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H023",
+      "name": "Riyadh Hub",
+      "lat": 24.7,
+      "lng": 46.7,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H024",
+      "name": "Ankara Hub",
+      "lat": 39.9,
+      "lng": 32.9,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H025",
+      "name": "Istanbul Hub",
+      "lat": 41.0,
+      "lng": 29.0,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H026",
+      "name": "Frankfurt Hub",
+      "lat": 50.1,
+      "lng": 8.7,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H027",
+      "name": "Warsaw Hub",
+      "lat": 52.2,
+      "lng": 21.0,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H028",
+      "name": "Vienna Hub",
+      "lat": 48.2,
+      "lng": 16.4,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H029",
+      "name": "Milan Hub",
+      "lat": 45.5,
+      "lng": 9.2,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H030",
+      "name": "Madrid Hub",
+      "lat": 40.4,
+      "lng": -3.7,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H031",
+      "name": "Paris Hub",
+      "lat": 48.9,
+      "lng": 2.3,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H032",
+      "name": "Lyon Hub",
+      "lat": 45.7,
+      "lng": 4.8,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H033",
+      "name": "Brussels Hub",
+      "lat": 50.8,
+      "lng": 4.4,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H034",
+      "name": "Amsterdam Hub",
+      "lat": 52.4,
+      "lng": 4.9,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H035",
+      "name": "Zurich Hub",
+      "lat": 47.4,
+      "lng": 8.5,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H036",
+      "name": "Prague Hub",
+      "lat": 50.1,
+      "lng": 14.4,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H037",
+      "name": "Budapest Hub",
+      "lat": 47.5,
+      "lng": 19.0,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H038",
+      "name": "Bucharest Hub",
+      "lat": 44.4,
+      "lng": 26.1,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H039",
+      "name": "Sofia Hub",
+      "lat": 42.7,
+      "lng": 23.3,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H040",
+      "name": "Nairobi Hub",
+      "lat": -1.3,
+      "lng": 36.8,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H041",
+      "name": "Johannesburg Hub",
+      "lat": -26.2,
+      "lng": 28.0,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H042",
+      "name": "Cairo Hub",
+      "lat": 30.1,
+      "lng": 31.2,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H043",
+      "name": "Addis Ababa Hub",
+      "lat": 9.0,
+      "lng": 38.7,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H044",
+      "name": "Khartoum Hub",
+      "lat": 15.6,
+      "lng": 32.5,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H045",
+      "name": "Accra Hub",
+      "lat": 5.6,
+      "lng": -0.2,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H046",
+      "name": "Chicago Hub",
+      "lat": 41.9,
+      "lng": -87.6,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H047",
+      "name": "Dallas Hub",
+      "lat": 32.8,
+      "lng": -96.8,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H048",
+      "name": "Atlanta Hub",
+      "lat": 33.7,
+      "lng": -84.4,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H049",
+      "name": "Miami Hub",
+      "lat": 25.8,
+      "lng": -80.2,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H050",
+      "name": "Houston Hub",
+      "lat": 29.8,
+      "lng": -95.4,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H051",
+      "name": "Memphis Hub",
+      "lat": 35.1,
+      "lng": -90.0,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H052",
+      "name": "Los Angeles Hub",
+      "lat": 34.0,
+      "lng": -118.2,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H053",
+      "name": "Seattle Hub",
+      "lat": 47.6,
+      "lng": -122.3,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H054",
+      "name": "Toronto Hub",
+      "lat": 43.7,
+      "lng": -79.4,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H055",
+      "name": "Montreal Hub",
+      "lat": 45.5,
+      "lng": -73.6,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H056",
+      "name": "Mexico City Hub",
+      "lat": 19.4,
+      "lng": -99.1,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H057",
+      "name": "Guadalajara Hub",
+      "lat": 20.7,
+      "lng": -103.4,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H058",
+      "name": "Bogota Hub",
+      "lat": 4.7,
+      "lng": -74.1,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H059",
+      "name": "Lima Hub",
+      "lat": -12.0,
+      "lng": -77.0,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H060",
+      "name": "Santiago Hub",
+      "lat": -33.5,
+      "lng": -70.6,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H061",
+      "name": "Sao Paulo Hub",
+      "lat": -23.5,
+      "lng": -46.6,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H062",
+      "name": "Rio Hub",
+      "lat": -22.9,
+      "lng": -43.2,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H063",
+      "name": "Buenos Aires Hub",
+      "lat": -34.6,
+      "lng": -58.4,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H064",
+      "name": "Sydney Hub",
+      "lat": -33.9,
+      "lng": 151.2,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H065",
+      "name": "Melbourne Hub",
+      "lat": -37.8,
+      "lng": 145.0,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H066",
+      "name": "Auckland Hub",
+      "lat": -36.9,
+      "lng": 174.8,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H067",
+      "name": "Moscow Hub",
+      "lat": 55.8,
+      "lng": 37.6,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H068",
+      "name": "St Petersburg Hub",
+      "lat": 59.9,
+      "lng": 30.3,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H069",
+      "name": "Novosibirsk Hub",
+      "lat": 55.0,
+      "lng": 82.9,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H070",
+      "name": "Vladivostok Hub",
+      "lat": 43.1,
+      "lng": 131.9,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H071",
+      "name": "Yekaterinburg Hub",
+      "lat": 56.8,
+      "lng": 60.6,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H072",
+      "name": "Tunis Hub",
+      "lat": 36.8,
+      "lng": 10.2,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H073",
+      "name": "Algiers Hub",
+      "lat": 36.7,
+      "lng": 3.1,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H074",
+      "name": "Tripoli Hub",
+      "lat": 32.9,
+      "lng": 13.2,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H075",
+      "name": "Beirut Hub",
+      "lat": 33.9,
+      "lng": 35.5,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H076",
+      "name": "Amman Hub",
+      "lat": 31.9,
+      "lng": 35.9,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H077",
+      "name": "Muscat Hub",
+      "lat": 23.6,
+      "lng": 58.6,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H078",
+      "name": "Karachi Hub",
+      "lat": 24.9,
+      "lng": 67.1,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H079",
+      "name": "Lahore Hub",
+      "lat": 31.5,
+      "lng": 74.3,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H080",
+      "name": "Kabul Hub",
+      "lat": 34.5,
+      "lng": 69.2,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H081",
+      "name": "Baku Hub",
+      "lat": 40.4,
+      "lng": 49.9,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H082",
+      "name": "Tbilisi Hub",
+      "lat": 41.7,
+      "lng": 44.8,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H083",
+      "name": "Yerevan Hub",
+      "lat": 40.2,
+      "lng": 44.5,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H084",
+      "name": "Minsk Hub",
+      "lat": 53.9,
+      "lng": 27.6,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H085",
+      "name": "Kiev Hub",
+      "lat": 50.5,
+      "lng": 30.5,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H086",
+      "name": "Riga Hub",
+      "lat": 56.9,
+      "lng": 24.1,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H087",
+      "name": "Vilnius Hub",
+      "lat": 54.7,
+      "lng": 25.3,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H088",
+      "name": "Tallinn Hub",
+      "lat": 59.4,
+      "lng": 24.7,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H089",
+      "name": "Helsinki Hub",
+      "lat": 60.2,
+      "lng": 25.0,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H090",
+      "name": "Oslo Hub",
+      "lat": 59.9,
+      "lng": 10.7,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H091",
+      "name": "Stockholm Hub",
+      "lat": 59.3,
+      "lng": 18.1,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H092",
+      "name": "Copenhagen Hub",
+      "lat": 55.7,
+      "lng": 12.6,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H093",
+      "name": "Dublin Hub",
+      "lat": 53.3,
+      "lng": -6.3,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H094",
+      "name": "Lisbon Hub",
+      "lat": 38.7,
+      "lng": -9.1,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H095",
+      "name": "Porto Hub",
+      "lat": 41.2,
+      "lng": -8.6,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H096",
+      "name": "Seville Hub",
+      "lat": 37.4,
+      "lng": -6.0,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H097",
+      "name": "Bilbao Hub",
+      "lat": 43.3,
+      "lng": -2.9,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H098",
+      "name": "Toulouse Hub",
+      "lat": 43.6,
+      "lng": 1.4,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H099",
+      "name": "Bordeaux Hub",
+      "lat": 44.8,
+      "lng": -0.6,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H100",
+      "name": "Nantes Hub",
+      "lat": 47.2,
+      "lng": -1.6,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H101",
+      "name": "Lille Hub",
+      "lat": 50.6,
+      "lng": 3.1,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H102",
+      "name": "Cologne Hub",
+      "lat": 50.9,
+      "lng": 7.0,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H103",
+      "name": "Munich Hub",
+      "lat": 48.1,
+      "lng": 11.6,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H104",
+      "name": "Stuttgart Hub",
+      "lat": 48.8,
+      "lng": 9.2,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H105",
+      "name": "Nuremberg Hub",
+      "lat": 49.5,
+      "lng": 11.1,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H106",
+      "name": "Dresden Hub",
+      "lat": 51.1,
+      "lng": 13.7,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H107",
+      "name": "Leipzig Hub",
+      "lat": 51.3,
+      "lng": 12.4,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H108",
+      "name": "Krakow Hub",
+      "lat": 50.1,
+      "lng": 19.9,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H109",
+      "name": "Lodz Hub",
+      "lat": 51.8,
+      "lng": 19.5,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H110",
+      "name": "Katowice Hub",
+      "lat": 50.3,
+      "lng": 18.9,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H111",
+      "name": "Wroclaw Hub",
+      "lat": 51.1,
+      "lng": 17.0,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H112",
+      "name": "Bratislava Hub",
+      "lat": 48.1,
+      "lng": 17.1,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H113",
+      "name": "Ljubljana Hub",
+      "lat": 46.1,
+      "lng": 14.5,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H114",
+      "name": "Zagreb Hub",
+      "lat": 45.8,
+      "lng": 16.0,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H115",
+      "name": "Sarajevo Hub",
+      "lat": 43.9,
+      "lng": 18.4,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H116",
+      "name": "Belgrade Hub",
+      "lat": 44.8,
+      "lng": 20.5,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H117",
+      "name": "Skopje Hub",
+      "lat": 42.0,
+      "lng": 21.4,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H118",
+      "name": "Tirana Hub",
+      "lat": 41.3,
+      "lng": 19.8,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H119",
+      "name": "Athens Hub",
+      "lat": 37.9,
+      "lng": 23.7,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H120",
+      "name": "Thessaloniki Hub",
+      "lat": 40.6,
+      "lng": 22.9,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H121",
+      "name": "Izmir Hub",
+      "lat": 38.4,
+      "lng": 27.1,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H122",
+      "name": "Antalya Hub",
+      "lat": 36.9,
+      "lng": 30.7,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H123",
+      "name": "Adana Hub",
+      "lat": 37.0,
+      "lng": 35.3,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H124",
+      "name": "Dar es Salaam Hub",
+      "lat": -6.8,
+      "lng": 39.3,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H125",
+      "name": "Maputo Hub",
+      "lat": -25.9,
+      "lng": 32.6,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H126",
+      "name": "Harare Hub",
+      "lat": -17.8,
+      "lng": 31.1,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H127",
+      "name": "Lusaka Hub",
+      "lat": -15.4,
+      "lng": 28.3,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H128",
+      "name": "Luanda Hub",
+      "lat": -8.8,
+      "lng": 13.2,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H129",
+      "name": "Kinshasa Hub",
+      "lat": -4.3,
+      "lng": 15.3,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H130",
+      "name": "Abidjan Hub",
+      "lat": 5.3,
+      "lng": -4.0,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H131",
+      "name": "Bamako Hub",
+      "lat": 12.7,
+      "lng": -8.0,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H132",
+      "name": "N'Djamena Hub",
+      "lat": 12.1,
+      "lng": 15.0,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H133",
+      "name": "Douala Hub",
+      "lat": 4.0,
+      "lng": 9.7,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H134",
+      "name": "Brazzaville Hub",
+      "lat": -4.3,
+      "lng": 15.4,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H135",
+      "name": "Libreville Hub",
+      "lat": 0.4,
+      "lng": 9.5,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H136",
+      "name": "Kampala Hub",
+      "lat": 0.3,
+      "lng": 32.6,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H137",
+      "name": "Kigali Hub",
+      "lat": -1.9,
+      "lng": 30.1,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H138",
+      "name": "Djibouti Hub",
+      "lat": 11.6,
+      "lng": 43.2,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H139",
+      "name": "Asmara Hub",
+      "lat": 15.3,
+      "lng": 38.9,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H140",
+      "name": "Addis Hub 2",
+      "lat": 9.1,
+      "lng": 38.8,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H141",
+      "name": "Antananarivo Hub",
+      "lat": -18.9,
+      "lng": 47.5,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H142",
+      "name": "Winnipeg Hub",
+      "lat": 49.9,
+      "lng": -97.1,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H143",
+      "name": "Edmonton Hub",
+      "lat": 53.5,
+      "lng": -113.5,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H144",
+      "name": "Calgary Hub",
+      "lat": 51.0,
+      "lng": -114.1,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H145",
+      "name": "Vancouver Hub",
+      "lat": 49.2,
+      "lng": -123.1,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H146",
+      "name": "Phoenix Hub",
+      "lat": 33.4,
+      "lng": -112.1,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H147",
+      "name": "Denver Hub",
+      "lat": 39.7,
+      "lng": -104.9,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H148",
+      "name": "Minneapolis Hub",
+      "lat": 44.9,
+      "lng": -93.2,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H149",
+      "name": "Detroit Hub",
+      "lat": 42.3,
+      "lng": -83.0,
+      "port_type": "inland_hub"
+    },
+    {
+      "id": "H150",
+      "name": "Pittsburgh Hub",
+      "lat": 40.4,
+      "lng": -80.0,
+      "port_type": "inland_hub"
+    }
+  ],
+  "edges": [
+    {
+      "source": "P001",
+      "target": "P050",
+      "distance_km": 19636.9,
+      "transit_hours": 785.48,
+      "cost_usd": 5175,
+      "mode": "sea"
+    },
+    {
+      "source": "P050",
+      "target": "P009",
+      "distance_km": 11334.5,
+      "transit_hours": 453.38,
+      "cost_usd": 5684,
+      "mode": "sea"
+    },
+    {
+      "source": "P009",
+      "target": "P003",
+      "distance_km": 10547.4,
+      "transit_hours": 421.9,
+      "cost_usd": 11116,
+      "mode": "sea"
+    },
+    {
+      "source": "P003",
+      "target": "P035",
+      "distance_km": 9664.0,
+      "transit_hours": 386.56,
+      "cost_usd": 23019,
+      "mode": "sea"
+    },
+    {
+      "source": "P035",
+      "target": "P047",
+      "distance_km": 9764.4,
+      "transit_hours": 390.58,
+      "cost_usd": 15456,
+      "mode": "sea"
+    },
+    {
+      "source": "P047",
+      "target": "P032",
+      "distance_km": 5567.7,
+      "transit_hours": 222.71,
+      "cost_usd": 21044,
+      "mode": "sea"
+    },
+    {
+      "source": "P032",
+      "target": "P015",
+      "distance_km": 6765.9,
+      "transit_hours": 270.64,
+      "cost_usd": 21266,
+      "mode": "sea"
+    },
+    {
+      "source": "P015",
+      "target": "P005",
+      "distance_km": 5822.3,
+      "transit_hours": 232.89,
+      "cost_usd": 43295,
+      "mode": "sea"
+    },
+    {
+      "source": "P005",
+      "target": "P038",
+      "distance_km": 6064.8,
+      "transit_hours": 242.59,
+      "cost_usd": 19594,
+      "mode": "sea"
+    },
+    {
+      "source": "P038",
+      "target": "P026",
+      "distance_km": 11505.7,
+      "transit_hours": 460.23,
+      "cost_usd": 47058,
+      "mode": "sea"
+    },
+    {
+      "source": "P026",
+      "target": "P033",
+      "distance_km": 7596.8,
+      "transit_hours": 303.87,
+      "cost_usd": 18029,
+      "mode": "sea"
+    },
+    {
+      "source": "P033",
+      "target": "P008",
+      "distance_km": 8597.7,
+      "transit_hours": 343.91,
+      "cost_usd": 40174,
+      "mode": "sea"
+    },
+    {
+      "source": "P008",
+      "target": "P042",
+      "distance_km": 10065.2,
+      "transit_hours": 402.61,
+      "cost_usd": 42747,
+      "mode": "sea"
+    },
+    {
+      "source": "P042",
+      "target": "P013",
+      "distance_km": 8467.7,
+      "transit_hours": 338.71,
+      "cost_usd": 26416,
+      "mode": "sea"
+    },
+    {
+      "source": "P013",
+      "target": "P016",
+      "distance_km": 4007.5,
+      "transit_hours": 160.3,
+      "cost_usd": 18276,
+      "mode": "sea"
+    },
+    {
+      "source": "P016",
+      "target": "P049",
+      "distance_km": 17934.7,
+      "transit_hours": 717.39,
+      "cost_usd": 29656,
+      "mode": "sea"
+    },
+    {
+      "source": "P049",
+      "target": "P030",
+      "distance_km": 10528.9,
+      "transit_hours": 421.16,
+      "cost_usd": 24300,
+      "mode": "sea"
+    },
+    {
+      "source": "P030",
+      "target": "P010",
+      "distance_km": 10255.3,
+      "transit_hours": 410.21,
+      "cost_usd": 49514,
+      "mode": "sea"
+    },
+    {
+      "source": "P010",
+      "target": "P006",
+      "distance_km": 6133.2,
+      "transit_hours": 245.33,
+      "cost_usd": 38964,
+      "mode": "sea"
+    },
+    {
+      "source": "P006",
+      "target": "P018",
+      "distance_km": 8025.6,
+      "transit_hours": 321.02,
+      "cost_usd": 34640,
+      "mode": "sea"
+    },
+    {
+      "source": "P018",
+      "target": "P034",
+      "distance_km": 11857.9,
+      "transit_hours": 474.32,
+      "cost_usd": 30010,
+      "mode": "sea"
+    },
+    {
+      "source": "P034",
+      "target": "P021",
+      "distance_km": 13466.2,
+      "transit_hours": 538.65,
+      "cost_usd": 27631,
+      "mode": "sea"
+    },
+    {
+      "source": "P021",
+      "target": "P025",
+      "distance_km": 4617.3,
+      "transit_hours": 184.69,
+      "cost_usd": 11465,
+      "mode": "sea"
+    },
+    {
+      "source": "P025",
+      "target": "P019",
+      "distance_km": 2832.1,
+      "transit_hours": 113.28,
+      "cost_usd": 12551,
+      "mode": "sea"
+    },
+    {
+      "source": "P019",
+      "target": "P043",
+      "distance_km": 9610.1,
+      "transit_hours": 384.41,
+      "cost_usd": 2013,
+      "mode": "sea"
+    },
+    {
+      "source": "P043",
+      "target": "P020",
+      "distance_km": 9715.9,
+      "transit_hours": 388.63,
+      "cost_usd": 8694,
+      "mode": "sea"
+    },
+    {
+      "source": "P020",
+      "target": "P044",
+      "distance_km": 9403.4,
+      "transit_hours": 376.14,
+      "cost_usd": 48195,
+      "mode": "sea"
+    },
+    {
+      "source": "P044",
+      "target": "P028",
+      "distance_km": 10534.6,
+      "transit_hours": 421.39,
+      "cost_usd": 15876,
+      "mode": "sea"
+    },
+    {
+      "source": "P028",
+      "target": "P012",
+      "distance_km": 5117.6,
+      "transit_hours": 204.7,
+      "cost_usd": 43886,
+      "mode": "sea"
+    },
+    {
+      "source": "P012",
+      "target": "P048",
+      "distance_km": 6507.5,
+      "transit_hours": 260.3,
+      "cost_usd": 16991,
+      "mode": "sea"
+    },
+    {
+      "source": "P048",
+      "target": "P027",
+      "distance_km": 10875.0,
+      "transit_hours": 435.0,
+      "cost_usd": 49250,
+      "mode": "sea"
+    },
+    {
+      "source": "P027",
+      "target": "P002",
+      "distance_km": 11392.4,
+      "transit_hours": 455.7,
+      "cost_usd": 46420,
+      "mode": "sea"
+    },
+    {
+      "source": "P002",
+      "target": "P023",
+      "distance_km": 9291.9,
+      "transit_hours": 371.68,
+      "cost_usd": 49634,
+      "mode": "sea"
+    },
+    {
+      "source": "P023",
+      "target": "P040",
+      "distance_km": 9376.5,
+      "transit_hours": 375.06,
+      "cost_usd": 5747,
+      "mode": "sea"
+    },
+    {
+      "source": "P040",
+      "target": "P037",
+      "distance_km": 4784.3,
+      "transit_hours": 191.37,
+      "cost_usd": 14300,
+      "mode": "sea"
+    },
+    {
+      "source": "P037",
+      "target": "P036",
+      "distance_km": 2451.5,
+      "transit_hours": 98.06,
+      "cost_usd": 11438,
+      "mode": "sea"
+    },
+    {
+      "source": "P036",
+      "target": "P039",
+      "distance_km": 3899.4,
+      "transit_hours": 155.98,
+      "cost_usd": 26520,
+      "mode": "sea"
+    },
+    {
+      "source": "P039",
+      "target": "P024",
+      "distance_km": 8766.5,
+      "transit_hours": 350.66,
+      "cost_usd": 7250,
+      "mode": "sea"
+    },
+    {
+      "source": "P024",
+      "target": "P046",
+      "distance_km": 10067.3,
+      "transit_hours": 402.69,
+      "cost_usd": 6762,
+      "mode": "sea"
+    },
+    {
+      "source": "P046",
+      "target": "P022",
+      "distance_km": 9765.8,
+      "transit_hours": 390.63,
+      "cost_usd": 4680,
+      "mode": "sea"
+    },
+    {
+      "source": "P022",
+      "target": "P029",
+      "distance_km": 4827.5,
+      "transit_hours": 193.1,
+      "cost_usd": 31510,
+      "mode": "sea"
+    },
+    {
+      "source": "P029",
+      "target": "P007",
+      "distance_km": 3869.8,
+      "transit_hours": 154.79,
+      "cost_usd": 36442,
+      "mode": "sea"
+    },
+    {
+      "source": "P007",
+      "target": "P041",
+      "distance_km": 10224.9,
+      "transit_hours": 409.0,
+      "cost_usd": 4027,
+      "mode": "sea"
+    },
+    {
+      "source": "P041",
+      "target": "P031",
+      "distance_km": 5534.6,
+      "transit_hours": 221.38,
+      "cost_usd": 2227,
+      "mode": "sea"
+    },
+    {
+      "source": "P031",
+      "target": "P017",
+      "distance_km": 5897.6,
+      "transit_hours": 235.9,
+      "cost_usd": 26518,
+      "mode": "sea"
+    },
+    {
+      "source": "P017",
+      "target": "P014",
+      "distance_km": 4329.7,
+      "transit_hours": 173.19,
+      "cost_usd": 34839,
+      "mode": "sea"
+    },
+    {
+      "source": "P014",
+      "target": "P004",
+      "distance_km": 14188.8,
+      "transit_hours": 567.55,
+      "cost_usd": 5955,
+      "mode": "sea"
+    },
+    {
+      "source": "P004",
+      "target": "P011",
+      "distance_km": 13486.1,
+      "transit_hours": 539.44,
+      "cost_usd": 7311,
+      "mode": "sea"
+    },
+    {
+      "source": "P011",
+      "target": "P045",
+      "distance_km": 6216.2,
+      "transit_hours": 248.65,
+      "cost_usd": 17700,
+      "mode": "sea"
+    },
+    {
+      "source": "P045",
+      "target": "P001",
+      "distance_km": 9098.7,
+      "transit_hours": 363.95,
+      "cost_usd": 41007,
+      "mode": "sea"
+    },
+    {
+      "source": "P038",
+      "target": "P047",
+      "distance_km": 2555.7,
+      "transit_hours": 102.23,
+      "cost_usd": 43415,
+      "mode": "sea"
+    },
+    {
+      "source": "P019",
+      "target": "P006",
+      "distance_km": 8653.8,
+      "transit_hours": 346.15,
+      "cost_usd": 15531,
+      "mode": "sea"
+    },
+    {
+      "source": "P016",
+      "target": "P004",
+      "distance_km": 11667.7,
+      "transit_hours": 466.71,
+      "cost_usd": 19123,
+      "mode": "sea"
+    },
+    {
+      "source": "P028",
+      "target": "P022",
+      "distance_km": 2971.5,
+      "transit_hours": 118.86,
+      "cost_usd": 8784,
+      "mode": "sea"
+    },
+    {
+      "source": "P005",
+      "target": "P023",
+      "distance_km": 7737.8,
+      "transit_hours": 309.51,
+      "cost_usd": 11680,
+      "mode": "sea"
+    },
+    {
+      "source": "P050",
+      "target": "P009",
+      "distance_km": 11334.5,
+      "transit_hours": 453.38,
+      "cost_usd": 43986,
+      "mode": "sea"
+    },
+    {
+      "source": "P021",
+      "target": "P018",
+      "distance_km": 1736.1,
+      "transit_hours": 69.44,
+      "cost_usd": 31705,
+      "mode": "sea"
+    },
+    {
+      "source": "P012",
+      "target": "P040",
+      "distance_km": 5171.7,
+      "transit_hours": 206.87,
+      "cost_usd": 18352,
+      "mode": "sea"
+    },
+    {
+      "source": "P037",
+      "target": "P028",
+      "distance_km": 14390.1,
+      "transit_hours": 575.61,
+      "cost_usd": 9354,
+      "mode": "sea"
+    },
+    {
+      "source": "P031",
+      "target": "P040",
+      "distance_km": 3453.8,
+      "transit_hours": 138.15,
+      "cost_usd": 12102,
+      "mode": "sea"
+    },
+    {
+      "source": "P039",
+      "target": "P024",
+      "distance_km": 8766.5,
+      "transit_hours": 350.66,
+      "cost_usd": 30420,
+      "mode": "sea"
+    },
+    {
+      "source": "P022",
+      "target": "P004",
+      "distance_km": 8859.3,
+      "transit_hours": 354.37,
+      "cost_usd": 42171,
+      "mode": "sea"
+    },
+    {
+      "source": "P036",
+      "target": "P044",
+      "distance_km": 4259.1,
+      "transit_hours": 170.36,
+      "cost_usd": 34805,
+      "mode": "sea"
+    },
+    {
+      "source": "P022",
+      "target": "P040",
+      "distance_km": 9530.0,
+      "transit_hours": 381.2,
+      "cost_usd": 20793,
+      "mode": "sea"
+    },
+    {
+      "source": "P021",
+      "target": "P048",
+      "distance_km": 8542.9,
+      "transit_hours": 341.71,
+      "cost_usd": 35867,
+      "mode": "sea"
+    },
+    {
+      "source": "P013",
+      "target": "P047",
+      "distance_km": 8153.8,
+      "transit_hours": 326.15,
+      "cost_usd": 29457,
+      "mode": "sea"
+    },
+    {
+      "source": "P006",
+      "target": "P025",
+      "distance_km": 8899.2,
+      "transit_hours": 355.97,
+      "cost_usd": 27514,
+      "mode": "sea"
+    },
+    {
+      "source": "P049",
+      "target": "P038",
+      "distance_km": 7592.2,
+      "transit_hours": 303.69,
+      "cost_usd": 20394,
+      "mode": "sea"
+    },
+    {
+      "source": "P001",
+      "target": "P023",
+      "distance_km": 1496.0,
+      "transit_hours": 59.84,
+      "cost_usd": 9432,
+      "mode": "sea"
+    },
+    {
+      "source": "P021",
+      "target": "P010",
+      "distance_km": 10848.9,
+      "transit_hours": 433.96,
+      "cost_usd": 31249,
+      "mode": "sea"
+    },
+    {
+      "source": "P040",
+      "target": "P001",
+      "distance_km": 8551.1,
+      "transit_hours": 342.05,
+      "cost_usd": 45573,
+      "mode": "sea"
+    },
+    {
+      "source": "P027",
+      "target": "P011",
+      "distance_km": 5515.8,
+      "transit_hours": 220.63,
+      "cost_usd": 31765,
+      "mode": "sea"
+    },
+    {
+      "source": "P006",
+      "target": "P001",
+      "distance_km": 8529.3,
+      "transit_hours": 341.17,
+      "cost_usd": 28709,
+      "mode": "sea"
+    },
+    {
+      "source": "P010",
+      "target": "P024",
+      "distance_km": 12822.7,
+      "transit_hours": 512.91,
+      "cost_usd": 15652,
+      "mode": "sea"
+    },
+    {
+      "source": "P001",
+      "target": "P037",
+      "distance_km": 13284.8,
+      "transit_hours": 531.39,
+      "cost_usd": 24987,
+      "mode": "sea"
+    },
+    {
+      "source": "P008",
+      "target": "P020",
+      "distance_km": 24.5,
+      "transit_hours": 0.98,
+      "cost_usd": 37236,
+      "mode": "sea"
+    },
+    {
+      "source": "P044",
+      "target": "P043",
+      "distance_km": 313.5,
+      "transit_hours": 12.54,
+      "cost_usd": 16877,
+      "mode": "sea"
+    },
+    {
+      "source": "P026",
+      "target": "P017",
+      "distance_km": 3319.9,
+      "transit_hours": 132.79,
+      "cost_usd": 48807,
+      "mode": "sea"
+    },
+    {
+      "source": "P029",
+      "target": "P019",
+      "distance_km": 3083.4,
+      "transit_hours": 123.33,
+      "cost_usd": 25296,
+      "mode": "sea"
+    },
+    {
+      "source": "P013",
+      "target": "P049",
+      "distance_km": 13976.5,
+      "transit_hours": 559.06,
+      "cost_usd": 5691,
+      "mode": "sea"
+    },
+    {
+      "source": "P044",
+      "target": "P022",
+      "distance_km": 9844.9,
+      "transit_hours": 393.8,
+      "cost_usd": 16199,
+      "mode": "sea"
+    },
+    {
+      "source": "P023",
+      "target": "P011",
+      "distance_km": 6698.0,
+      "transit_hours": 267.92,
+      "cost_usd": 40687,
+      "mode": "sea"
+    },
+    {
+      "source": "P031",
+      "target": "P041",
+      "distance_km": 5534.6,
+      "transit_hours": 221.38,
+      "cost_usd": 18316,
+      "mode": "sea"
+    },
+    {
+      "source": "P010",
+      "target": "P029",
+      "distance_km": 12857.5,
+      "transit_hours": 514.3,
+      "cost_usd": 49188,
+      "mode": "sea"
+    },
+    {
+      "source": "P040",
+      "target": "P030",
+      "distance_km": 2352.2,
+      "transit_hours": 94.09,
+      "cost_usd": 27560,
+      "mode": "sea"
+    },
+    {
+      "source": "P008",
+      "target": "P035",
+      "distance_km": 11877.0,
+      "transit_hours": 475.08,
+      "cost_usd": 12454,
+      "mode": "sea"
+    },
+    {
+      "source": "P005",
+      "target": "P010",
+      "distance_km": 11016.8,
+      "transit_hours": 440.67,
+      "cost_usd": 7732,
+      "mode": "sea"
+    },
+    {
+      "source": "P022",
+      "target": "P012",
+      "distance_km": 6714.1,
+      "transit_hours": 268.56,
+      "cost_usd": 40983,
+      "mode": "sea"
+    },
+    {
+      "source": "P028",
+      "target": "P030",
+      "distance_km": 8579.0,
+      "transit_hours": 343.16,
+      "cost_usd": 46406,
+      "mode": "sea"
+    },
+    {
+      "source": "P046",
+      "target": "P027",
+      "distance_km": 11733.8,
+      "transit_hours": 469.35,
+      "cost_usd": 12806,
+      "mode": "sea"
+    },
+    {
+      "source": "P018",
+      "target": "P050",
+      "distance_km": 19815.9,
+      "transit_hours": 792.64,
+      "cost_usd": 10471,
+      "mode": "sea"
+    },
+    {
+      "source": "P003",
+      "target": "P040",
+      "distance_km": 9051.1,
+      "transit_hours": 362.04,
+      "cost_usd": 1950,
+      "mode": "sea"
+    },
+    {
+      "source": "P033",
+      "target": "P032",
+      "distance_km": 1785.8,
+      "transit_hours": 71.43,
+      "cost_usd": 18988,
+      "mode": "sea"
+    },
+    {
+      "source": "P030",
+      "target": "P005",
+      "distance_km": 1669.2,
+      "transit_hours": 66.77,
+      "cost_usd": 47371,
+      "mode": "sea"
+    },
+    {
+      "source": "P028",
+      "target": "P014",
+      "distance_km": 2497.5,
+      "transit_hours": 99.9,
+      "cost_usd": 1037,
+      "mode": "sea"
+    },
+    {
+      "source": "P013",
+      "target": "P047",
+      "distance_km": 8153.8,
+      "transit_hours": 326.15,
+      "cost_usd": 10375,
+      "mode": "sea"
+    },
+    {
+      "source": "P001",
+      "target": "P027",
+      "distance_km": 4442.5,
+      "transit_hours": 177.7,
+      "cost_usd": 14733,
+      "mode": "sea"
+    },
+    {
+      "source": "P034",
+      "target": "P020",
+      "distance_km": 10610.8,
+      "transit_hours": 424.43,
+      "cost_usd": 20919,
+      "mode": "sea"
+    },
+    {
+      "source": "P027",
+      "target": "P025",
+      "distance_km": 2242.8,
+      "transit_hours": 89.71,
+      "cost_usd": 30888,
+      "mode": "sea"
+    },
+    {
+      "source": "P031",
+      "target": "P009",
+      "distance_km": 5323.6,
+      "transit_hours": 212.94,
+      "cost_usd": 22143,
+      "mode": "sea"
+    },
+    {
+      "source": "P047",
+      "target": "P011",
+      "distance_km": 5746.1,
+      "transit_hours": 229.84,
+      "cost_usd": 10074,
+      "mode": "sea"
+    },
+    {
+      "source": "P003",
+      "target": "P030",
+      "distance_km": 7334.9,
+      "transit_hours": 293.4,
+      "cost_usd": 26217,
+      "mode": "sea"
+    },
+    {
+      "source": "P035",
+      "target": "P040",
+      "distance_km": 8002.6,
+      "transit_hours": 320.1,
+      "cost_usd": 31311,
+      "mode": "sea"
+    },
+    {
+      "source": "P033",
+      "target": "P008",
+      "distance_km": 8597.7,
+      "transit_hours": 343.91,
+      "cost_usd": 16889,
+      "mode": "sea"
+    },
+    {
+      "source": "P019",
+      "target": "P001",
+      "distance_km": 144.9,
+      "transit_hours": 5.79,
+      "cost_usd": 8492,
+      "mode": "sea"
+    },
+    {
+      "source": "P045",
+      "target": "P017",
+      "distance_km": 8186.1,
+      "transit_hours": 327.44,
+      "cost_usd": 16815,
+      "mode": "sea"
+    },
+    {
+      "source": "P019",
+      "target": "P045",
+      "distance_km": 9225.8,
+      "transit_hours": 369.03,
+      "cost_usd": 29529,
+      "mode": "sea"
+    },
+    {
+      "source": "P016",
+      "target": "P004",
+      "distance_km": 11667.7,
+      "transit_hours": 466.71,
+      "cost_usd": 2696,
+      "mode": "sea"
+    },
+    {
+      "source": "P008",
+      "target": "P012",
+      "distance_km": 4297.7,
+      "transit_hours": 171.91,
+      "cost_usd": 48690,
+      "mode": "sea"
+    },
+    {
+      "source": "P045",
+      "target": "P032",
+      "distance_km": 5837.2,
+      "transit_hours": 233.49,
+      "cost_usd": 34653,
+      "mode": "sea"
+    },
+    {
+      "source": "P007",
+      "target": "P042",
+      "distance_km": 9927.0,
+      "transit_hours": 397.08,
+      "cost_usd": 31487,
+      "mode": "sea"
+    },
+    {
+      "source": "P019",
+      "target": "P041",
+      "distance_km": 10239.5,
+      "transit_hours": 409.58,
+      "cost_usd": 20954,
+      "mode": "sea"
+    },
+    {
+      "source": "P018",
+      "target": "P026",
+      "distance_km": 3133.0,
+      "transit_hours": 125.32,
+      "cost_usd": 41732,
+      "mode": "sea"
+    },
+    {
+      "source": "P014",
+      "target": "P009",
+      "distance_km": 10233.6,
+      "transit_hours": 409.34,
+      "cost_usd": 49306,
+      "mode": "sea"
+    },
+    {
+      "source": "P037",
+      "target": "P023",
+      "distance_km": 13849.7,
+      "transit_hours": 553.99,
+      "cost_usd": 8504,
+      "mode": "sea"
+    },
+    {
+      "source": "P049",
+      "target": "P048",
+      "distance_km": 10554.5,
+      "transit_hours": 422.18,
+      "cost_usd": 42346,
+      "mode": "sea"
+    },
+    {
+      "source": "P006",
+      "target": "P008",
+      "distance_km": 8919.0,
+      "transit_hours": 356.76,
+      "cost_usd": 24120,
+      "mode": "sea"
+    },
+    {
+      "source": "P003",
+      "target": "P007",
+      "distance_km": 4574.2,
+      "transit_hours": 182.97,
+      "cost_usd": 14772,
+      "mode": "sea"
+    },
+    {
+      "source": "P015",
+      "target": "P016",
+      "distance_km": 2630.2,
+      "transit_hours": 105.21,
+      "cost_usd": 41978,
+      "mode": "sea"
+    },
+    {
+      "source": "P044",
+      "target": "P018",
+      "distance_km": 8720.4,
+      "transit_hours": 348.82,
+      "cost_usd": 1487,
+      "mode": "sea"
+    },
+    {
+      "source": "P026",
+      "target": "P030",
+      "distance_km": 7257.1,
+      "transit_hours": 290.28,
+      "cost_usd": 38818,
+      "mode": "sea"
+    },
+    {
+      "source": "P015",
+      "target": "P043",
+      "distance_km": 10570.7,
+      "transit_hours": 422.83,
+      "cost_usd": 16431,
+      "mode": "sea"
+    },
+    {
+      "source": "P001",
+      "target": "P009",
+      "distance_km": 8986.6,
+      "transit_hours": 359.47,
+      "cost_usd": 38581,
+      "mode": "sea"
+    },
+    {
+      "source": "P031",
+      "target": "P048",
+      "distance_km": 5115.5,
+      "transit_hours": 204.62,
+      "cost_usd": 45615,
+      "mode": "sea"
+    },
+    {
+      "source": "P024",
+      "target": "P038",
+      "distance_km": 11681.3,
+      "transit_hours": 467.25,
+      "cost_usd": 24839,
+      "mode": "sea"
+    },
+    {
+      "source": "P045",
+      "target": "P047",
+      "distance_km": 522.8,
+      "transit_hours": 20.91,
+      "cost_usd": 16800,
+      "mode": "sea"
+    },
+    {
+      "source": "P026",
+      "target": "P027",
+      "distance_km": 1890.3,
+      "transit_hours": 75.61,
+      "cost_usd": 6490,
+      "mode": "sea"
+    },
+    {
+      "source": "P041",
+      "target": "P046",
+      "distance_km": 1112.4,
+      "transit_hours": 44.5,
+      "cost_usd": 22678,
+      "mode": "sea"
+    },
+    {
+      "source": "P011",
+      "target": "P022",
+      "distance_km": 6931.7,
+      "transit_hours": 277.27,
+      "cost_usd": 4435,
+      "mode": "sea"
+    },
+    {
+      "source": "P003",
+      "target": "P021",
+      "distance_km": 5322.2,
+      "transit_hours": 212.89,
+      "cost_usd": 42742,
+      "mode": "sea"
+    },
+    {
+      "source": "P038",
+      "target": "P031",
+      "distance_km": 6235.1,
+      "transit_hours": 249.4,
+      "cost_usd": 35650,
+      "mode": "sea"
+    },
+    {
+      "source": "P032",
+      "target": "P005",
+      "distance_km": 1953.1,
+      "transit_hours": 78.13,
+      "cost_usd": 32471,
+      "mode": "sea"
+    },
+    {
+      "source": "P013",
+      "target": "P018",
+      "distance_km": 5245.1,
+      "transit_hours": 209.8,
+      "cost_usd": 37092,
+      "mode": "sea"
+    },
+    {
+      "source": "P029",
+      "target": "P011",
+      "distance_km": 2539.7,
+      "transit_hours": 101.59,
+      "cost_usd": 23261,
+      "mode": "sea"
+    },
+    {
+      "source": "P028",
+      "target": "P014",
+      "distance_km": 2497.5,
+      "transit_hours": 99.9,
+      "cost_usd": 13146,
+      "mode": "sea"
+    },
+    {
+      "source": "P050",
+      "target": "P031",
+      "distance_km": 13723.3,
+      "transit_hours": 548.93,
+      "cost_usd": 25257,
+      "mode": "sea"
+    },
+    {
+      "source": "P021",
+      "target": "P014",
+      "distance_km": 5355.8,
+      "transit_hours": 214.23,
+      "cost_usd": 9329,
+      "mode": "sea"
+    },
+    {
+      "source": "P049",
+      "target": "P009",
+      "distance_km": 9707.3,
+      "transit_hours": 388.29,
+      "cost_usd": 32304,
+      "mode": "sea"
+    },
+    {
+      "source": "P017",
+      "target": "P028",
+      "distance_km": 2731.2,
+      "transit_hours": 109.25,
+      "cost_usd": 37136,
+      "mode": "sea"
+    },
+    {
+      "source": "P010",
+      "target": "P040",
+      "distance_km": 7929.5,
+      "transit_hours": 317.18,
+      "cost_usd": 46181,
+      "mode": "sea"
+    },
+    {
+      "source": "P027",
+      "target": "P008",
+      "distance_km": 3269.9,
+      "transit_hours": 130.8,
+      "cost_usd": 37639,
+      "mode": "sea"
+    },
+    {
+      "source": "P033",
+      "target": "P040",
+      "distance_km": 4953.6,
+      "transit_hours": 198.14,
+      "cost_usd": 23284,
+      "mode": "sea"
+    },
+    {
+      "source": "P018",
+      "target": "P014",
+      "distance_km": 4165.6,
+      "transit_hours": 166.62,
+      "cost_usd": 31196,
+      "mode": "sea"
+    },
+    {
+      "source": "P030",
+      "target": "P024",
+      "distance_km": 8241.0,
+      "transit_hours": 329.64,
+      "cost_usd": 36841,
+      "mode": "sea"
+    },
+    {
+      "source": "P026",
+      "target": "P035",
+      "distance_km": 10519.8,
+      "transit_hours": 420.79,
+      "cost_usd": 35308,
+      "mode": "sea"
+    },
+    {
+      "source": "P038",
+      "target": "P028",
+      "distance_km": 12369.3,
+      "transit_hours": 494.77,
+      "cost_usd": 19877,
+      "mode": "sea"
+    },
+    {
+      "source": "P049",
+      "target": "P040",
+      "distance_km": 10021.1,
+      "transit_hours": 400.84,
+      "cost_usd": 24559,
+      "mode": "sea"
+    },
+    {
+      "source": "P012",
+      "target": "P001",
+      "distance_km": 5031.4,
+      "transit_hours": 201.26,
+      "cost_usd": 42313,
+      "mode": "sea"
+    },
+    {
+      "source": "P002",
+      "target": "P019",
+      "distance_km": 9057.3,
+      "transit_hours": 362.29,
+      "cost_usd": 48580,
+      "mode": "sea"
+    },
+    {
+      "source": "P033",
+      "target": "P050",
+      "distance_km": 10486.4,
+      "transit_hours": 419.45,
+      "cost_usd": 41114,
+      "mode": "sea"
+    },
+    {
+      "source": "P025",
+      "target": "P045",
+      "distance_km": 9509.2,
+      "transit_hours": 380.37,
+      "cost_usd": 41145,
+      "mode": "sea"
+    },
+    {
+      "source": "P016",
+      "target": "P018",
+      "distance_km": 1599.0,
+      "transit_hours": 63.96,
+      "cost_usd": 47751,
+      "mode": "sea"
+    },
+    {
+      "source": "P035",
+      "target": "P007",
+      "distance_km": 13791.6,
+      "transit_hours": 551.66,
+      "cost_usd": 35821,
+      "mode": "sea"
+    },
+    {
+      "source": "P019",
+      "target": "P008",
+      "distance_km": 1121.9,
+      "transit_hours": 44.88,
+      "cost_usd": 34845,
+      "mode": "sea"
+    },
+    {
+      "source": "P041",
+      "target": "P027",
+      "distance_km": 11910.4,
+      "transit_hours": 476.42,
+      "cost_usd": 36640,
+      "mode": "sea"
+    },
+    {
+      "source": "P038",
+      "target": "P046",
+      "distance_km": 1878.1,
+      "transit_hours": 75.12,
+      "cost_usd": 19055,
+      "mode": "sea"
+    },
+    {
+      "source": "P018",
+      "target": "P020",
+      "distance_km": 1629.9,
+      "transit_hours": 65.2,
+      "cost_usd": 42502,
+      "mode": "sea"
+    },
+    {
+      "source": "P018",
+      "target": "P015",
+      "distance_km": 4228.9,
+      "transit_hours": 169.16,
+      "cost_usd": 6808,
+      "mode": "sea"
+    },
+    {
+      "source": "P023",
+      "target": "P007",
+      "distance_km": 718.5,
+      "transit_hours": 28.74,
+      "cost_usd": 4869,
+      "mode": "sea"
+    },
+    {
+      "source": "P009",
+      "target": "P005",
+      "distance_km": 5164.4,
+      "transit_hours": 206.58,
+      "cost_usd": 12207,
+      "mode": "sea"
+    },
+    {
+      "source": "P009",
+      "target": "P008",
+      "distance_km": 9373.6,
+      "transit_hours": 374.94,
+      "cost_usd": 7515,
+      "mode": "sea"
+    },
+    {
+      "source": "P027",
+      "target": "P008",
+      "distance_km": 3269.9,
+      "transit_hours": 130.8,
+      "cost_usd": 6971,
+      "mode": "sea"
+    },
+    {
+      "source": "P009",
+      "target": "P036",
+      "distance_km": 4982.4,
+      "transit_hours": 199.3,
+      "cost_usd": 42557,
+      "mode": "sea"
+    },
+    {
+      "source": "P019",
+      "target": "P007",
+      "distance_km": 902.8,
+      "transit_hours": 36.11,
+      "cost_usd": 32606,
+      "mode": "sea"
+    },
+    {
+      "source": "P023",
+      "target": "P046",
+      "distance_km": 9689.5,
+      "transit_hours": 387.58,
+      "cost_usd": 46461,
+      "mode": "sea"
+    },
+    {
+      "source": "P039",
+      "target": "P049",
+      "distance_km": 10156.2,
+      "transit_hours": 406.25,
+      "cost_usd": 3716,
+      "mode": "sea"
+    },
+    {
+      "source": "P025",
+      "target": "P013",
+      "distance_km": 2409.7,
+      "transit_hours": 96.39,
+      "cost_usd": 40211,
+      "mode": "sea"
+    },
+    {
+      "source": "P017",
+      "target": "P035",
+      "distance_km": 13018.8,
+      "transit_hours": 520.75,
+      "cost_usd": 1357,
+      "mode": "sea"
+    },
+    {
+      "source": "P042",
+      "target": "P029",
+      "distance_km": 8359.6,
+      "transit_hours": 334.39,
+      "cost_usd": 32704,
+      "mode": "sea"
+    },
+    {
+      "source": "P047",
+      "target": "P012",
+      "distance_km": 6621.7,
+      "transit_hours": 264.87,
+      "cost_usd": 42372,
+      "mode": "sea"
+    },
+    {
+      "source": "P003",
+      "target": "P025",
+      "distance_km": 1350.4,
+      "transit_hours": 54.02,
+      "cost_usd": 37070,
+      "mode": "sea"
+    },
+    {
+      "source": "P004",
+      "target": "P020",
+      "distance_km": 11661.1,
+      "transit_hours": 466.44,
+      "cost_usd": 24687,
+      "mode": "sea"
+    },
+    {
+      "source": "P017",
+      "target": "P003",
+      "distance_km": 4423.7,
+      "transit_hours": 176.95,
+      "cost_usd": 40931,
+      "mode": "sea"
+    },
+    {
+      "source": "P030",
+      "target": "P023",
+      "distance_km": 9313.3,
+      "transit_hours": 372.53,
+      "cost_usd": 3164,
+      "mode": "sea"
+    },
+    {
+      "source": "P014",
+      "target": "P035",
+      "distance_km": 9549.6,
+      "transit_hours": 381.98,
+      "cost_usd": 20416,
+      "mode": "sea"
+    },
+    {
+      "source": "P035",
+      "target": "P042",
+      "distance_km": 8535.3,
+      "transit_hours": 341.41,
+      "cost_usd": 34544,
+      "mode": "sea"
+    },
+    {
+      "source": "P032",
+      "target": "P014",
+      "distance_km": 6489.5,
+      "transit_hours": 259.58,
+      "cost_usd": 15639,
+      "mode": "sea"
+    },
+    {
+      "source": "P040",
+      "target": "P019",
+      "distance_km": 8645.3,
+      "transit_hours": 345.81,
+      "cost_usd": 12916,
+      "mode": "sea"
+    },
+    {
+      "source": "P008",
+      "target": "P023",
+      "distance_km": 2621.8,
+      "transit_hours": 104.87,
+      "cost_usd": 43549,
+      "mode": "sea"
+    },
+    {
+      "source": "P016",
+      "target": "P036",
+      "distance_km": 11732.2,
+      "transit_hours": 469.29,
+      "cost_usd": 41481,
+      "mode": "sea"
+    },
+    {
+      "source": "P033",
+      "target": "P037",
+      "distance_km": 6628.2,
+      "transit_hours": 265.13,
+      "cost_usd": 49599,
+      "mode": "sea"
+    },
+    {
+      "source": "P037",
+      "target": "P020",
+      "distance_km": 13306.9,
+      "transit_hours": 532.28,
+      "cost_usd": 49396,
+      "mode": "sea"
+    },
+    {
+      "source": "P032",
+      "target": "P045",
+      "distance_km": 5837.2,
+      "transit_hours": 233.49,
+      "cost_usd": 42352,
+      "mode": "sea"
+    },
+    {
+      "source": "P036",
+      "target": "P021",
+      "distance_km": 13479.6,
+      "transit_hours": 539.19,
+      "cost_usd": 44703,
+      "mode": "sea"
+    },
+    {
+      "source": "P012",
+      "target": "P031",
+      "distance_km": 1779.0,
+      "transit_hours": 71.16,
+      "cost_usd": 44097,
+      "mode": "sea"
+    },
+    {
+      "source": "P044",
+      "target": "P032",
+      "distance_km": 4890.7,
+      "transit_hours": 195.63,
+      "cost_usd": 11432,
+      "mode": "sea"
+    },
+    {
+      "source": "P033",
+      "target": "P037",
+      "distance_km": 6628.2,
+      "transit_hours": 265.13,
+      "cost_usd": 26816,
+      "mode": "sea"
+    },
+    {
+      "source": "P002",
+      "target": "P034",
+      "distance_km": 9456.2,
+      "transit_hours": 378.25,
+      "cost_usd": 43592,
+      "mode": "sea"
+    },
+    {
+      "source": "P026",
+      "target": "P040",
+      "distance_km": 8662.4,
+      "transit_hours": 346.5,
+      "cost_usd": 39816,
+      "mode": "sea"
+    },
+    {
+      "source": "P028",
+      "target": "P021",
+      "distance_km": 3002.0,
+      "transit_hours": 120.08,
+      "cost_usd": 21153,
+      "mode": "sea"
+    },
+    {
+      "source": "P037",
+      "target": "P018",
+      "distance_km": 12835.6,
+      "transit_hours": 513.42,
+      "cost_usd": 24861,
+      "mode": "sea"
+    },
+    {
+      "source": "P020",
+      "target": "P011",
+      "distance_km": 4780.7,
+      "transit_hours": 191.23,
+      "cost_usd": 42000,
+      "mode": "sea"
+    },
+    {
+      "source": "P044",
+      "target": "P014",
+      "distance_km": 9972.5,
+      "transit_hours": 398.9,
+      "cost_usd": 21697,
+      "mode": "sea"
+    },
+    {
+      "source": "P024",
+      "target": "P016",
+      "distance_km": 719.4,
+      "transit_hours": 28.77,
+      "cost_usd": 37406,
+      "mode": "sea"
+    },
+    {
+      "source": "P040",
+      "target": "P042",
+      "distance_km": 1876.2,
+      "transit_hours": 75.05,
+      "cost_usd": 25080,
+      "mode": "sea"
+    },
+    {
+      "source": "P045",
+      "target": "P037",
+      "distance_km": 4457.9,
+      "transit_hours": 178.32,
+      "cost_usd": 49296,
+      "mode": "sea"
+    },
+    {
+      "source": "P049",
+      "target": "P025",
+      "distance_km": 16365.0,
+      "transit_hours": 654.6,
+      "cost_usd": 30148,
+      "mode": "sea"
+    },
+    {
+      "source": "P028",
+      "target": "P043",
+      "distance_km": 10847.3,
+      "transit_hours": 433.89,
+      "cost_usd": 512,
+      "mode": "sea"
+    },
+    {
+      "source": "P014",
+      "target": "P009",
+      "distance_km": 10233.6,
+      "transit_hours": 409.34,
+      "cost_usd": 19143,
+      "mode": "sea"
+    },
+    {
+      "source": "P024",
+      "target": "P050",
+      "distance_km": 18674.8,
+      "transit_hours": 746.99,
+      "cost_usd": 34422,
+      "mode": "sea"
+    },
+    {
+      "source": "H150",
+      "target": "H027",
+      "distance_km": 7224.6,
+      "transit_hours": 120.41,
+      "cost_usd": 7864,
+      "mode": "rail"
+    },
+    {
+      "source": "H027",
+      "target": "H047",
+      "distance_km": 8804.2,
+      "transit_hours": 146.74,
+      "cost_usd": 48969,
+      "mode": "rail"
+    },
+    {
+      "source": "H047",
+      "target": "H075",
+      "distance_km": 11079.2,
+      "transit_hours": 184.65,
+      "cost_usd": 4074,
+      "mode": "rail"
+    },
+    {
+      "source": "H075",
+      "target": "H015",
+      "distance_km": 5273.4,
+      "transit_hours": 87.89,
+      "cost_usd": 16428,
+      "mode": "rail"
+    },
+    {
+      "source": "H015",
+      "target": "H111",
+      "distance_km": 6788.9,
+      "transit_hours": 113.15,
+      "cost_usd": 41198,
+      "mode": "rail"
+    },
+    {
+      "source": "H111",
+      "target": "H098",
+      "distance_km": 1436.4,
+      "transit_hours": 23.94,
+      "cost_usd": 10178,
+      "mode": "rail"
+    },
+    {
+      "source": "H098",
+      "target": "H067",
+      "distance_km": 2890.4,
+      "transit_hours": 48.17,
+      "cost_usd": 19353,
+      "mode": "rail"
+    },
+    {
+      "source": "H067",
+      "target": "H069",
+      "distance_km": 2810.3,
+      "transit_hours": 46.84,
+      "cost_usd": 1400,
+      "mode": "rail"
+    },
+    {
+      "source": "H069",
+      "target": "H125",
+      "distance_km": 10187.4,
+      "transit_hours": 169.79,
+      "cost_usd": 22996,
+      "mode": "rail"
+    },
+    {
+      "source": "H125",
+      "target": "H024",
+      "distance_km": 7316.7,
+      "transit_hours": 121.94,
+      "cost_usd": 45968,
+      "mode": "rail"
+    },
+    {
+      "source": "H024",
+      "target": "H099",
+      "distance_km": 2785.7,
+      "transit_hours": 46.43,
+      "cost_usd": 7792,
+      "mode": "rail"
+    },
+    {
+      "source": "H099",
+      "target": "H085",
+      "distance_km": 2394.8,
+      "transit_hours": 39.91,
+      "cost_usd": 20496,
+      "mode": "rail"
+    },
+    {
+      "source": "H085",
+      "target": "H145",
+      "distance_km": 8647.6,
+      "transit_hours": 144.13,
+      "cost_usd": 29995,
+      "mode": "rail"
+    },
+    {
+      "source": "H145",
+      "target": "H109",
+      "distance_km": 8240.1,
+      "transit_hours": 137.33,
+      "cost_usd": 31379,
+      "mode": "rail"
+    },
+    {
+      "source": "H109",
+      "target": "H095",
+      "distance_km": 2430.8,
+      "transit_hours": 40.51,
+      "cost_usd": 1990,
+      "mode": "rail"
+    },
+    {
+      "source": "H095",
+      "target": "H120",
+      "distance_km": 2633.8,
+      "transit_hours": 43.9,
+      "cost_usd": 22249,
+      "mode": "rail"
+    },
+    {
+      "source": "H120",
+      "target": "H001",
+      "distance_km": 7428.2,
+      "transit_hours": 123.8,
+      "cost_usd": 14197,
+      "mode": "rail"
+    },
+    {
+      "source": "H001",
+      "target": "H091",
+      "distance_km": 7130.9,
+      "transit_hours": 118.85,
+      "cost_usd": 48997,
+      "mode": "rail"
+    },
+    {
+      "source": "H091",
+      "target": "H100",
+      "distance_km": 1864.5,
+      "transit_hours": 31.08,
+      "cost_usd": 35758,
+      "mode": "rail"
+    },
+    {
+      "source": "H100",
+      "target": "H117",
+      "distance_km": 1902.5,
+      "transit_hours": 31.71,
+      "cost_usd": 14385,
+      "mode": "rail"
+    },
+    {
+      "source": "H117",
+      "target": "H115",
+      "distance_km": 322.8,
+      "transit_hours": 5.38,
+      "cost_usd": 13856,
+      "mode": "rail"
+    },
+    {
+      "source": "H115",
+      "target": "H088",
+      "distance_km": 1775.6,
+      "transit_hours": 29.59,
+      "cost_usd": 36310,
+      "mode": "rail"
+    },
+    {
+      "source": "H088",
+      "target": "H139",
+      "distance_km": 5039.6,
+      "transit_hours": 83.99,
+      "cost_usd": 34792,
+      "mode": "rail"
+    },
+    {
+      "source": "H139",
+      "target": "H014",
+      "distance_km": 4463.1,
+      "transit_hours": 74.38,
+      "cost_usd": 49675,
+      "mode": "rail"
+    },
+    {
+      "source": "H014",
+      "target": "H046",
+      "distance_km": 13774.9,
+      "transit_hours": 229.58,
+      "cost_usd": 17451,
+      "mode": "rail"
+    },
+    {
+      "source": "H046",
+      "target": "H072",
+      "distance_km": 7938.0,
+      "transit_hours": 132.3,
+      "cost_usd": 36466,
+      "mode": "rail"
+    },
+    {
+      "source": "H072",
+      "target": "H003",
+      "distance_km": 8479.8,
+      "transit_hours": 141.33,
+      "cost_usd": 32155,
+      "mode": "rail"
+    },
+    {
+      "source": "H003",
+      "target": "H142",
+      "distance_km": 10308.4,
+      "transit_hours": 171.81,
+      "cost_usd": 41331,
+      "mode": "rail"
+    },
+    {
+      "source": "H142",
+      "target": "H119",
+      "distance_km": 8662.0,
+      "transit_hours": 144.37,
+      "cost_usd": 48336,
+      "mode": "rail"
+    },
+    {
+      "source": "H119",
+      "target": "H114",
+      "distance_km": 1084.4,
+      "transit_hours": 18.07,
+      "cost_usd": 9763,
+      "mode": "rail"
+    },
+    {
+      "source": "H114",
+      "target": "H021",
+      "distance_km": 3155.4,
+      "transit_hours": 52.59,
+      "cost_usd": 46052,
+      "mode": "rail"
+    },
+    {
+      "source": "H021",
+      "target": "H129",
+      "distance_km": 5823.3,
+      "transit_hours": 97.06,
+      "cost_usd": 46293,
+      "mode": "rail"
+    },
+    {
+      "source": "H129",
+      "target": "H018",
+      "distance_km": 10230.5,
+      "transit_hours": 170.51,
+      "cost_usd": 44295,
+      "mode": "rail"
+    },
+    {
+      "source": "H018",
+      "target": "H104",
+      "distance_km": 8731.4,
+      "transit_hours": 145.52,
+      "cost_usd": 1705,
+      "mode": "rail"
+    },
+    {
+      "source": "H104",
+      "target": "H112",
+      "distance_km": 587.5,
+      "transit_hours": 9.79,
+      "cost_usd": 25181,
+      "mode": "rail"
+    },
+    {
+      "source": "H112",
+      "target": "H103",
+      "distance_km": 408.3,
+      "transit_hours": 6.81,
+      "cost_usd": 38707,
+      "mode": "rail"
+    },
+    {
+      "source": "H103",
+      "target": "H034",
+      "distance_km": 674.4,
+      "transit_hours": 11.24,
+      "cost_usd": 43984,
+      "mode": "rail"
+    },
+    {
+      "source": "H034",
+      "target": "H087",
+      "distance_km": 1366.6,
+      "transit_hours": 22.78,
+      "cost_usd": 35024,
+      "mode": "rail"
+    },
+    {
+      "source": "H087",
+      "target": "H044",
+      "distance_km": 4391.9,
+      "transit_hours": 73.2,
+      "cost_usd": 3349,
+      "mode": "rail"
+    },
+    {
+      "source": "H044",
+      "target": "H130",
+      "distance_km": 4144.4,
+      "transit_hours": 69.07,
+      "cost_usd": 17241,
+      "mode": "rail"
+    },
+    {
+      "source": "H130",
+      "target": "H053",
+      "distance_km": 11618.0,
+      "transit_hours": 193.63,
+      "cost_usd": 11662,
+      "mode": "rail"
+    },
+    {
+      "source": "H053",
+      "target": "H032",
+      "distance_km": 8434.3,
+      "transit_hours": 140.57,
+      "cost_usd": 4439,
+      "mode": "rail"
+    },
+    {
+      "source": "H032",
+      "target": "H108",
+      "distance_km": 1224.6,
+      "transit_hours": 20.41,
+      "cost_usd": 19113,
+      "mode": "rail"
+    },
+    {
+      "source": "H108",
+      "target": "H146",
+      "distance_km": 9599.6,
+      "transit_hours": 159.99,
+      "cost_usd": 13652,
+      "mode": "rail"
+    },
+    {
+      "source": "H146",
+      "target": "H061",
+      "distance_km": 9382.3,
+      "transit_hours": 156.37,
+      "cost_usd": 46147,
+      "mode": "rail"
+    },
+    {
+      "source": "H061",
+      "target": "H059",
+      "distance_km": 3454.1,
+      "transit_hours": 57.57,
+      "cost_usd": 40998,
+      "mode": "rail"
+    },
+    {
+      "source": "H059",
+      "target": "H009",
+      "distance_km": 16006.7,
+      "transit_hours": 266.78,
+      "cost_usd": 18278,
+      "mode": "rail"
+    },
+    {
+      "source": "H009",
+      "target": "H097",
+      "distance_km": 7773.0,
+      "transit_hours": 129.55,
+      "cost_usd": 3978,
+      "mode": "rail"
+    },
+    {
+      "source": "H097",
+      "target": "H050",
+      "distance_km": 7977.4,
+      "transit_hours": 132.96,
+      "cost_usd": 30971,
+      "mode": "rail"
+    },
+    {
+      "source": "H050",
+      "target": "H122",
+      "distance_km": 10712.8,
+      "transit_hours": 178.55,
+      "cost_usd": 43410,
+      "mode": "rail"
+    },
+    {
+      "source": "H122",
+      "target": "H033",
+      "distance_km": 2591.6,
+      "transit_hours": 43.19,
+      "cost_usd": 1046,
+      "mode": "rail"
+    },
+    {
+      "source": "H033",
+      "target": "H136",
+      "distance_km": 6212.6,
+      "transit_hours": 103.54,
+      "cost_usd": 4864,
+      "mode": "rail"
+    },
+    {
+      "source": "H136",
+      "target": "H116",
+      "distance_km": 5089.9,
+      "transit_hours": 84.83,
+      "cost_usd": 25970,
+      "mode": "rail"
+    },
+    {
+      "source": "H116",
+      "target": "H141",
+      "distance_km": 7593.5,
+      "transit_hours": 126.56,
+      "cost_usd": 43778,
+      "mode": "rail"
+    },
+    {
+      "source": "H141",
+      "target": "H026",
+      "distance_km": 8565.2,
+      "transit_hours": 142.75,
+      "cost_usd": 18280,
+      "mode": "rail"
+    },
+    {
+      "source": "H026",
+      "target": "H134",
+      "distance_km": 6083.2,
+      "transit_hours": 101.39,
+      "cost_usd": 43949,
+      "mode": "rail"
+    },
+    {
+      "source": "H134",
+      "target": "H004",
+      "distance_km": 11028.8,
+      "transit_hours": 183.81,
+      "cost_usd": 43760,
+      "mode": "rail"
+    },
+    {
+      "source": "H004",
+      "target": "H048",
+      "distance_km": 12181.5,
+      "transit_hours": 203.03,
+      "cost_usd": 24107,
+      "mode": "rail"
+    },
+    {
+      "source": "H048",
+      "target": "H037",
+      "distance_km": 8207.3,
+      "transit_hours": 136.79,
+      "cost_usd": 7570,
+      "mode": "rail"
+    },
+    {
+      "source": "H037",
+      "target": "H031",
+      "distance_km": 1244.9,
+      "transit_hours": 20.75,
+      "cost_usd": 1750,
+      "mode": "rail"
+    },
+    {
+      "source": "H031",
+      "target": "H113",
+      "distance_km": 966.6,
+      "transit_hours": 16.11,
+      "cost_usd": 19668,
+      "mode": "rail"
+    },
+    {
+      "source": "H113",
+      "target": "H022",
+      "distance_km": 2902.5,
+      "transit_hours": 48.37,
+      "cost_usd": 43059,
+      "mode": "rail"
+    },
+    {
+      "source": "H022",
+      "target": "H017",
+      "distance_km": 6036.9,
+      "transit_hours": 100.61,
+      "cost_usd": 25831,
+      "mode": "rail"
+    },
+    {
+      "source": "H017",
+      "target": "H019",
+      "distance_km": 1197.1,
+      "transit_hours": 19.95,
+      "cost_usd": 15649,
+      "mode": "rail"
+    },
+    {
+      "source": "H019",
+      "target": "H080",
+      "distance_km": 4843.5,
+      "transit_hours": 80.72,
+      "cost_usd": 25449,
+      "mode": "rail"
+    },
+    {
+      "source": "H080",
+      "target": "H038",
+      "distance_km": 3812.6,
+      "transit_hours": 63.54,
+      "cost_usd": 33827,
+      "mode": "rail"
+    },
+    {
+      "source": "H038",
+      "target": "H096",
+      "distance_km": 2787.9,
+      "transit_hours": 46.47,
+      "cost_usd": 47010,
+      "mode": "rail"
+    },
+    {
+      "source": "H096",
+      "target": "H076",
+      "distance_km": 3849.4,
+      "transit_hours": 64.16,
+      "cost_usd": 7027,
+      "mode": "rail"
+    },
+    {
+      "source": "H076",
+      "target": "H127",
+      "distance_km": 5321.6,
+      "transit_hours": 88.69,
+      "cost_usd": 21173,
+      "mode": "rail"
+    },
+    {
+      "source": "H127",
+      "target": "H107",
+      "distance_km": 7575.8,
+      "transit_hours": 126.26,
+      "cost_usd": 32262,
+      "mode": "rail"
+    },
+    {
+      "source": "H107",
+      "target": "H058",
+      "distance_km": 9356.6,
+      "transit_hours": 155.94,
+      "cost_usd": 39631,
+      "mode": "rail"
+    },
+    {
+      "source": "H058",
+      "target": "H051",
+      "distance_km": 3754.6,
+      "transit_hours": 62.58,
+      "cost_usd": 35336,
+      "mode": "rail"
+    },
+    {
+      "source": "H051",
+      "target": "H086",
+      "distance_km": 8071.3,
+      "transit_hours": 134.52,
+      "cost_usd": 6268,
+      "mode": "rail"
+    },
+    {
+      "source": "H086",
+      "target": "H079",
+      "distance_km": 4740.1,
+      "transit_hours": 79.0,
+      "cost_usd": 12717,
+      "mode": "rail"
+    },
+    {
+      "source": "H079",
+      "target": "H029",
+      "distance_km": 5712.0,
+      "transit_hours": 95.2,
+      "cost_usd": 13533,
+      "mode": "rail"
+    },
+    {
+      "source": "H029",
+      "target": "H065",
+      "distance_km": 16293.7,
+      "transit_hours": 271.56,
+      "cost_usd": 33310,
+      "mode": "rail"
+    },
+    {
+      "source": "H065",
+      "target": "H123",
+      "distance_km": 13961.8,
+      "transit_hours": 232.7,
+      "cost_usd": 30514,
+      "mode": "rail"
+    },
+    {
+      "source": "H123",
+      "target": "H020",
+      "distance_km": 7429.4,
+      "transit_hours": 123.82,
+      "cost_usd": 37245,
+      "mode": "rail"
+    },
+    {
+      "source": "H020",
+      "target": "H124",
+      "distance_km": 7537.8,
+      "transit_hours": 125.63,
+      "cost_usd": 47192,
+      "mode": "rail"
+    },
+    {
+      "source": "H124",
+      "target": "H070",
+      "distance_km": 10734.1,
+      "transit_hours": 178.9,
+      "cost_usd": 1908,
+      "mode": "rail"
+    },
+    {
+      "source": "H070",
+      "target": "H041",
+      "distance_km": 13046.1,
+      "transit_hours": 217.43,
+      "cost_usd": 3105,
+      "mode": "rail"
+    },
+    {
+      "source": "H041",
+      "target": "H143",
+      "distance_km": 15632.6,
+      "transit_hours": 260.54,
+      "cost_usd": 16713,
+      "mode": "rail"
+    },
+    {
+      "source": "H143",
+      "target": "H133",
+      "distance_km": 11741.6,
+      "transit_hours": 195.69,
+      "cost_usd": 35195,
+      "mode": "rail"
+    },
+    {
+      "source": "H133",
+      "target": "H135",
+      "distance_km": 400.9,
+      "transit_hours": 6.68,
+      "cost_usd": 20483,
+      "mode": "rail"
+    },
+    {
+      "source": "H135",
+      "target": "H007",
+      "distance_km": 12025.7,
+      "transit_hours": 200.43,
+      "cost_usd": 22360,
+      "mode": "rail"
+    },
+    {
+      "source": "H007",
+      "target": "H101",
+      "distance_km": 7996.9,
+      "transit_hours": 133.28,
+      "cost_usd": 32608,
+      "mode": "rail"
+    },
+    {
+      "source": "H101",
+      "target": "H144",
+      "distance_km": 7260.5,
+      "transit_hours": 121.01,
+      "cost_usd": 26281,
+      "mode": "rail"
+    },
+    {
+      "source": "H144",
+      "target": "H082",
+      "distance_km": 9506.2,
+      "transit_hours": 158.44,
+      "cost_usd": 49284,
+      "mode": "rail"
+    },
+    {
+      "source": "H082",
+      "target": "H148",
+      "distance_km": 9519.4,
+      "transit_hours": 158.66,
+      "cost_usd": 10789,
+      "mode": "rail"
+    },
+    {
+      "source": "H148",
+      "target": "H149",
+      "distance_km": 870.0,
+      "transit_hours": 14.5,
+      "cost_usd": 1704,
+      "mode": "rail"
+    },
+    {
+      "source": "H149",
+      "target": "H084",
+      "distance_km": 7451.9,
+      "transit_hours": 124.2,
+      "cost_usd": 23226,
+      "mode": "rail"
+    },
+    {
+      "source": "H084",
+      "target": "H030",
+      "distance_km": 2768.4,
+      "transit_hours": 46.14,
+      "cost_usd": 45347,
+      "mode": "rail"
+    },
+    {
+      "source": "H030",
+      "target": "H016",
+      "distance_km": 8648.3,
+      "transit_hours": 144.14,
+      "cost_usd": 23562,
+      "mode": "rail"
+    },
+    {
+      "source": "H016",
+      "target": "H054",
+      "distance_km": 12437.5,
+      "transit_hours": 207.29,
+      "cost_usd": 23790,
+      "mode": "rail"
+    },
+    {
+      "source": "H054",
+      "target": "H056",
+      "distance_km": 3265.5,
+      "transit_hours": 54.43,
+      "cost_usd": 41475,
+      "mode": "rail"
+    },
+    {
+      "source": "H056",
+      "target": "H045",
+      "distance_km": 10727.8,
+      "transit_hours": 178.8,
+      "cost_usd": 20313,
+      "mode": "rail"
+    },
+    {
+      "source": "H045",
+      "target": "H043",
+      "distance_km": 4305.0,
+      "transit_hours": 71.75,
+      "cost_usd": 15979,
+      "mode": "rail"
+    },
+    {
+      "source": "H043",
+      "target": "H008",
+      "distance_km": 8904.4,
+      "transit_hours": 148.41,
+      "cost_usd": 33350,
+      "mode": "rail"
+    },
+    {
+      "source": "H008",
+      "target": "H011",
+      "distance_km": 4425.3,
+      "transit_hours": 73.75,
+      "cost_usd": 18579,
+      "mode": "rail"
+    },
+    {
+      "source": "H011",
+      "target": "H049",
+      "distance_km": 11918.9,
+      "transit_hours": 198.65,
+      "cost_usd": 4563,
+      "mode": "rail"
+    },
+    {
+      "source": "H049",
+      "target": "H110",
+      "distance_km": 8437.8,
+      "transit_hours": 140.63,
+      "cost_usd": 41511,
+      "mode": "rail"
+    },
+    {
+      "source": "H110",
+      "target": "H121",
+      "distance_km": 1473.0,
+      "transit_hours": 24.55,
+      "cost_usd": 17387,
+      "mode": "rail"
+    },
+    {
+      "source": "H121",
+      "target": "H005",
+      "distance_km": 7735.3,
+      "transit_hours": 128.92,
+      "cost_usd": 25873,
+      "mode": "rail"
+    },
+    {
+      "source": "H005",
+      "target": "H039",
+      "distance_km": 7836.8,
+      "transit_hours": 130.61,
+      "cost_usd": 2431,
+      "mode": "rail"
+    },
+    {
+      "source": "H039",
+      "target": "H083",
+      "distance_km": 1783.8,
+      "transit_hours": 29.73,
+      "cost_usd": 36868,
+      "mode": "rail"
+    },
+    {
+      "source": "H083",
+      "target": "H128",
+      "distance_km": 6326.2,
+      "transit_hours": 105.44,
+      "cost_usd": 18862,
+      "mode": "rail"
+    },
+    {
+      "source": "H128",
+      "target": "H013",
+      "distance_km": 8018.7,
+      "transit_hours": 133.65,
+      "cost_usd": 15283,
+      "mode": "rail"
+    },
+    {
+      "source": "H013",
+      "target": "H105",
+      "distance_km": 5947.4,
+      "transit_hours": 99.12,
+      "cost_usd": 10442,
+      "mode": "rail"
+    },
+    {
+      "source": "H105",
+      "target": "H126",
+      "distance_km": 7738.9,
+      "transit_hours": 128.98,
+      "cost_usd": 22899,
+      "mode": "rail"
+    },
+    {
+      "source": "H126",
+      "target": "H090",
+      "distance_km": 8834.5,
+      "transit_hours": 147.24,
+      "cost_usd": 26245,
+      "mode": "rail"
+    },
+    {
+      "source": "H090",
+      "target": "H089",
+      "distance_km": 793.0,
+      "transit_hours": 13.22,
+      "cost_usd": 43552,
+      "mode": "rail"
+    },
+    {
+      "source": "H089",
+      "target": "H106",
+      "distance_km": 1231.9,
+      "transit_hours": 20.53,
+      "cost_usd": 9495,
+      "mode": "rail"
+    },
+    {
+      "source": "H106",
+      "target": "H063",
+      "distance_km": 11835.8,
+      "transit_hours": 197.26,
+      "cost_usd": 6253,
+      "mode": "rail"
+    },
+    {
+      "source": "H063",
+      "target": "H023",
+      "distance_km": 12854.2,
+      "transit_hours": 214.24,
+      "cost_usd": 48334,
+      "mode": "rail"
+    },
+    {
+      "source": "H023",
+      "target": "H062",
+      "distance_km": 11038.7,
+      "transit_hours": 183.98,
+      "cost_usd": 25548,
+      "mode": "rail"
+    },
+    {
+      "source": "H062",
+      "target": "H102",
+      "distance_km": 9561.8,
+      "transit_hours": 159.36,
+      "cost_usd": 34625,
+      "mode": "rail"
+    },
+    {
+      "source": "H102",
+      "target": "H042",
+      "distance_km": 3059.7,
+      "transit_hours": 51.0,
+      "cost_usd": 44933,
+      "mode": "rail"
+    },
+    {
+      "source": "H042",
+      "target": "H093",
+      "distance_km": 3967.4,
+      "transit_hours": 66.12,
+      "cost_usd": 40637,
+      "mode": "rail"
+    },
+    {
+      "source": "H093",
+      "target": "H138",
+      "distance_km": 6362.5,
+      "transit_hours": 106.04,
+      "cost_usd": 41494,
+      "mode": "rail"
+    },
+    {
+      "source": "H138",
+      "target": "H132",
+      "distance_km": 3068.0,
+      "transit_hours": 51.13,
+      "cost_usd": 45491,
+      "mode": "rail"
+    },
+    {
+      "source": "H132",
+      "target": "H028",
+      "distance_km": 4016.2,
+      "transit_hours": 66.94,
+      "cost_usd": 15404,
+      "mode": "rail"
+    },
+    {
+      "source": "H028",
+      "target": "H137",
+      "distance_km": 5726.7,
+      "transit_hours": 95.44,
+      "cost_usd": 27850,
+      "mode": "rail"
+    },
+    {
+      "source": "H137",
+      "target": "H073",
+      "distance_km": 5119.2,
+      "transit_hours": 85.32,
+      "cost_usd": 16252,
+      "mode": "rail"
+    },
+    {
+      "source": "H073",
+      "target": "H052",
+      "distance_km": 10078.5,
+      "transit_hours": 167.98,
+      "cost_usd": 38045,
+      "mode": "rail"
+    },
+    {
+      "source": "H052",
+      "target": "H074",
+      "distance_km": 11009.3,
+      "transit_hours": 183.49,
+      "cost_usd": 10510,
+      "mode": "rail"
+    },
+    {
+      "source": "H074",
+      "target": "H012",
+      "distance_km": 5379.7,
+      "transit_hours": 89.66,
+      "cost_usd": 28448,
+      "mode": "rail"
+    },
+    {
+      "source": "H012",
+      "target": "H147",
+      "distance_km": 10830.2,
+      "transit_hours": 180.5,
+      "cost_usd": 20972,
+      "mode": "rail"
+    },
+    {
+      "source": "H147",
+      "target": "H066",
+      "distance_km": 11814.7,
+      "transit_hours": 196.91,
+      "cost_usd": 40173,
+      "mode": "rail"
+    },
+    {
+      "source": "H066",
+      "target": "H060",
+      "distance_km": 9664.6,
+      "transit_hours": 161.08,
+      "cost_usd": 22080,
+      "mode": "rail"
+    },
+    {
+      "source": "H060",
+      "target": "H064",
+      "distance_km": 11343.3,
+      "transit_hours": 189.06,
+      "cost_usd": 29936,
+      "mode": "rail"
+    },
+    {
+      "source": "H064",
+      "target": "H094",
+      "distance_km": 18175.0,
+      "transit_hours": 302.92,
+      "cost_usd": 36035,
+      "mode": "rail"
+    },
+    {
+      "source": "H094",
+      "target": "H068",
+      "distance_km": 3614.1,
+      "transit_hours": 60.23,
+      "cost_usd": 9135,
+      "mode": "rail"
+    },
+    {
+      "source": "H068",
+      "target": "H036",
+      "distance_km": 1481.1,
+      "transit_hours": 24.68,
+      "cost_usd": 14050,
+      "mode": "rail"
+    },
+    {
+      "source": "H036",
+      "target": "H140",
+      "distance_km": 5084.1,
+      "transit_hours": 84.73,
+      "cost_usd": 43260,
+      "mode": "rail"
+    },
+    {
+      "source": "H140",
+      "target": "H092",
+      "distance_km": 5666.0,
+      "transit_hours": 94.43,
+      "cost_usd": 9581,
+      "mode": "rail"
+    },
+    {
+      "source": "H092",
+      "target": "H118",
+      "distance_km": 1684.6,
+      "transit_hours": 28.08,
+      "cost_usd": 38578,
+      "mode": "rail"
+    },
+    {
+      "source": "H118",
+      "target": "H010",
+      "distance_km": 4608.2,
+      "transit_hours": 76.8,
+      "cost_usd": 35978,
+      "mode": "rail"
+    },
+    {
+      "source": "H010",
+      "target": "H025",
+      "distance_km": 3902.7,
+      "transit_hours": 65.04,
+      "cost_usd": 45329,
+      "mode": "rail"
+    },
+    {
+      "source": "H025",
+      "target": "H040",
+      "distance_km": 4769.3,
+      "transit_hours": 79.49,
+      "cost_usd": 13758,
+      "mode": "rail"
+    },
+    {
+      "source": "H040",
+      "target": "H131",
+      "distance_km": 5182.1,
+      "transit_hours": 86.37,
+      "cost_usd": 9551,
+      "mode": "rail"
+    },
+    {
+      "source": "H131",
+      "target": "H071",
+      "distance_km": 7532.0,
+      "transit_hours": 125.53,
+      "cost_usd": 20750,
+      "mode": "rail"
+    },
+    {
+      "source": "H071",
+      "target": "H006",
+      "distance_km": 4379.8,
+      "transit_hours": 73.0,
+      "cost_usd": 45623,
+      "mode": "rail"
+    },
+    {
+      "source": "H006",
+      "target": "H081",
+      "distance_km": 5510.4,
+      "transit_hours": 91.84,
+      "cost_usd": 46711,
+      "mode": "rail"
+    },
+    {
+      "source": "H081",
+      "target": "H055",
+      "distance_km": 8934.3,
+      "transit_hours": 148.9,
+      "cost_usd": 34828,
+      "mode": "rail"
+    },
+    {
+      "source": "H055",
+      "target": "H057",
+      "distance_km": 3870.4,
+      "transit_hours": 64.51,
+      "cost_usd": 9363,
+      "mode": "rail"
+    },
+    {
+      "source": "H057",
+      "target": "H077",
+      "distance_km": 14717.3,
+      "transit_hours": 245.29,
+      "cost_usd": 28684,
+      "mode": "rail"
+    },
+    {
+      "source": "H077",
+      "target": "H002",
+      "distance_km": 4539.9,
+      "transit_hours": 75.67,
+      "cost_usd": 10012,
+      "mode": "rail"
+    },
+    {
+      "source": "H002",
+      "target": "H078",
+      "distance_km": 3679.2,
+      "transit_hours": 61.32,
+      "cost_usd": 43506,
+      "mode": "rail"
+    },
+    {
+      "source": "H078",
+      "target": "H035",
+      "distance_km": 5667.0,
+      "transit_hours": 94.45,
+      "cost_usd": 37517,
+      "mode": "rail"
+    },
+    {
+      "source": "H035",
+      "target": "H150",
+      "distance_km": 6740.8,
+      "transit_hours": 112.35,
+      "cost_usd": 10857,
+      "mode": "rail"
+    },
+    {
+      "source": "H041",
+      "target": "H001",
+      "distance_km": 10414.8,
+      "transit_hours": 173.58,
+      "cost_usd": 37025,
+      "mode": "rail"
+    },
+    {
+      "source": "H118",
+      "target": "H114",
+      "distance_km": 586.5,
+      "transit_hours": 9.77,
+      "cost_usd": 12567,
+      "mode": "rail"
+    },
+    {
+      "source": "H041",
+      "target": "H034",
+      "distance_km": 9024.0,
+      "transit_hours": 150.4,
+      "cost_usd": 48149,
+      "mode": "rail"
+    },
+    {
+      "source": "H067",
+      "target": "H041",
+      "distance_km": 9163.4,
+      "transit_hours": 152.72,
+      "cost_usd": 27634,
+      "mode": "rail"
+    },
+    {
+      "source": "H083",
+      "target": "H123",
+      "distance_km": 874.5,
+      "transit_hours": 14.58,
+      "cost_usd": 29532,
+      "mode": "rail"
+    },
+    {
+      "source": "H107",
+      "target": "H087",
+      "distance_km": 940.6,
+      "transit_hours": 15.68,
+      "cost_usd": 12816,
+      "mode": "rail"
+    },
+    {
+      "source": "H003",
+      "target": "H018",
+      "distance_km": 1509.8,
+      "transit_hours": 25.16,
+      "cost_usd": 12607,
+      "mode": "rail"
+    },
+    {
+      "source": "H098",
+      "target": "H076",
+      "distance_km": 3270.7,
+      "transit_hours": 54.51,
+      "cost_usd": 40188,
+      "mode": "rail"
+    },
+    {
+      "source": "H057",
+      "target": "H037",
+      "distance_km": 10505.1,
+      "transit_hours": 175.09,
+      "cost_usd": 39583,
+      "mode": "rail"
+    },
+    {
+      "source": "H037",
+      "target": "H098",
+      "distance_km": 1433.8,
+      "transit_hours": 23.9,
+      "cost_usd": 24044,
+      "mode": "rail"
+    },
+    {
+      "source": "H117",
+      "target": "H137",
+      "distance_km": 4959.5,
+      "transit_hours": 82.66,
+      "cost_usd": 9287,
+      "mode": "rail"
+    },
+    {
+      "source": "H066",
+      "target": "H132",
+      "distance_km": 16599.3,
+      "transit_hours": 276.66,
+      "cost_usd": 47162,
+      "mode": "rail"
+    },
+    {
+      "source": "H056",
+      "target": "H009",
+      "distance_km": 12095.6,
+      "transit_hours": 201.59,
+      "cost_usd": 25892,
+      "mode": "rail"
+    },
+    {
+      "source": "H074",
+      "target": "H028",
+      "distance_km": 1722.2,
+      "transit_hours": 28.7,
+      "cost_usd": 9512,
+      "mode": "rail"
+    },
+    {
+      "source": "H053",
+      "target": "H050",
+      "distance_km": 3032.9,
+      "transit_hours": 50.55,
+      "cost_usd": 15329,
+      "mode": "rail"
+    },
+    {
+      "source": "H069",
+      "target": "H039",
+      "distance_km": 4420.2,
+      "transit_hours": 73.67,
+      "cost_usd": 1483,
+      "mode": "rail"
+    },
+    {
+      "source": "H127",
+      "target": "H083",
+      "distance_km": 6405.6,
+      "transit_hours": 106.76,
+      "cost_usd": 15085,
+      "mode": "rail"
+    },
+    {
+      "source": "H033",
+      "target": "H136",
+      "distance_km": 6212.6,
+      "transit_hours": 103.54,
+      "cost_usd": 4834,
+      "mode": "rail"
+    },
+    {
+      "source": "H061",
+      "target": "H106",
+      "distance_km": 10166.8,
+      "transit_hours": 169.45,
+      "cost_usd": 40939,
+      "mode": "rail"
+    },
+    {
+      "source": "H074",
+      "target": "H133",
+      "distance_km": 3234.1,
+      "transit_hours": 53.9,
+      "cost_usd": 30485,
+      "mode": "rail"
+    },
+    {
+      "source": "H017",
+      "target": "H126",
+      "distance_km": 8381.9,
+      "transit_hours": 139.7,
+      "cost_usd": 27033,
+      "mode": "rail"
+    },
+    {
+      "source": "H024",
+      "target": "H043",
+      "distance_km": 3483.7,
+      "transit_hours": 58.06,
+      "cost_usd": 47699,
+      "mode": "rail"
+    },
+    {
+      "source": "H070",
+      "target": "H049",
+      "distance_km": 11679.9,
+      "transit_hours": 194.67,
+      "cost_usd": 40575,
+      "mode": "rail"
+    },
+    {
+      "source": "H077",
+      "target": "H010",
+      "distance_km": 2758.2,
+      "transit_hours": 45.97,
+      "cost_usd": 34921,
+      "mode": "rail"
+    },
+    {
+      "source": "H125",
+      "target": "H036",
+      "distance_km": 8639.7,
+      "transit_hours": 143.99,
+      "cost_usd": 7664,
+      "mode": "rail"
+    },
+    {
+      "source": "H062",
+      "target": "H102",
+      "distance_km": 9561.8,
+      "transit_hours": 159.36,
+      "cost_usd": 3279,
+      "mode": "rail"
+    },
+    {
+      "source": "H022",
+      "target": "H068",
+      "distance_km": 3132.7,
+      "transit_hours": 52.21,
+      "cost_usd": 35749,
+      "mode": "rail"
+    },
+    {
+      "source": "H110",
+      "target": "H024",
+      "distance_km": 1590.1,
+      "transit_hours": 26.5,
+      "cost_usd": 37049,
+      "mode": "rail"
+    },
+    {
+      "source": "H011",
+      "target": "H068",
+      "distance_km": 3364.0,
+      "transit_hours": 56.07,
+      "cost_usd": 41830,
+      "mode": "rail"
+    },
+    {
+      "source": "H085",
+      "target": "H097",
+      "distance_km": 2635.3,
+      "transit_hours": 43.92,
+      "cost_usd": 19582,
+      "mode": "rail"
+    },
+    {
+      "source": "H106",
+      "target": "H110",
+      "distance_km": 376.8,
+      "transit_hours": 6.28,
+      "cost_usd": 20459,
+      "mode": "rail"
+    },
+    {
+      "source": "H086",
+      "target": "H093",
+      "distance_km": 1957.8,
+      "transit_hours": 32.63,
+      "cost_usd": 11410,
+      "mode": "rail"
+    },
+    {
+      "source": "H105",
+      "target": "H029",
+      "distance_km": 467.1,
+      "transit_hours": 7.78,
+      "cost_usd": 40682,
+      "mode": "rail"
+    },
+    {
+      "source": "H145",
+      "target": "H068",
+      "distance_km": 7648.3,
+      "transit_hours": 127.47,
+      "cost_usd": 9821,
+      "mode": "rail"
+    },
+    {
+      "source": "H093",
+      "target": "H062",
+      "distance_km": 9188.2,
+      "transit_hours": 153.14,
+      "cost_usd": 6427,
+      "mode": "rail"
+    },
+    {
+      "source": "H066",
+      "target": "H142",
+      "distance_km": 12925.8,
+      "transit_hours": 215.43,
+      "cost_usd": 12281,
+      "mode": "rail"
+    },
+    {
+      "source": "H035",
+      "target": "H040",
+      "distance_km": 6072.5,
+      "transit_hours": 101.21,
+      "cost_usd": 9367,
+      "mode": "rail"
+    },
+    {
+      "source": "H049",
+      "target": "H083",
+      "distance_km": 10713.3,
+      "transit_hours": 178.55,
+      "cost_usd": 21698,
+      "mode": "rail"
+    },
+    {
+      "source": "H062",
+      "target": "H098",
+      "distance_km": 8681.5,
+      "transit_hours": 144.69,
+      "cost_usd": 12222,
+      "mode": "rail"
+    },
+    {
+      "source": "H102",
+      "target": "H033",
+      "distance_km": 182.9,
+      "transit_hours": 3.05,
+      "cost_usd": 30298,
+      "mode": "rail"
+    },
+    {
+      "source": "H139",
+      "target": "H019",
+      "distance_km": 7001.5,
+      "transit_hours": 116.69,
+      "cost_usd": 21738,
+      "mode": "rail"
+    },
+    {
+      "source": "H053",
+      "target": "H021",
+      "distance_km": 10731.3,
+      "transit_hours": 178.86,
+      "cost_usd": 6476,
+      "mode": "rail"
+    },
+    {
+      "source": "H119",
+      "target": "H062",
+      "distance_km": 9713.4,
+      "transit_hours": 161.89,
+      "cost_usd": 42054,
+      "mode": "rail"
+    },
+    {
+      "source": "H030",
+      "target": "H115",
+      "distance_km": 1857.0,
+      "transit_hours": 30.95,
+      "cost_usd": 34828,
+      "mode": "rail"
+    },
+    {
+      "source": "H008",
+      "target": "H064",
+      "distance_km": 8883.1,
+      "transit_hours": 148.05,
+      "cost_usd": 40612,
+      "mode": "rail"
+    },
+    {
+      "source": "H130",
+      "target": "H045",
+      "distance_km": 422.0,
+      "transit_hours": 7.03,
+      "cost_usd": 36567,
+      "mode": "rail"
+    },
+    {
+      "source": "H043",
+      "target": "H099",
+      "distance_km": 5478.0,
+      "transit_hours": 91.3,
+      "cost_usd": 11699,
+      "mode": "rail"
+    },
+    {
+      "source": "H007",
+      "target": "H055",
+      "distance_km": 9673.2,
+      "transit_hours": 161.22,
+      "cost_usd": 43722,
+      "mode": "rail"
+    },
+    {
+      "source": "H087",
+      "target": "H053",
+      "distance_km": 8241.3,
+      "transit_hours": 137.36,
+      "cost_usd": 9976,
+      "mode": "rail"
+    },
+    {
+      "source": "H061",
+      "target": "H145",
+      "distance_km": 11044.0,
+      "transit_hours": 184.07,
+      "cost_usd": 27997,
+      "mode": "rail"
+    },
+    {
+      "source": "H029",
+      "target": "H030",
+      "distance_km": 1191.3,
+      "transit_hours": 1.49,
+      "cost_usd": 48351,
+      "mode": "air"
+    },
+    {
+      "source": "H147",
+      "target": "H065",
+      "distance_km": 14110.7,
+      "transit_hours": 17.64,
+      "cost_usd": 19425,
+      "mode": "air"
+    },
+    {
+      "source": "H111",
+      "target": "P047",
+      "distance_km": 629.9,
+      "transit_hours": 0.79,
+      "cost_usd": 8204,
+      "mode": "air"
+    },
+    {
+      "source": "P034",
+      "target": "H002",
+      "distance_km": 10248.5,
+      "transit_hours": 12.81,
+      "cost_usd": 731,
+      "mode": "air"
+    },
+    {
+      "source": "H110",
+      "target": "H146",
+      "distance_km": 9537.7,
+      "transit_hours": 11.92,
+      "cost_usd": 17087,
+      "mode": "air"
+    },
+    {
+      "source": "P004",
+      "target": "H068",
+      "distance_km": 9216.2,
+      "transit_hours": 11.52,
+      "cost_usd": 33112,
+      "mode": "air"
+    },
+    {
+      "source": "H078",
+      "target": "H090",
+      "distance_km": 5779.5,
+      "transit_hours": 7.22,
+      "cost_usd": 876,
+      "mode": "air"
+    },
+    {
+      "source": "H106",
+      "target": "H077",
+      "distance_km": 4894.1,
+      "transit_hours": 6.12,
+      "cost_usd": 16089,
+      "mode": "air"
+    },
+    {
+      "source": "H006",
+      "target": "H101",
+      "distance_km": 8045.9,
+      "transit_hours": 10.06,
+      "cost_usd": 43719,
+      "mode": "air"
+    },
+    {
+      "source": "H072",
+      "target": "H067",
+      "distance_km": 2945.3,
+      "transit_hours": 3.68,
+      "cost_usd": 27379,
+      "mode": "air"
+    },
+    {
+      "source": "H064",
+      "target": "P021",
+      "distance_km": 7830.9,
+      "transit_hours": 9.79,
+      "cost_usd": 39901,
+      "mode": "air"
+    },
+    {
+      "source": "H104",
+      "target": "P002",
+      "distance_km": 479.4,
+      "transit_hours": 0.6,
+      "cost_usd": 16537,
+      "mode": "air"
+    },
+    {
+      "source": "H091",
+      "target": "H022",
+      "distance_km": 3478.4,
+      "transit_hours": 4.35,
+      "cost_usd": 41116,
+      "mode": "air"
+    },
+    {
+      "source": "H111",
+      "target": "H093",
+      "distance_km": 1599.3,
+      "transit_hours": 2.0,
+      "cost_usd": 14107,
+      "mode": "air"
+    },
+    {
+      "source": "P013",
+      "target": "P048",
+      "distance_km": 8053.1,
+      "transit_hours": 10.07,
+      "cost_usd": 10216,
+      "mode": "air"
+    },
+    {
+      "source": "P015",
+      "target": "H118",
+      "distance_km": 9387.1,
+      "transit_hours": 11.73,
+      "cost_usd": 23373,
+      "mode": "air"
+    },
+    {
+      "source": "P010",
+      "target": "P038",
+      "distance_km": 5798.2,
+      "transit_hours": 7.25,
+      "cost_usd": 2625,
+      "mode": "air"
+    },
+    {
+      "source": "H121",
+      "target": "H098",
+      "distance_km": 2223.0,
+      "transit_hours": 2.78,
+      "cost_usd": 40036,
+      "mode": "air"
+    },
+    {
+      "source": "H027",
+      "target": "H035",
+      "distance_km": 1041.8,
+      "transit_hours": 1.3,
+      "cost_usd": 6247,
+      "mode": "air"
+    },
+    {
+      "source": "P013",
+      "target": "P028",
+      "distance_km": 4563.6,
+      "transit_hours": 5.7,
+      "cost_usd": 27825,
+      "mode": "air"
+    },
+    {
+      "source": "P046",
+      "target": "P042",
+      "distance_km": 915.4,
+      "transit_hours": 1.14,
+      "cost_usd": 44546,
+      "mode": "air"
+    },
+    {
+      "source": "H023",
+      "target": "H107",
+      "distance_km": 4148.6,
+      "transit_hours": 5.19,
+      "cost_usd": 43814,
+      "mode": "air"
+    },
+    {
+      "source": "H128",
+      "target": "H130",
+      "distance_km": 2468.6,
+      "transit_hours": 3.09,
+      "cost_usd": 39491,
+      "mode": "air"
+    },
+    {
+      "source": "H097",
+      "target": "H094",
+      "distance_km": 729.2,
+      "transit_hours": 0.91,
+      "cost_usd": 12127,
+      "mode": "air"
+    },
+    {
+      "source": "H067",
+      "target": "H142",
+      "distance_km": 7538.0,
+      "transit_hours": 9.42,
+      "cost_usd": 38443,
+      "mode": "air"
+    },
+    {
+      "source": "H043",
+      "target": "P010",
+      "distance_km": 11205.7,
+      "transit_hours": 14.01,
+      "cost_usd": 6603,
+      "mode": "air"
+    },
+    {
+      "source": "H147",
+      "target": "H027",
+      "distance_km": 8540.7,
+      "transit_hours": 10.68,
+      "cost_usd": 21656,
+      "mode": "air"
+    },
+    {
+      "source": "H045",
+      "target": "H048",
+      "distance_km": 9126.7,
+      "transit_hours": 11.41,
+      "cost_usd": 4934,
+      "mode": "air"
+    },
+    {
+      "source": "H145",
+      "target": "H060",
+      "distance_km": 10556.8,
+      "transit_hours": 13.2,
+      "cost_usd": 36575,
+      "mode": "air"
+    },
+    {
+      "source": "P017",
+      "target": "H025",
+      "distance_km": 7202.6,
+      "transit_hours": 9.0,
+      "cost_usd": 31355,
+      "mode": "air"
+    },
+    {
+      "source": "P035",
+      "target": "P032",
+      "distance_km": 5693.9,
+      "transit_hours": 7.12,
+      "cost_usd": 46022,
+      "mode": "air"
+    },
+    {
+      "source": "H021",
+      "target": "H035",
+      "distance_km": 3744.4,
+      "transit_hours": 4.68,
+      "cost_usd": 35040,
+      "mode": "air"
+    },
+    {
+      "source": "H056",
+      "target": "H085",
+      "distance_km": 10813.2,
+      "transit_hours": 13.52,
+      "cost_usd": 14252,
+      "mode": "air"
+    },
+    {
+      "source": "H129",
+      "target": "H004",
+      "distance_km": 11038.0,
+      "transit_hours": 13.8,
+      "cost_usd": 40611,
+      "mode": "air"
+    },
+    {
+      "source": "P015",
+      "target": "P028",
+      "distance_km": 2401.2,
+      "transit_hours": 3.0,
+      "cost_usd": 37945,
+      "mode": "air"
+    },
+    {
+      "source": "H137",
+      "target": "H112",
+      "distance_km": 5700.7,
+      "transit_hours": 7.13,
+      "cost_usd": 35165,
+      "mode": "air"
+    },
+    {
+      "source": "P023",
+      "target": "H074",
+      "distance_km": 10446.3,
+      "transit_hours": 13.06,
+      "cost_usd": 47952,
+      "mode": "air"
+    },
+    {
+      "source": "H127",
+      "target": "H105",
+      "distance_km": 7412.2,
+      "transit_hours": 9.27,
+      "cost_usd": 46821,
+      "mode": "air"
+    },
+    {
+      "source": "H024",
+      "target": "H060",
+      "distance_km": 13368.3,
+      "transit_hours": 16.71,
+      "cost_usd": 40401,
+      "mode": "air"
+    },
+    {
+      "source": "H032",
+      "target": "H017",
+      "distance_km": 9347.9,
+      "transit_hours": 11.68,
+      "cost_usd": 34932,
+      "mode": "air"
+    },
+    {
+      "source": "H098",
+      "target": "H110",
+      "distance_km": 1517.7,
+      "transit_hours": 1.9,
+      "cost_usd": 23690,
+      "mode": "air"
+    },
+    {
+      "source": "P034",
+      "target": "H108",
+      "distance_km": 8962.8,
+      "transit_hours": 11.2,
+      "cost_usd": 37372,
+      "mode": "air"
+    },
+    {
+      "source": "H078",
+      "target": "H084",
+      "distance_km": 4579.7,
+      "transit_hours": 5.72,
+      "cost_usd": 48287,
+      "mode": "air"
+    },
+    {
+      "source": "H112",
+      "target": "H078",
+      "distance_km": 5042.9,
+      "transit_hours": 6.3,
+      "cost_usd": 32776,
+      "mode": "air"
+    },
+    {
+      "source": "P047",
+      "target": "H107",
+      "distance_km": 355.3,
+      "transit_hours": 0.44,
+      "cost_usd": 15751,
+      "mode": "air"
+    },
+    {
+      "source": "H132",
+      "target": "H025",
+      "distance_km": 3491.6,
+      "transit_hours": 4.36,
+      "cost_usd": 13184,
+      "mode": "air"
+    },
+    {
+      "source": "P001",
+      "target": "P031",
+      "distance_km": 6343.9,
+      "transit_hours": 7.93,
+      "cost_usd": 2071,
+      "mode": "air"
+    },
+    {
+      "source": "H070",
+      "target": "H111",
+      "distance_km": 7806.1,
+      "transit_hours": 9.76,
+      "cost_usd": 8228,
+      "mode": "air"
+    },
+    {
+      "source": "H139",
+      "target": "H004",
+      "distance_km": 7664.9,
+      "transit_hours": 9.58,
+      "cost_usd": 40824,
+      "mode": "air"
+    },
+    {
+      "source": "H057",
+      "target": "H056",
+      "distance_km": 471.8,
+      "transit_hours": 0.59,
+      "cost_usd": 3481,
+      "mode": "air"
+    },
+    {
+      "source": "H036",
+      "target": "H040",
+      "distance_km": 6100.8,
+      "transit_hours": 7.63,
+      "cost_usd": 37227,
+      "mode": "air"
+    },
+    {
+      "source": "H114",
+      "target": "H005",
+      "distance_km": 8210.7,
+      "transit_hours": 10.26,
+      "cost_usd": 1240,
+      "mode": "air"
+    },
+    {
+      "source": "H114",
+      "target": "H002",
+      "distance_km": 7483.5,
+      "transit_hours": 9.35,
+      "cost_usd": 45720,
+      "mode": "air"
+    },
+    {
+      "source": "H023",
+      "target": "H016",
+      "distance_km": 4412.5,
+      "transit_hours": 5.52,
+      "cost_usd": 4945,
+      "mode": "air"
+    },
+    {
+      "source": "H029",
+      "target": "H027",
+      "distance_km": 1137.9,
+      "transit_hours": 1.42,
+      "cost_usd": 33706,
+      "mode": "air"
+    },
+    {
+      "source": "H091",
+      "target": "H033",
+      "distance_km": 1281.6,
+      "transit_hours": 1.6,
+      "cost_usd": 901,
+      "mode": "air"
+    },
+    {
+      "source": "P030",
+      "target": "H126",
+      "distance_km": 4458.1,
+      "transit_hours": 5.57,
+      "cost_usd": 22342,
+      "mode": "air"
+    },
+    {
+      "source": "H038",
+      "target": "H052",
+      "distance_km": 10580.2,
+      "transit_hours": 13.23,
+      "cost_usd": 47974,
+      "mode": "air"
+    },
+    {
+      "source": "H096",
+      "target": "H108",
+      "distance_km": 2494.0,
+      "transit_hours": 3.12,
+      "cost_usd": 2408,
+      "mode": "air"
+    },
+    {
+      "source": "P045",
+      "target": "P050",
+      "distance_km": 11229.4,
+      "transit_hours": 14.04,
+      "cost_usd": 22160,
+      "mode": "air"
+    },
+    {
+      "source": "H037",
+      "target": "H123",
+      "distance_km": 1772.0,
+      "transit_hours": 2.22,
+      "cost_usd": 31898,
+      "mode": "air"
+    },
+    {
+      "source": "H072",
+      "target": "P010",
+      "distance_km": 7019.7,
+      "transit_hours": 8.77,
+      "cost_usd": 42813,
+      "mode": "air"
+    },
+    {
+      "source": "P035",
+      "target": "H074",
+      "distance_km": 7447.7,
+      "transit_hours": 9.31,
+      "cost_usd": 10683,
+      "mode": "air"
+    },
+    {
+      "source": "H111",
+      "target": "H068",
+      "distance_km": 1283.3,
+      "transit_hours": 1.6,
+      "cost_usd": 35690,
+      "mode": "air"
+    },
+    {
+      "source": "H036",
+      "target": "H069",
+      "distance_km": 4475.2,
+      "transit_hours": 5.59,
+      "cost_usd": 27628,
+      "mode": "air"
+    },
+    {
+      "source": "H141",
+      "target": "P015",
+      "distance_km": 6526.5,
+      "transit_hours": 8.16,
+      "cost_usd": 34649,
+      "mode": "air"
+    },
+    {
+      "source": "H027",
+      "target": "H095",
+      "distance_km": 2542.1,
+      "transit_hours": 3.18,
+      "cost_usd": 48011,
+      "mode": "air"
+    },
+    {
+      "source": "H124",
+      "target": "H031",
+      "distance_km": 7161.0,
+      "transit_hours": 8.95,
+      "cost_usd": 36884,
+      "mode": "air"
+    },
+    {
+      "source": "H088",
+      "target": "P005",
+      "distance_km": 4490.8,
+      "transit_hours": 5.61,
+      "cost_usd": 14148,
+      "mode": "air"
+    },
+    {
+      "source": "H098",
+      "target": "H126",
+      "distance_km": 7468.2,
+      "transit_hours": 9.34,
+      "cost_usd": 22239,
+      "mode": "air"
+    },
+    {
+      "source": "H041",
+      "target": "P017",
+      "distance_km": 11777.1,
+      "transit_hours": 14.72,
+      "cost_usd": 10284,
+      "mode": "air"
+    },
+    {
+      "source": "H022",
+      "target": "P008",
+      "distance_km": 6851.6,
+      "transit_hours": 8.56,
+      "cost_usd": 22726,
+      "mode": "air"
+    },
+    {
+      "source": "H047",
+      "target": "H111",
+      "distance_km": 8668.9,
+      "transit_hours": 10.84,
+      "cost_usd": 35514,
+      "mode": "air"
+    },
+    {
+      "source": "P043",
+      "target": "H097",
+      "distance_km": 663.3,
+      "transit_hours": 0.83,
+      "cost_usd": 40194,
+      "mode": "air"
+    },
+    {
+      "source": "H050",
+      "target": "P048",
+      "distance_km": 8190.1,
+      "transit_hours": 10.24,
+      "cost_usd": 39506,
+      "mode": "air"
+    },
+    {
+      "source": "P030",
+      "target": "H143",
+      "distance_km": 11272.0,
+      "transit_hours": 14.09,
+      "cost_usd": 20703,
+      "mode": "air"
+    },
+    {
+      "source": "H131",
+      "target": "H031",
+      "distance_km": 4135.4,
+      "transit_hours": 5.17,
+      "cost_usd": 47020,
+      "mode": "air"
+    },
+    {
+      "source": "P009",
+      "target": "H020",
+      "distance_km": 9721.7,
+      "transit_hours": 12.15,
+      "cost_usd": 27623,
+      "mode": "air"
+    },
+    {
+      "source": "P023",
+      "target": "H078",
+      "distance_km": 6683.9,
+      "transit_hours": 8.35,
+      "cost_usd": 16074,
+      "mode": "air"
+    },
+    {
+      "source": "H046",
+      "target": "H066",
+      "distance_km": 13195.0,
+      "transit_hours": 16.49,
+      "cost_usd": 20333,
+      "mode": "air"
+    },
+    {
+      "source": "H006",
+      "target": "H085",
+      "distance_km": 6449.8,
+      "transit_hours": 8.06,
+      "cost_usd": 20312,
+      "mode": "air"
+    },
+    {
+      "source": "P045",
+      "target": "P029",
+      "distance_km": 8108.9,
+      "transit_hours": 10.14,
+      "cost_usd": 25024,
+      "mode": "air"
+    },
+    {
+      "source": "P010",
+      "target": "H150",
+      "distance_km": 507.9,
+      "transit_hours": 0.63,
+      "cost_usd": 13744,
+      "mode": "air"
+    },
+    {
+      "source": "P024",
+      "target": "H064",
+      "distance_km": 7082.4,
+      "transit_hours": 8.85,
+      "cost_usd": 33660,
+      "mode": "air"
+    },
+    {
+      "source": "P007",
+      "target": "H074",
+      "distance_km": 9922.5,
+      "transit_hours": 12.4,
+      "cost_usd": 33271,
+      "mode": "air"
+    },
+    {
+      "source": "P040",
+      "target": "P049",
+      "distance_km": 10021.1,
+      "transit_hours": 12.53,
+      "cost_usd": 22789,
+      "mode": "air"
+    },
+    {
+      "source": "H074",
+      "target": "H138",
+      "distance_km": 3865.7,
+      "transit_hours": 4.83,
+      "cost_usd": 34816,
+      "mode": "air"
+    },
+    {
+      "source": "H030",
+      "target": "H149",
+      "distance_km": 6367.5,
+      "transit_hours": 7.96,
+      "cost_usd": 21952,
+      "mode": "air"
+    },
+    {
+      "source": "P037",
+      "target": "H147",
+      "distance_km": 8760.1,
+      "transit_hours": 10.95,
+      "cost_usd": 6939,
+      "mode": "air"
+    },
+    {
+      "source": "H083",
+      "target": "H124",
+      "distance_km": 5253.3,
+      "transit_hours": 6.57,
+      "cost_usd": 9197,
+      "mode": "air"
+    },
+    {
+      "source": "H003",
+      "target": "H136",
+      "distance_km": 8733.8,
+      "transit_hours": 10.92,
+      "cost_usd": 2895,
+      "mode": "air"
+    },
+    {
+      "source": "H068",
+      "target": "H050",
+      "distance_km": 8880.3,
+      "transit_hours": 11.1,
+      "cost_usd": 47271,
+      "mode": "air"
+    },
+    {
+      "source": "H084",
+      "target": "P030",
+      "distance_km": 3733.7,
+      "transit_hours": 4.67,
+      "cost_usd": 769,
+      "mode": "air"
+    },
+    {
+      "source": "H030",
+      "target": "P012",
+      "distance_km": 7532.1,
+      "transit_hours": 9.42,
+      "cost_usd": 45526,
+      "mode": "air"
+    },
+    {
+      "source": "H103",
+      "target": "P023",
+      "distance_km": 9290.9,
+      "transit_hours": 11.61,
+      "cost_usd": 22342,
+      "mode": "air"
+    },
+    {
+      "source": "H070",
+      "target": "P012",
+      "distance_km": 6073.9,
+      "transit_hours": 7.59,
+      "cost_usd": 7256,
+      "mode": "air"
+    },
+    {
+      "source": "H084",
+      "target": "H147",
+      "distance_km": 8660.5,
+      "transit_hours": 10.83,
+      "cost_usd": 43687,
+      "mode": "air"
+    },
+    {
+      "source": "H141",
+      "target": "H030",
+      "distance_km": 8453.5,
+      "transit_hours": 10.57,
+      "cost_usd": 1973,
+      "mode": "air"
+    },
+    {
+      "source": "H098",
+      "target": "H145",
+      "distance_km": 8371.2,
+      "transit_hours": 10.46,
+      "cost_usd": 20956,
+      "mode": "air"
+    },
+    {
+      "source": "H114",
+      "target": "H004",
+      "distance_km": 7849.3,
+      "transit_hours": 9.81,
+      "cost_usd": 21529,
+      "mode": "air"
+    }
+  ]
+}
