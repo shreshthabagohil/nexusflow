@@ -53,31 +53,31 @@ services:
   # ── Backend ───────────────────────────────────────────────────────────────────
   # FastAPI application. Reads secrets and config from .env. Source-mounted for
   # hot-reload during development — remove the volume bind in production builds.
-  backend:
-    build: ./backend
-    ports:
-      - "8000:8000"
-    depends_on:
-      - kafka
-      - redis
-    env_file:
-      - .env
-    volumes:
-      - ./backend:/app
+  #backend:
+  #  build: ./backend
+   # ports:
+     # - "8000:8000"
+    #depends_on:
+     # - kafka
+     # - redis
+    #env_file:
+     # - .env
+    #volumes:
+      #- ./backend:/app
 
   # ── Frontend ──────────────────────────────────────────────────────────────────
   # React + Vite UI. Source-mounted for hot-reload. Proxies API calls to the
   # backend service. Waits for the backend to be available before starting.
-  frontend:
-    build: ./frontend
-    ports:
-      - "3000:3000"
-    depends_on:
-      - backend
-    env_file:
-      - .env
-    volumes:
-      - ./frontend:/app
+  #frontend:
+    #build: ./frontend
+    #ports:
+    #  - "3000:3000"
+    #depends_on:
+     # - backend
+   # env_file:
+     # - .env
+    #volumes:
+     # - ./frontend:/app
 
   # ── Kafka UI ──────────────────────────────────────────────────────────────────
   # Web-based Kafka management console. Browse topics, consumer groups, and
