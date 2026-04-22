@@ -1,14 +1,8 @@
 version: "3.8"
 
-# ─────────────────────────────────────────────────────────────────────────────
-#  NexusFlow — docker-compose.yml
-#  6 services: zookeeper, kafka, redis, backend, frontend, kafka-ui
-# ─────────────────────────────────────────────────────────────────────────────
-
 services:
 
-  # ── ZooKeeper ────────────────────────────────────────────────────────────────
-  # Coordinates the Kafka broker — manages leader election and cluster metadata.
+  # ── ZooKeeper ──────────────────────────────────────────────────────────────
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
     ports:
@@ -17,9 +11,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
 
-  # ── Kafka ─────────────────────────────────────────────────────────────────────
-  # Event-streaming backbone. Exposes port 9092 to the host (PLAINTEXT_HOST
-  # listener) and 29092 internally for inter-container traffic (PLAINTEXT listener).
+  # ── Kafka ──────────────────────────────────────────────────────────────────
   kafka:
     image: confluentinc/cp-kafka:7.5.0
     ports:
@@ -34,9 +26,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
 
-  # ── Redis ─────────────────────────────────────────────────────────────────────
-  # In-memory cache and pub/sub broker. AOF persistence enabled so data survives
-  # container restarts. Health-checked via redis-cli ping.
+  # ── Redis ──────────────────────────────────────────────────────────────────
   redis:
     image: redis:7-alpine
     ports:
@@ -50,38 +40,38 @@ services:
       timeout: 3s
       retries: 5
 
-  # ── Backend ───────────────────────────────────────────────────────────────────
-  # FastAPI application. Reads secrets and config from .env. Source-mounted for
-  # hot-reload during development — remove the volume bind in production builds.
-  #backend:
-  #  build: ./backend
-   # ports:
-     # - "8000:8000"
-    #depends_on:
-     # - kafka
-     # - redis
-    #env_file:
-     # - .env
-    #volumes:
-      #- ./backend:/app
+  # ── Backend (FIXED — uncommented) ──────────────────────────────────────────
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - kafka
+      - redis
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/app
+    healthcheck:                              # FIXED — added healthcheck
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
 
-  # ── Frontend ──────────────────────────────────────────────────────────────────
-  # React + Vite UI. Source-mounted for hot-reload. Proxies API calls to the
-  # backend service. Waits for the backend to be available before starting.
-  #frontend:
-    #build: ./frontend
-    #ports:
-    #  - "3000:3000"
-    #depends_on:
-     # - backend
-   # env_file:
-     # - .env
-    #volumes:
-     # - ./frontend:/app
+  # ── Frontend (FIXED — uncommented + corrected config) ──────────────────────
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"                           # FIXED — was 3000:3000, Vite uses 5173
+    depends_on:
+      - backend
+    env_file:
+      - .env
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules                     # FIXED — anonymous volume to preserve container's node_modules
 
-  # ── Kafka UI ──────────────────────────────────────────────────────────────────
-  # Web-based Kafka management console. Browse topics, consumer groups, and
-  # messages without needing a CLI. Connects to Kafka via the internal listener.
+  # ── Kafka UI ───────────────────────────────────────────────────────────────
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     ports:
@@ -90,7 +80,6 @@ services:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
 
-# ── Named Volumes ─────────────────────────────────────────────────────────────
-# redis_data persists Redis AOF/RDB files across container restarts.
 volumes:
   redis_data:
+```
