@@ -1,0 +1,52 @@
+[
+  {
+    "carrier_id": "C01",
+    "name": "Maersk",
+    "ontime_rate": 0.76
+  },
+  {
+    "carrier_id": "C02",
+    "name": "MSC",
+    "ontime_rate": 0.968
+  },
+  {
+    "carrier_id": "C03",
+    "name": "CMA CGM",
+    "ontime_rate": 0.907
+  },
+  {
+    "carrier_id": "C04",
+    "name": "COSCO",
+    "ontime_rate": 0.767
+  },
+  {
+    "carrier_id": "C05",
+    "name": "Evergreen",
+    "ontime_rate": 0.853
+  },
+  {
+    "carrier_id": "C06",
+    "name": "Hapag-Lloyd",
+    "ontime_rate": 0.88
+  },
+  {
+    "carrier_id": "C07",
+    "name": "ONE",
+    "ontime_rate": 0.676
+  },
+  {
+    "carrier_id": "C08",
+    "name": "Yang Ming",
+    "ontime_rate": 0.786
+  },
+  {
+    "carrier_id": "C09",
+    "name": "HMM",
+    "ontime_rate": 0.788
+  },
+  {
+    "carrier_id": "C10",
+    "name": "PIL",
+    "ontime_rate": 0.717
+  }
+]
