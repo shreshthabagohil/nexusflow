@@ -10,7 +10,9 @@ import DisruptionButton from "./components/DisruptionButton";
 
 export default function App() {
   const { shipments, loading, error } = useShipments();
-  const [selectedShipment, setSelectedShipment] = useState(null);
+
+  // In App.jsx, add state for selected shipment:
+const [selectedShipment, setSelectedShipment] = useState(null);
 
   // Derive basic analytics from shipments
   const analytics = {
@@ -72,7 +74,7 @@ export default function App() {
             {loading && <p style={{ color: "#666" }}>Loading shipments…</p>}
             {error && <p style={{ color: "#c0392b" }}>{error}</p>}
             {!loading && !error && (
-              <ShipmentList shipments={shipments} onSelect={setSelectedShipment} />
+              <ShipmentList shipments={shipments} onSelectShipment={setSelectedShipment} />
             )}
           </div>
         </aside>
@@ -85,7 +87,7 @@ export default function App() {
             boxShadow: "0 1px 4px rgba(0,0,0,0.1)",
           }}
         >
-          <MapView />
+<MapView shipments={shipments} />
         </main>
       </div>
 
@@ -93,4 +95,5 @@ export default function App() {
       <RerouteModal shipment={selectedShipment} onClose={() => setSelectedShipment(null)} />
     </div>
   );
+  
 }
