@@ -1,49 +1,13 @@
-"""Generate data/training_data.csv with 10000 synthetic labelled rows."""
-import json
+#!/usr/bin/env python3
+"""Generate data/training_data.csv with 10,000 synthetic labelled rows for XGBoost."""
+
+import csv
 import random
-import sys
 from pathlib import Path
 
-import pandas as pd
+OUTPUT_PATH = Path(__file__).resolve().parent / "training_data.csv"
 
-# Allow `from ml.feature_engineer import ...` when run from the repo root
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
-from ml.feature_engineer import FeatureEngineer
-
-DATA_DIR = Path(__file__).resolve().parent
-
-with open(DATA_DIR / "shipments.json") as f:
-    shipments = json.load(f)
-with open(DATA_DIR / "ports.json") as f:
-    ports = json.load(f)
-with open(DATA_DIR / "carriers.json") as f:
-    carriers = json.load(f)
-
-random.seed(42)
-
-fe = FeatureEngineer(ports_data=ports, carriers_data=carriers)
-
-rows = []
-for _ in range(10_000):
-    shipment = random.choice(shipments)
-    weather_severity = random.random()
-
-    features = fe.extract(shipment, weather_severity=weather_severity)
-
-    # Synthetic label
-    label = int(
-        features["weather_severity"] > 0.6
-        or features["origin_congestion"] > 0.7
-        or features["days_until_eta"] < 3
-    )
-    # 10 % noise
-    if random.random() < 0.10:
-        label = 1 - label
-
-    rows.append({**features, "risk_label": label})
-
-df = pd.DataFrame(rows, columns=[
+COLUMNS = [
     "weather_severity",
     "origin_congestion",
     "dest_congestion",
@@ -51,7 +15,49 @@ df = pd.DataFrame(rows, columns=[
     "cargo_priority_weight",
     "days_until_eta",
     "route_distance_km",
-    "risk_label",
-])
-df.to_csv(DATA_DIR / "training_data.csv", index=False)
-print("Generated 10000 training rows")
+    "disruption_occurred",
+]
+
+random.seed(42)
+
+rows = []
+for _ in range(10_000):
+    weather_severity      = random.uniform(1, 10)
+    origin_congestion     = random.uniform(1, 10)
+    dest_congestion       = random.uniform(1, 10)
+    carrier_ontime_rate   = random.uniform(0.55, 0.99)
+    cargo_priority_weight = random.randint(1, 5)
+    days_until_eta        = random.uniform(1, 30)
+    route_distance_km     = random.uniform(500, 15_000)
+
+    disrupted = (
+        weather_severity > 7.0
+        or origin_congestion > 8.0
+        or dest_congestion > 8.0
+        or carrier_ontime_rate < 0.65
+        or (weather_severity > 5.0 and days_until_eta < 3)
+    )
+    label = int(disrupted)
+
+    # 10% random noise: flip the label
+    if random.random() < 0.10:
+        label = 1 - label
+
+    rows.append([
+        round(weather_severity, 4),
+        round(origin_congestion, 4),
+        round(dest_congestion, 4),
+        round(carrier_ontime_rate, 4),
+        cargo_priority_weight,
+        round(days_until_eta, 4),
+        round(route_distance_km, 4),
+        label,
+    ])
+
+with open(OUTPUT_PATH, "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerow(COLUMNS)
+    writer.writerows(rows)
+
+disruption_rate = sum(r[-1] for r in rows) / len(rows) * 100
+print(f"Generated 10000 training rows. Disruption rate: {disruption_rate:.1f}%")
