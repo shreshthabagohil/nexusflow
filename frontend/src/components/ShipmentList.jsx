@@ -1,8 +1,21 @@
-// frontend/src/components/ShipmentList.jsx
-export default function ShipmentList({ shipments = [] }) {
-  if (shipments.length === 0) {
-    return <p>No shipments loaded yet.</p>;
+import { useState } from "react";
+
+function riskColor(score) {
+  if (score > 70) return "#EF4444";
+  if (score > 40) return "#F59E0B";
+  return "#10B981";
+}
+
+export default function ShipmentList({ shipments, onSelectShipment }) {
+  const [sortDesc, setSortDesc] = useState(false);
+
+  if (!shipments || shipments.length === 0) {
+    return <p style={{ padding: "1rem", color: "#64748b" }}>Loading shipments...</p>;
   }
+
+  const sorted = sortDesc
+    ? [...shipments].sort((a, b) => b.risk_score - a.risk_score)
+    : shipments;
 
   return (
     <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.875rem" }}>
@@ -12,19 +25,49 @@ export default function ShipmentList({ shipments = [] }) {
           <th style={th}>Origin</th>
           <th style={th}>Destination</th>
           <th style={th}>Carrier</th>
+          <th style={th}>Status</th>
           <th style={th}>ETA</th>
-          <th style={th}>Risk Score</th>
+          <th style={{ ...th, whiteSpace: "nowrap" }}>
+            Risk Score{" "}
+            <button
+              onClick={() => setSortDesc((prev) => !prev)}
+              style={{
+                marginLeft: 6,
+                padding: "2px 7px",
+                fontSize: "0.75rem",
+                background: sortDesc ? "#F59E0B" : "#334e77",
+                color: "#fff",
+                border: "none",
+                borderRadius: 4,
+                cursor: "pointer",
+              }}
+            >
+              {sortDesc ? "▼ Sorted" : "Sort ▼"}
+            </button>
+          </th>
         </tr>
       </thead>
       <tbody>
-        {shipments.map((s, i) => (
-          <tr key={s.id ?? i} style={{ background: i % 2 === 0 ? "#fff" : "#f7f9fc" }}>
+        {sorted.map((s, i) => (
+          <tr
+            key={s.id ?? i}
+            onClick={() => onSelectShipment?.(s)}
+            style={{
+              background: i % 2 === 0 ? "#fff" : "#f7f9fc",
+              cursor: "pointer",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "#e8f0fe")}
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.background = i % 2 === 0 ? "#fff" : "#f7f9fc")
+            }
+          >
             <td style={td}>{s.id}</td>
-            <td style={td}>{s.origin}</td>
-            <td style={td}>{s.destination}</td>
+            <td style={td}>{s.origin_port}</td>
+            <td style={td}>{s.destination_port}</td>
             <td style={td}>{s.carrier}</td>
+            <td style={td}>{s.status}</td>
             <td style={td}>{s.eta}</td>
-            <td style={{ ...td, color: s.risk_score > 40 ? "#c0392b" : "#27ae60", fontWeight: 600 }}>
+            <td style={{ ...td, color: riskColor(s.risk_score), fontWeight: 600 }}>
               {s.risk_score}
             </td>
           </tr>
