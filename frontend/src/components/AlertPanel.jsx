@@ -27,7 +27,7 @@ export default function AlertPanel({ shipments = [] }) {
         <ul style={{ margin: 0, paddingLeft: "1.25rem", fontSize: "0.875rem" }}>
           {alerts.map((s, i) => (
             <li key={s.id ?? i} style={{ marginBottom: "4px" }}>
-              <strong>{s.id}</strong> — {s.origin} → {s.destination} &nbsp;
+              <strong>{s.id}</strong> — {s.origin_port} → {s.destination_port} &nbsp;
               <span style={{ color: "#c0392b", fontWeight: 600 }}>Risk: {s.risk_score}</span>
             </li>
           ))}

@@ -1,5 +1,4 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import Field
 
 
 class Settings(BaseSettings):
@@ -7,53 +6,21 @@ class Settings(BaseSettings):
         env_file=".env",
         env_file_encoding="utf-8",
         case_sensitive=True,
-        extra="ignore",
+        extra="ignore",  # silently skip any .env keys not listed here
     )
 
     # App
     APP_ENV: str = "development"
     VERSION: str = "1.0.0"
-    ALLOWED_ORIGINS: list[str] = Field(
-        default=["http://localhost:3000", "http://localhost:5173"]
-    )
 
-    # Redis — accepts a full URL (docker-compose style) or falls back to host/port
+    # Redis — full URL injected by docker-compose env_file
     REDIS_URL: str = "redis://localhost:6379/0"
 
-    from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import Field
-
-
-class Settings(BaseSettings):
-    model_config = SettingsConfigDict(
-        env_file=".env",
-        env_file_encoding="utf-8",
-        case_sensitive=True,
-        extra="ignore",
-    )
-
-    # App
-    APP_ENV: str = "development"
-    VERSION: str = "1.0.0"
-    ALLOWED_ORIGINS: list[str] = Field(
-        default=["http://localhost:3000", "http://localhost:5173"]
-    )
-
-    # Redis
-    REDIS_URL: str = "redis://localhost:6379/0"
-
-    # ── ADD THESE LINES ──────────────────────────────────
-    # Kafka
-    KAFKA_BOOTSTRAP_SERVERS: str = "kafka:29092"
-    KAFKA_CONSUMER_GROUP: str = "nexusflow-backend"
-
-    # Security
-    SECRET_KEY: str = "change-me-in-production"
-    API_KEY: str = "nexusflow-dev-key"
-
-    # Debug
-    DEBUG: bool = True
-    # ─────────────────────────────────────────────────────
+    # NOTE: ALLOWED_ORIGINS is intentionally NOT defined here.
+    # CORS origins are hardcoded in app/main.py.
+    # Defining it here caused pydantic-settings v2 to fail parsing the
+    # comma-separated / JSON-array string from the env source before
+    # any field_validator could intercept it.
 
 
 settings = Settings()

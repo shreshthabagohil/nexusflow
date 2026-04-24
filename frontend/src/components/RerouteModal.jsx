@@ -33,9 +33,9 @@ export default function RerouteModal({ shipment, onClose }) {
           <dt style={dtStyle}>ID</dt>
           <dd style={ddStyle}>{shipment.id}</dd>
           <dt style={dtStyle}>Origin</dt>
-          <dd style={ddStyle}>{shipment.origin}</dd>
+          <dd style={ddStyle}>{shipment.origin_port}</dd>
           <dt style={dtStyle}>Destination</dt>
-          <dd style={ddStyle}>{shipment.destination}</dd>
+          <dd style={ddStyle}>{shipment.destination_port}</dd>
         </dl>
         <button
           onClick={onClose}

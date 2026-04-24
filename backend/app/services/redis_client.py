@@ -1,47 +1,44 @@
-import json
-import logging
-import os
-from typing import Optional
+"""
+Async Redis connection singleton.
 
-import redis
+Uses redis.asyncio (built into the `redis` package v4+).
+A single connection pool is shared across all FastAPI requests.
+Connection is lazy — first actual Redis call triggers the handshake.
+"""
+
+from __future__ import annotations
+
+import logging
+
+import redis.asyncio as aioredis
+
+from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 
-_SHIPMENT_PREFIX = "shipment:"
-_SCORE_PREFIX = "score:"
-_SCORE_TTL = 300  # seconds
+_pool: aioredis.Redis | None = None
 
 
-class RedisClient:
-    def __init__(self) -> None:
-        url = os.getenv("REDIS_URL", "redis://localhost:6379")
-        self._client = redis.from_url(url, decode_responses=True)
+async def get_redis() -> aioredis.Redis:
+    """Return (or lazily create) the shared Redis client."""
+    global _pool
+    if _pool is None:
+        _pool = aioredis.from_url(
+            settings.REDIS_URL,
+            encoding="utf-8",
+            decode_responses=True,
+            socket_connect_timeout=5,
+            socket_timeout=5,
+            retry_on_timeout=True,
+        )
+        logger.info("Redis client initialised — URL: %s", settings.REDIS_URL)
+    return _pool
 
-    def set_shipment(self, id: str, data_dict: dict) -> None:
-        self._client.set(f"{_SHIPMENT_PREFIX}{id}", json.dumps(data_dict))
 
-    def get_shipment(self, id: str) -> Optional[dict]:
-        raw = self._client.get(f"{_SHIPMENT_PREFIX}{id}")
-        if raw is None:
-            return None
-        return json.loads(raw)
-
-    def set_risk_score(self, id: str, score: int) -> None:
-        self._client.setex(f"{_SCORE_PREFIX}{id}", _SCORE_TTL, score)
-
-    def get_risk_score(self, id: str) -> int:
-        raw = self._client.get(f"{_SCORE_PREFIX}{id}")
-        if raw is None:
-            return 0
-        return int(raw)
-
-    def get_all_shipment_ids(self) -> list[str]:
-        keys = self._client.keys(f"{_SHIPMENT_PREFIX}*")
-        return [k.removeprefix(_SHIPMENT_PREFIX) for k in keys]
-
-    def ping(self) -> bool:
-        try:
-            return self._client.ping()
-        except redis.RedisError as exc:
-            logger.error("Redis ping failed: %s", exc)
-            return False
+async def close_redis() -> None:
+    """Gracefully close the pool on application shutdown."""
+    global _pool
+    if _pool is not None:
+        await _pool.aclose()
+        _pool = None
+        logger.info("Redis connection closed.")

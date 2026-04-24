@@ -1,8 +1,11 @@
-version: "3.8"
+# ─────────────────────────────────────────────────────────────────────────────
+#  NexusFlow — docker-compose.yml
+#  Startup order: redis (healthy) → backend (healthy) → frontend
+#                 zookeeper (started) → kafka (started)
+# ─────────────────────────────────────────────────────────────────────────────
 
 services:
 
-  # ── ZooKeeper ──────────────────────────────────────────────────────────────
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
     ports:
@@ -10,8 +13,9 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    # NO healthcheck — nc/netcat is not in the Confluent image.
+    # Kafka uses service_started so it doesn't wait for healthy status.
 
-  # ── Kafka ──────────────────────────────────────────────────────────────────
   kafka:
     image: confluentinc/cp-kafka:7.5.0
     ports:
@@ -26,7 +30,6 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
 
-  # ── Redis ──────────────────────────────────────────────────────────────────
   redis:
     image: redis:7-alpine
     ports:
@@ -39,39 +42,46 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
+      start_period: 5s
 
-  # ── Backend (FIXED — uncommented) ──────────────────────────────────────────
   backend:
     build: ./backend
     ports:
       - "8000:8000"
     depends_on:
-      - kafka
-      - redis
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_started
     env_file:
       - .env
+    environment:
+      REDIS_URL: redis://redis:6379/0
     volumes:
       - ./backend:/app
-    healthcheck:                              # FIXED — added healthcheck
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 15s
+    healthcheck:
+      test: [
+        "CMD", "python3", "-c",
+        "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"
+      ]
+      interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 15s
 
-  # ── Frontend (FIXED — uncommented + corrected config) ──────────────────────
   frontend:
     build: ./frontend
     ports:
-      - "5173:5173"                           # FIXED — was 3000:3000, Vite uses 5173
+      - "3000:3000"
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     env_file:
       - .env
     volumes:
       - ./frontend:/app
-      - /app/node_modules                     # FIXED — anonymous volume to preserve container's node_modules
+      - /app/node_modules   # anonymous volume — shields Linux node_modules from macOS host mount
 
-  # ── Kafka UI ───────────────────────────────────────────────────────────────
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     ports:

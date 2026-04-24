@@ -1,33 +1,68 @@
-// frontend/src/components/StatsBar.jsx
-const defaultAnalytics = { total: 0, at_risk: 0, rerouting: 0, on_time_pct: 100 };
+import { useState, useEffect } from "react";
+import { getAnalytics } from "../services/api";
 
-export default function StatsBar({ analytics = defaultAnalytics }) {
-  const { total, at_risk, rerouting, on_time_pct } = { ...defaultAnalytics, ...analytics };
+export default function StatsBar() {
+  const [data, setData] = useState(null);
 
-  const cards = [
-    { label: "Total", value: total, color: "#1A2B4A" },
-    { label: "At Risk", value: at_risk, color: "#c0392b" },
-    { label: "Rerouting", value: rerouting, color: "#e67e22" },
-    { label: "On Time %", value: `${on_time_pct}%`, color: "#27ae60" },
+  useEffect(() => {
+    getAnalytics().then(setData);
+  }, []);
+
+  const metrics = [
+    {
+      label: "Total Shipments",
+      value: data?.total ?? "—",
+      accent: "#1A2B4A",
+      icon: "🚢",
+    },
+    {
+      label: "At Risk",
+      value: data?.at_risk ?? "—",
+      accent: "#EF4444",
+      icon: "⚠️",
+    },
+    {
+      label: "Rerouting",
+      value: data?.rerouting ?? "—",
+      accent: "#F59E0B",
+      icon: "🔄",
+    },
+    {
+      label: "On-Time Rate",
+      value: data ? `${data.on_time_pct}%` : "—",
+      accent: "#10B981",
+      icon: "✅",
+    },
   ];
 
   return (
-    <div style={{ display: "flex", gap: "0.75rem", marginBottom: "1rem", flexWrap: "wrap" }}>
-      {cards.map(({ label, value, color }) => (
+    <div style={{
+      display: "grid",
+      gridTemplateColumns: "repeat(4, 1fr)",
+      gap: "0.875rem",
+      marginBottom: "1rem",
+    }}>
+      {metrics.map((m) => (
         <div
-          key={label}
+          key={m.label}
           style={{
-            flex: "1 1 100px",
             background: "#fff",
-            border: "1px solid #e0e7ef",
-            borderRadius: "8px",
-            padding: "0.75rem 1rem",
-            textAlign: "center",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+            borderRadius: 10,
+            padding: "1rem 1.25rem",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
+            borderLeft: `4px solid ${m.accent}`,
+            display: "flex",
+            flexDirection: "column",
+            gap: 4,
           }}
         >
-          <div style={{ fontSize: "1.5rem", fontWeight: 700, color }}>{value}</div>
-          <div style={{ fontSize: "0.75rem", color: "#888", marginTop: "2px" }}>{label}</div>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <span style={{ fontSize: "1.1rem" }}>{m.icon}</span>
+            <span style={{ fontSize: "0.78rem", color: "#64748b", fontWeight: 500 }}>{m.label}</span>
+          </div>
+          <div style={{ fontSize: "2rem", fontWeight: 700, color: m.accent, lineHeight: 1.1 }}>
+            {m.value}
+          </div>
         </div>
       ))}
     </div>
