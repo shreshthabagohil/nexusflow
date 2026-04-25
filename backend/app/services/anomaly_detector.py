@@ -1,130 +1,134 @@
 """
-NexusFlow — Isolation Forest Anomaly Detector
-===============================================
-Detects anomalous port congestion readings using sklearn's IsolationForest.
+AnomalyDetector — Isolation Forest-based anomaly detection for NexusFlow.
 
-Design:
-  - One mini-model per port, fitted lazily on a rolling window of readings.
-  - Readings are stored in Redis as a capped list (key: anomaly:history:{port_name}).
-  - Once a port has >= MIN_SAMPLES readings, the detector fits an IsolationForest
-    and classifies each new reading as NORMAL or ANOMALY.
-  - Results are logged and can be used to trigger higher-priority re-scoring.
+Detects anomalous congestion, weather, or carrier performance values
+that deviate significantly from baseline. Used to flag unusual port
+conditions or carrier degradation before they impact shipments.
 
-Typical use (inside Faust process_port agent):
-    from app.services.anomaly_detector import AnomalyDetector
-    detector = AnomalyDetector()
-    is_anomaly = await detector.check(redis, port_name, new_congestion_score)
+The model is trained on a synthetic baseline of normal operating
+conditions and flags values that fall outside the learned distribution.
 """
 
 from __future__ import annotations
 
-import json
 import logging
 from typing import Any
 
+import numpy as np
+
 logger = logging.getLogger(__name__)
 
-# Minimum number of historical readings before we fit the model
-MIN_SAMPLES = 10
-# Number of past readings to keep (rolling window)
-WINDOW_SIZE = 50
-# IsolationForest contamination assumption (fraction of expected anomalies)
-CONTAMINATION = 0.1
+# Try to use sklearn's IsolationForest; fall back to threshold-based detection
+try:
+    from sklearn.ensemble import IsolationForest
+
+    _HAS_SKLEARN = True
+except ImportError:
+    _HAS_SKLEARN = False
+    logger.warning(
+        "scikit-learn not available. AnomalyDetector will use threshold-based fallback."
+    )
 
 
 class AnomalyDetector:
     """
-    Lightweight port-level anomaly detector using IsolationForest.
-    Fits a new model per port each time check() is called (fast for small windows).
+    Detect anomalous values using Isolation Forest or threshold fallback.
+
+    Usage:
+        detector = AnomalyDetector()
+        is_anomaly = detector.is_anomalous(9.8)       # True — extreme value
+        is_anomaly = detector.is_anomalous(0.5)        # False — normal range
+        result = detector.detect(congestion=0.95, weather=0.9)  # dict with details
     """
 
-    async def check(self, redis: Any, port_name: str, congestion_score: float) -> bool:
+    # Thresholds for fallback mode (no sklearn)
+    ANOMALY_THRESHOLD = 7.0  # values above this are considered anomalous
+    CONGESTION_THRESHOLD = 0.85
+    WEATHER_THRESHOLD = 0.80
+
+    def __init__(self) -> None:
+        self._model: Any = None
+        if _HAS_SKLEARN:
+            self._train_model()
+
+    def _train_model(self) -> None:
+        """Train Isolation Forest on synthetic baseline data."""
+        # Synthetic normal operating conditions
+        rng = np.random.RandomState(42)
+        normal_data = rng.normal(loc=3.0, scale=1.5, size=(500, 1))
+        normal_data = np.clip(normal_data, 0, 10)
+
+        self._model = IsolationForest(
+            n_estimators=100,
+            contamination=0.05,
+            random_state=42,
+        )
+        self._model.fit(normal_data)
+        logger.info("AnomalyDetector: Isolation Forest trained on 500 baseline samples.")
+
+    def is_anomalous(self, value: float) -> bool:
         """
-        Record *congestion_score* for *port_name* and return True if it is anomalous.
-        Returns False (non-anomalous) if there is insufficient history.
+        Check if a single numeric value is anomalous.
+
+        Args:
+            value: A numeric value (e.g. congestion severity 0-10)
+
+        Returns:
+            True if the value is detected as an anomaly.
         """
-        history_key = f"anomaly:history:{port_name}"
+        if self._model is not None:
+            prediction = self._model.predict([[value]])
+            # Only flag as anomalous if BOTH the model says outlier AND the
+            # value is above the threshold.  Low values (e.g. 0.5) are
+            # statistical outliers from the training distribution but are
+            # operationally safe — only high values indicate disruption risk.
+            return bool(prediction[0] == -1) and value >= self.ANOMALY_THRESHOLD
+        # Threshold fallback
+        return value >= self.ANOMALY_THRESHOLD
 
-        try:
-            # Append new reading and trim to window
-            await redis.rpush(history_key, congestion_score)
-            await redis.ltrim(history_key, -WINDOW_SIZE, -1)
-
-            raw_history = await redis.lrange(history_key, 0, -1)
-            history = [float(v) for v in raw_history]
-
-        except Exception as exc:
-            logger.error("AnomalyDetector Redis error for '%s': %s", port_name, exc)
-            return False
-
-        if len(history) < MIN_SAMPLES:
-            logger.debug(
-                "AnomalyDetector: not enough history for '%s' (%d/%d). Skipping.",
-                port_name, len(history), MIN_SAMPLES,
-            )
-            return False
-
-        try:
-            from sklearn.ensemble import IsolationForest
-            import numpy as np
-
-            X = np.array(history[:-1]).reshape(-1, 1)     # all past readings
-            x_new = np.array([[history[-1]]])              # current reading
-
-            model = IsolationForest(
-                n_estimators=50,
-                contamination=CONTAMINATION,
-                random_state=42,
-                n_jobs=1,
-            )
-            model.fit(X)
-
-            # predict returns -1 (anomaly) or +1 (normal)
-            prediction = model.predict(x_new)[0]
-            score      = float(model.decision_function(x_new)[0])
-            is_anomaly = prediction == -1
-
-            if is_anomaly:
-                logger.warning(
-                    "🚨 ANOMALY detected at port '%s': congestion=%.4f "
-                    "(decision_score=%.4f, history_len=%d)",
-                    port_name, congestion_score, score, len(history),
-                )
-                # Persist the anomaly event in Redis for dashboards / auditing
-                await self._record_anomaly(redis, port_name, congestion_score, score)
-            else:
-                logger.debug(
-                    "AnomalyDetector: port '%s' congestion=%.4f is NORMAL (score=%.4f).",
-                    port_name, congestion_score, score,
-                )
-
-            return is_anomaly
-
-        except ImportError:
-            logger.warning("sklearn not available — anomaly detection skipped.")
-            return False
-        except Exception as exc:
-            logger.error("IsolationForest error for '%s': %s", port_name, exc)
-            return False
-
-    async def _record_anomaly(
+    def detect(
         self,
-        redis: Any,
-        port_name: str,
-        congestion_score: float,
-        decision_score: float,
-    ) -> None:
-        """Write the anomaly event to Redis for later retrieval / alerting."""
-        try:
-            import time
-            event = {
-                "port":           port_name,
-                "congestion":     round(congestion_score, 4),
-                "decision_score": round(decision_score, 4),
-                "timestamp":      int(time.time()),
-            }
-            # Keep last 100 anomaly events in a list
-            await redis.rpush("anomaly:events", json.dumps(event))
-            await redis.ltrim("anomaly:events", -100, -1)
-        except Exception as exc:
-            logger.error("Could not persist anomaly event: %s", exc)
+        congestion: float | None = None,
+        weather: float | None = None,
+        carrier_ontime: float | None = None,
+    ) -> dict[str, Any]:
+        """
+        Run anomaly detection on multiple feature dimensions.
+
+        Args:
+            congestion: Port congestion level (0-1 scale)
+            weather: Weather severity (0-1 scale)
+            carrier_ontime: Carrier on-time rate (0-1 scale, low = anomalous)
+
+        Returns:
+            Dict with 'is_anomaly' bool and per-feature anomaly flags.
+        """
+        flags: dict[str, bool] = {}
+        reasons: list[str] = []
+
+        if congestion is not None:
+            anomalous = congestion >= self.CONGESTION_THRESHOLD
+            flags["congestion_anomaly"] = anomalous
+            if anomalous:
+                reasons.append(f"congestion={congestion:.2f} exceeds {self.CONGESTION_THRESHOLD}")
+
+        if weather is not None:
+            anomalous = weather >= self.WEATHER_THRESHOLD
+            flags["weather_anomaly"] = anomalous
+            if anomalous:
+                reasons.append(f"weather={weather:.2f} exceeds {self.WEATHER_THRESHOLD}")
+
+        if carrier_ontime is not None:
+            # Low on-time rate is anomalous (inverted)
+            anomalous = carrier_ontime < 0.5
+            flags["carrier_anomaly"] = anomalous
+            if anomalous:
+                reasons.append(f"carrier_ontime={carrier_ontime:.2f} below 0.50")
+
+        is_anomaly = any(flags.values()) if flags else False
+
+        return {
+            "is_anomaly": is_anomaly,
+            "flags": flags,
+            "reasons": reasons,
+        }

@@ -1,70 +1,54 @@
-import { useState, useEffect } from "react";
-import { getAnalytics } from "../services/api";
+import React from "react";
 
-export default function StatsBar() {
-  const [data, setData] = useState(null);
+/**
+ * StatsBar — top bar showing aggregate shipment statistics.
+ */
+export default function StatsBar({ shipments = [] }) {
+  const total = shipments.length;
+  const atRisk = shipments.filter((s) => parseFloat(s.risk_score) > 60).length;
+  const rerouting = shipments.filter((s) => s.status === "rerouting").length;
+  const onTime = shipments.filter((s) => s.status === "on_time").length;
+  const onTimePct = total > 0 ? Math.round((onTime / total) * 100) : 100;
 
-  useEffect(() => {
-    getAnalytics().then(setData);
-  }, []);
-
-  const metrics = [
-    {
-      label: "Total Shipments",
-      value: data?.total ?? "—",
-      accent: "#1A2B4A",
-      icon: "🚢",
-    },
-    {
-      label: "At Risk",
-      value: data?.at_risk ?? "—",
-      accent: "#EF4444",
-      icon: "⚠️",
-    },
-    {
-      label: "Rerouting",
-      value: data?.rerouting ?? "—",
-      accent: "#F59E0B",
-      icon: "🔄",
-    },
-    {
-      label: "On-Time Rate",
-      value: data ? `${data.on_time_pct}%` : "—",
-      accent: "#10B981",
-      icon: "✅",
-    },
+  const stats = [
+    { label: "Total Shipments", value: total, color: "#60a5fa" },
+    { label: "At Risk", value: atRisk, color: "#ef4444" },
+    { label: "Rerouting", value: rerouting, color: "#f59e0b" },
+    { label: "On-Time %", value: `${onTimePct}%`, color: "#22c55e" },
   ];
 
   return (
-    <div style={{
-      display: "grid",
-      gridTemplateColumns: "repeat(4, 1fr)",
-      gap: "0.875rem",
-      marginBottom: "1rem",
-    }}>
-      {metrics.map((m) => (
-        <div
-          key={m.label}
-          style={{
-            background: "#fff",
-            borderRadius: 10,
-            padding: "1rem 1.25rem",
-            boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
-            borderLeft: `4px solid ${m.accent}`,
-            display: "flex",
-            flexDirection: "column",
-            gap: 4,
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <span style={{ fontSize: "1.1rem" }}>{m.icon}</span>
-            <span style={{ fontSize: "0.78rem", color: "#64748b", fontWeight: 500 }}>{m.label}</span>
-          </div>
-          <div style={{ fontSize: "2rem", fontWeight: 700, color: m.accent, lineHeight: 1.1 }}>
-            {m.value}
-          </div>
+    <div style={styles.bar}>
+      {stats.map((s) => (
+        <div key={s.label} style={styles.stat}>
+          <div style={{ ...styles.value, color: s.color }}>{s.value}</div>
+          <div style={styles.label}>{s.label}</div>
         </div>
       ))}
     </div>
   );
 }
+
+const styles = {
+  bar: {
+    display: "flex",
+    gap: 16,
+    padding: "10px 16px",
+    background: "#111b27",
+    borderRadius: 8,
+  },
+  stat: {
+    flex: 1,
+    textAlign: "center",
+  },
+  value: {
+    fontSize: 22,
+    fontWeight: 700,
+  },
+  label: {
+    fontSize: 11,
+    color: "#64748b",
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+  },
+};
