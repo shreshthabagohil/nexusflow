@@ -2,23 +2,20 @@
 NexusFlow FastAPI application entry point.
 
 Startup sequence (lifespan):
-  1. Connect to Redis
-  2. Seed Redis with 53 shipments + port/carrier/weather baselines (idempotent)
-  3. Load XGBoost risk model (if trained — graceful skip if not)
-  4. ML-score all shipments and write live risk_score + top_risk_factors to Redis
-  5. Serve requests
+  1. Connect to Redis (lazy — first real call triggers handshake)
+  2. Seed Redis with 53 shipments + port/carrier baseline data  (idempotent)
+  3. Serve requests
 
-Shutdown:
-  6. Close Redis connection pool
+Shutdown sequence:
+  4. Close Redis connection pool gracefully
 
-IMPORTANT: Faust stream processors (services/faust_app.py) run as a SEPARATE
-           worker process and are NEVER imported here.
+IMPORTANT: Faust stream processors (app/streams/processors.py) are a
+           SEPARATE worker process — never imported here.
 """
 
 from __future__ import annotations
 
 import asyncio
-import json
 import logging
 from contextlib import asynccontextmanager
 from typing import AsyncIterator
@@ -37,75 +34,11 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-# ─── ML scoring helper ────────────────────────────────────────────────────────
-
-async def _ml_score_all_shipments(redis) -> None:
-    """
-    For every shipment in Redis:
-      1. Build its feature vector (FeatureEngineer)
-      2. Predict risk score via XGBoost
-      3. Get top-3 SHAP risk factors
-      4. Write updated risk_score + top_risk_factors back to Redis
-
-    Graceful: if the model isn't trained yet, logs a warning and returns.
-    """
-    # Lazy import keeps startup fast if the model doesn't exist yet
-    try:
-        from ml.risk_scorer import get_scorer
-        from app.services.feature_engineer import FeatureEngineer
-    except ImportError as exc:
-        logger.warning("ML import failed (%s) — skipping ML scoring.", exc)
-        return
-
-    scorer = get_scorer()
-    if scorer is None:
-        logger.warning(
-            "ML model not trained yet. Shipments will use seed risk_scores. "
-            "Run: docker compose exec backend python ml/train_model.py"
-        )
-        return
-
-    fe   = FeatureEngineer(redis)
-    keys = await redis.keys("shipment:*")
-    if not keys:
-        logger.warning("No shipment keys in Redis — skipping ML scoring.")
-        return
-
-    scored = 0
-    errors = 0
-    for key in keys:
-        try:
-            raw = await redis.get(key)
-            if not raw:
-                continue
-            shipment   = json.loads(raw)
-            shipment_id = shipment.get("id", key.split(":")[-1])
-
-            fv = await fe.build(shipment_id)
-            if fv is None:
-                continue
-
-            risk_score       = scorer.score(fv)
-            top_risk_factors = scorer.explain(fv, top_n=3)
-
-            shipment["risk_score"]       = risk_score
-            shipment["top_risk_factors"] = top_risk_factors
-            await redis.set(key, json.dumps(shipment))
-            scored += 1
-        except Exception as exc:
-            logger.error("ML scoring failed for key '%s': %s", key, exc)
-            errors += 1
-
-    logger.info(
-        "ML scoring complete — %d shipments scored, %d errors.", scored, errors
-    )
-
-
 # ─── Lifespan ─────────────────────────────────────────────────────────────────
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
-    """Startup → yield → shutdown."""
+    """Application lifespan — startup → yield → shutdown."""
     logger.info("NexusFlow Backend starting…")
 
     try:
@@ -113,24 +46,22 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         await seed_redis(redis)
         logger.info("Redis seed complete.")
     except Exception as exc:
+        # Graceful degradation: backend is still usable even if Redis isn't ready
+        # yet; Docker healthcheck will retry until /health returns 200.
         logger.warning(
-            "Redis seed failed (%s). Endpoints will use in-memory fallbacks.", exc
+            "Redis seed failed (%s). This is normal on first boot if Redis "
+            "is still initialising. Will retry on next reload.",
+            exc,
         )
 
-    # ML scoring — runs after seed so all shipments exist in Redis
-    try:
-        await _ml_score_all_shipments(redis)
-    except Exception as exc:
-        logger.warning("ML scoring step failed (%s). Continuing with seed scores.", exc)
-
-    yield  # ← application is live
+    yield  # ← application is live here
 
     logger.info("NexusFlow Backend shutting down…")
     await close_redis()
     logger.info("Shutdown complete.")
 
 
-# ─── FastAPI app ──────────────────────────────────────────────────────────────
+# ─── App ──────────────────────────────────────────────────────────────────────
 
 app = FastAPI(
     title="NexusFlow API",
@@ -144,10 +75,10 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "http://localhost:4173",
-        "http://frontend:3000",
+        "http://localhost:3000",   # CRA / legacy & docker-compose frontend
+        "http://localhost:5173",   # Vite dev server
+        "http://localhost:4173",   # Vite preview
+        "http://frontend:3000",    # Docker internal hostname
     ],
     allow_methods=["*"],
     allow_headers=["*"],
@@ -156,64 +87,105 @@ app.add_middleware(
 
 # ─── Routers ──────────────────────────────────────────────────────────────────
 
+# Handles: /api/shipments, /api/shipments/{id}, /api/shipments/{id}/features,
+#          /api/shipments/{id}/reroute, /api/analytics,
+#          /api/simulate/disruption, /api/simulation/disrupt
 app.include_router(shipments_router)
 
 
-# ─── Health ───────────────────────────────────────────────────────────────────
+# ─── Health check ─────────────────────────────────────────────────────────────
 
 @app.get("/health", tags=["ops"])
 async def health() -> dict:
-    """Liveness probe used by Docker healthcheck."""
+    """
+    Liveness probe used by Docker healthcheck.
+    Returns 200 as long as uvicorn is accepting connections.
+    Redis connectivity is NOT checked here — that would make the probe
+    dependent on an external service, causing false negatives.
+    """
     return {"status": "ok", "version": "1.0.0", "service": "nexusflow-backend"}
 
 
-# ─── WebSocket ────────────────────────────────────────────────────────────────
+# ─── WebSocket — real-time updates ────────────────────────────────────────────
+
+
+class ConnectionManager:
+    """Manages active WebSocket connections for broadcasting score updates."""
+
+    def __init__(self) -> None:
+        self.active: list[WebSocket] = []
+
+    async def connect(self, ws: WebSocket) -> None:
+        await ws.accept()
+        self.active.append(ws)
+        logger.info("WebSocket client connected (%d active)", len(self.active))
+
+    def disconnect(self, ws: WebSocket) -> None:
+        self.active = [w for w in self.active if w != ws]
+        logger.info("WebSocket client disconnected (%d active)", len(self.active))
+
+    async def broadcast(self, data: dict) -> None:
+        """Send data to all connected clients. Remove dead connections."""
+        import json as _json
+
+        msg = _json.dumps(data)
+        dead: list[WebSocket] = []
+        for ws in self.active:
+            try:
+                await ws.send_text(msg)
+            except Exception:
+                dead.append(ws)
+        for ws in dead:
+            self.disconnect(ws)
+
+
+manager = ConnectionManager()
+
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket) -> None:
     """
-    Real-time push channel.
+    Real-time state push channel.
 
-    Subscribes to the Redis "score_updates" pub/sub channel.
-    Every time the Faust worker re-scores a shipment it publishes there;
-    we immediately forward that JSON payload to all connected WebSocket clients.
-
-    Also sends a heartbeat every 5 s so the client knows the connection is alive.
+    Pushes live risk-score updates to connected frontends every 3 seconds.
+    After a disruption simulation, the frontend sees scores change in near
+    real-time as this loop reads fresh values from Redis.
     """
-    await websocket.accept()
-    logger.info("WebSocket client connected: %s", websocket.client)
-
-    redis = await get_redis()
-    pubsub = redis.pubsub()
-    await pubsub.subscribe("score_updates")
-
+    await manager.connect(websocket)
     try:
         while True:
-            # Non-blocking poll — check for a pub/sub message
-            message = await pubsub.get_message(ignore_subscribe_messages=True, timeout=0.05)
+            # Broadcast current shipment scores from Redis
+            try:
+                redis = await get_redis()
+                keys = await redis.keys("shipment:*")
+                if keys:
+                    import json as _json
 
-            if message and message.get("type") == "message":
-                try:
-                    payload = json.loads(message["data"])
-                    await websocket.send_json(payload)
-                except Exception as exc:
-                    logger.warning("WS send error: %s", exc)
-            else:
-                # No message in this poll cycle — send a heartbeat every 5 s
-                await asyncio.sleep(5)
+                    values = await redis.mget(*keys)
+                    for v in values:
+                        if not v:
+                            continue
+                        try:
+                            s = _json.loads(v)
+                            await websocket.send_json({
+                                "type": "score_update",
+                                "shipment_id": s.get("id"),
+                                "score": float(s.get("risk_score", 0)),
+                                "status": s.get("status", "unknown"),
+                            })
+                        except (ValueError, TypeError):
+                            pass
+            except Exception as exc:
+                logger.warning("WebSocket Redis read error: %s", exc)
+                # Fall back to heartbeat if Redis is unavailable
                 await websocket.send_json({
-                    "type":    "heartbeat",
-                    "status":  "ok",
-                    "message": "ML risk scores are live.",
+                    "type": "heartbeat",
+                    "status": "ok",
                 })
 
+            await asyncio.sleep(3)
     except WebSocketDisconnect:
-        logger.info("WebSocket client disconnected: %s", websocket.client)
+        manager.disconnect(websocket)
     except Exception as exc:
-        logger.warning("WebSocket error for %s: %s", websocket.client, exc)
-    finally:
-        try:
-            await pubsub.unsubscribe("score_updates")
-            await pubsub.aclose()
-        except Exception:
-            pass
+        logger.warning("WebSocket error: %s", exc)
+        manager.disconnect(websocket)

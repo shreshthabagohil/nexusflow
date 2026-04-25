@@ -9,18 +9,19 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "axios": "^1",
+    "leaflet": "^1",
     "react": "^18",
     "react-dom": "^18",
-    "react-router-dom": "^6",
-    "axios": "^1",
     "react-leaflet": "^4",
-    "leaflet": "^1",
+    "react-router-dom": "^6",
+    "react-simple-maps": "^3.0.0",
     "recharts": "^2"
   },
   "devDependencies": {
+    "@types/leaflet": "^1",
     "@vitejs/plugin-react": "^4",
-    "vite": "^5",
     "eslint": "^8",
-    "@types/leaflet": "^1"
+    "vite": "^5"
   }
 }

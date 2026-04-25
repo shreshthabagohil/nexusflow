@@ -59,6 +59,7 @@ services:
       REDIS_URL: redis://redis:6379/0
     volumes:
       - ./backend:/app
+      - ./data:/app/data   # root-level data/ (shipments.json, shipping_graph.json) → /app/data
     healthcheck:
       test: [
         "CMD", "python3", "-c",
@@ -81,6 +82,29 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules   # anonymous volume — shields Linux node_modules from macOS host mount
+
+  # ── Faust Worker ─────────────────────────────────────────────────────────────
+  # Reuses the backend image — same Python env, same code volume mount.
+  # Runs the Faust stream processor instead of uvicorn.
+  # restart: on-failure handles the brief window where Kafka is started
+  # but not yet accepting connections.
+  faust-worker:
+    build: ./backend
+    command: python run_consumer.py
+    working_dir: /app
+    depends_on:
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+    env_file:
+      - .env
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    volumes:
+      - ./backend:/app
+    restart: on-failure
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
