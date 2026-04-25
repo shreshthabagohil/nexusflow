@@ -283,11 +283,23 @@ async def seed_redis(redis) -> None:  # type: ignore[type-arg]
 
     for shipment in shipments_to_seed:
         # Ensure required fields exist for Shipment schema compatibility
-        shipment.setdefault("status", "in_transit")
         shipment.setdefault("risk_score", 0.0)
         shipment.setdefault("top_risk_factors", [])
         shipment.setdefault("cargo_type", "")
         shipment.setdefault("departure_date", "")
+        # Derive a realistic status from risk_score so on_time_pct is non-zero on boot.
+        # Only set status if not already meaningful (don't overwrite "rerouting" etc.)
+        current_status = shipment.get("status", "in_transit")
+        risk = float(shipment.get("risk_score", 0))
+        if current_status in ("in_transit", "at_port", ""):
+            if risk > 60:
+                shipment["status"] = "at_risk"
+            elif risk < 40:
+                shipment["status"] = "on_time"
+            else:
+                shipment["status"] = "in_transit"
+        else:
+            shipment["status"] = current_status
         pipe.set(f"shipment:{shipment['id']}", json.dumps(shipment))
 
     # Weather baselines (only write if key doesn't already exist
