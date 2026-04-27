@@ -68,6 +68,18 @@ export async function getAnalytics() {
   }
 }
 
+// ─── Routes (rerouting options) ──────────────────────────────────────────────
+
+export async function getRoutes(shipmentId) {
+  try {
+    const res = await api.get(`/api/routes/${shipmentId}`);
+    return res.data;
+  } catch (err) {
+    console.error(`[api] getRoutes(${shipmentId}) error:`, err.message);
+    return null;
+  }
+}
+
 // ─── Disruption simulation ────────────────────────────────────────────────────
 
 export async function postSimulateDisruption(event) {

@@ -1,32 +1,59 @@
-import React, { useState, useEffect } from "react";
-import RiskBadge from "./RiskBadge";
-import api from "../services/api";
+// frontend/src/components/RerouteModal.jsx
+// Full rerouting modal: fetches 3 Dijkstra route options, lets user select & apply.
 
-/**
- * RerouteModal — full-screen overlay showing 3 Pareto-optimal route options.
- *
- * Props:
- *   shipment  — shipment object (or null to hide modal)
- *   onClose   — callback to close the modal
- */
+import { useState, useEffect } from "react";
+import { getRoutes } from "../services/api";
+
+function costLabel(delta) {
+  if (delta === 0) return { text: "Baseline", color: "#64748b" };
+  if (delta > 0)   return { text: `+$${Math.abs(delta)}K`, color: "#EF4444" };
+  return { text: `-$${Math.abs(delta)}K`, color: "#10B981" };
+}
+
+function riskLabel(delta) {
+  if (delta === 0) return { text: "Same risk", color: "#64748b" };
+  if (delta > 0)   return { text: `+${delta} pts`, color: "#EF4444" };
+  return { text: `${delta} pts`, color: "#10B981" };
+}
+
+const ROUTE_COLORS = {
+  "Primary Route":  "#1565C0",
+  "Low-Risk Route": "#E65100",
+  "Express Route":  "#757575",
+};
+
 export default function RerouteModal({ shipment, onClose }) {
-  const [routes, setRoutes] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [routes, setRoutes]       = useState(null);
+  const [loading, setLoading]     = useState(true);
+  const [error, setError]         = useState(null);
+  const [selected, setSelected]   = useState(null);
+  const [applied, setApplied]     = useState(false);
 
   useEffect(() => {
-    if (!shipment) return;
+    if (!shipment?.id) return;
     setLoading(true);
-    api
-      .get(`/api/shipments/${shipment.id}/reroute`)
-      .then((res) => {
-        setRoutes(res.data.reroute_options || []);
-      })
-      .catch((err) => {
-        console.error("[RerouteModal] fetch error:", err.message);
-        setRoutes([]);
-      })
-      .finally(() => setLoading(false));
-  }, [shipment]);
+    setError(null);
+    setApplied(false);
+    setSelected(null);
+
+    getRoutes(shipment.id).then((data) => {
+      if (data?.reroute_options?.length > 0) {
+        setRoutes(data.reroute_options);
+        setSelected(0); // pre-select primary
+      } else {
+        setError("No routes available for this shipment.");
+      }
+      setLoading(false);
+    });
+  }, [shipment?.id]);
+
+  function handleApply() {
+    if (selected === null || !routes) return;
+    setApplied(true);
+    // In a real system we'd POST to /api/shipments/{id}/reroute
+    // For demo we update locally and show success state
+    setTimeout(onClose, 2000);
+  }
 
   if (!shipment) return null;
 
@@ -38,197 +65,160 @@ export default function RerouteModal({ shipment, onClose }) {
   );
 
   return (
-    <div style={styles.overlay} onClick={onClose}>
-      <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
+    <div
+      style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000 }}
+      onClick={onClose}
+    >
+      <div
+        style={{ background: "#fff", borderRadius: 12, padding: "1.75rem", width: "min(580px, 95vw)", boxShadow: "0 8px 40px rgba(0,0,0,0.22)", maxHeight: "90vh", overflowY: "auto" }}
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
-        <div style={styles.header}>
-          <h2 style={styles.title}>Reroute Options for {shipment.id}</h2>
-          <button style={styles.closeBtn} onClick={onClose}>
-            ✕
-          </button>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1.25rem" }}>
+          <div>
+            <h2 style={{ margin: 0, fontSize: "1.1rem", fontWeight: 700, color: "#1A2B4A" }}>
+              🔄 Reroute Shipment
+            </h2>
+            <p style={{ margin: "4px 0 0", fontSize: "0.83rem", color: "#64748b" }}>
+              {shipment.origin_port} → {shipment.destination_port}
+            </p>
+          </div>
+          <button onClick={onClose} style={{ background: "none", border: "none", fontSize: "1.2rem", cursor: "pointer", color: "#64748b", padding: 4 }}>✕</button>
         </div>
 
-        {/* Shipment info */}
-        <div style={styles.info}>
+        {/* Shipment summary row */}
+        <div style={{ display: "flex", gap: "1rem", background: "#f8fafc", borderRadius: 8, padding: "0.7rem 1rem", marginBottom: "1.25rem", fontSize: "0.82rem" }}>
+          <span><strong style={{ color: "#1A2B4A" }}>ID:</strong> {shipment.id}</span>
+          <span><strong style={{ color: "#1A2B4A" }}>Carrier:</strong> {shipment.carrier}</span>
+          <span><strong style={{ color: "#1A2B4A" }}>Status:</strong> {shipment.status?.replace("_", " ")}</span>
           <span>
-            Route: {shipment.origin_port || "—"} →{" "}
-            {shipment.destination_port || "—"}
-          </span>
-          <span style={{ marginLeft: 16 }}>
-            Risk Score: <RiskBadge score={shipment.risk_score} />
+            <strong style={{ color: "#1A2B4A" }}>Risk:</strong>{" "}
+            <span style={{ color: shipment.risk_score > 70 ? "#EF4444" : shipment.risk_score > 40 ? "#F59E0B" : "#10B981", fontWeight: 600 }}>
+              {shipment.risk_score}
+            </span>
           </span>
         </div>
 
-        {/* Loading spinner */}
+        {/* Loading state */}
         {loading && (
-          <div style={styles.spinnerBox}>
-            <div style={styles.spinner} />
-            <span style={{ marginLeft: 12 }}>Finding optimal routes...</span>
+          <div style={{ textAlign: "center", padding: "2rem 0", color: "#64748b" }}>
+            <div style={{ fontSize: "1.5rem", marginBottom: 8 }}>🗺️</div>
+            Computing optimal routes…
           </div>
         )}
 
-        {/* Route cards */}
-        {!loading && routes.length === 0 && (
-          <p style={{ padding: 16, color: "#94a3b8" }}>
-            No reroute options available.
-          </p>
+        {/* Error state */}
+        {!loading && error && (
+          <div style={{ padding: "1rem", background: "#fef2f2", border: "1px solid #fecaca", borderRadius: 8, color: "#991b1b", fontSize: "0.875rem" }}>
+            {error}
+          </div>
         )}
 
-        {!loading &&
-          routes.map((route, idx) => (
-            <div key={route.route_id} style={styles.card}>
-              <div style={styles.cardHeader}>
-                <span style={styles.routeBadge}>{route.route_id}</span>
-                <span style={styles.routeDesc}>{route.description}</span>
-                {idx === bestIdx && (
-                  <span style={styles.recommended}>RECOMMENDED</span>
-                )}
-              </div>
+        {/* Success state */}
+        {applied && (
+          <div style={{ padding: "1rem", background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 8, color: "#065f46", fontSize: "0.9rem", textAlign: "center", fontWeight: 600 }}>
+            ✅ Shipment rerouted via <em>{routes[selected]?.route_name}</em>. Closing…
+          </div>
+        )}
 
-              <div style={styles.stats}>
-                <span>⏱ {route.estimated_time_hours}h</span>
-                <span>💰 +${route.cost_delta_usd?.toLocaleString()}</span>
-                <span>📉 -{route.risk_reduction}% risk</span>
-              </div>
+        {/* Route options */}
+        {!loading && !error && !applied && routes && (
+          <>
+            <p style={{ margin: "0 0 0.75rem", fontSize: "0.85rem", color: "#64748b", fontWeight: 500 }}>
+              Select a route option:
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+              {routes.map((route, idx) => {
+                const isSelected = selected === idx;
+                const routeColor = ROUTE_COLORS[route.route_name] ?? route.color ?? "#1565C0";
+                const cost       = costLabel(route.cost_delta);
+                const risk       = riskLabel(route.risk_delta);
 
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => setSelected(idx)}
+                    style={{
+                      background: isSelected ? "#f0f7ff" : "#fafafa",
+                      border: `2px solid ${isSelected ? routeColor : "#e2e8f0"}`,
+                      borderRadius: 10,
+                      padding: "0.9rem 1rem",
+                      cursor: "pointer",
+                      textAlign: "left",
+                      transition: "border-color 0.2s, background 0.2s",
+                    }}
+                  >
+                    {/* Route name + color swatch */}
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.5rem" }}>
+                      <span style={{ width: 14, height: 14, borderRadius: "50%", background: routeColor, flexShrink: 0 }} />
+                      <span style={{ fontWeight: 700, fontSize: "0.9rem", color: "#1A2B4A" }}>
+                        {route.route_name}
+                      </span>
+                      {isSelected && (
+                        <span style={{ marginLeft: "auto", fontSize: "0.75rem", background: routeColor, color: "#fff", borderRadius: 12, padding: "1px 9px" }}>
+                          Selected
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Waypoints */}
+                    <div style={{ fontSize: "0.78rem", color: "#64748b", marginBottom: "0.5rem" }}>
+                      {route.waypoints.map((w) => w.port).join(" → ")}
+                    </div>
+
+                    {/* Metrics row */}
+                    <div style={{ display: "flex", gap: "1.25rem", fontSize: "0.82rem" }}>
+                      <span style={{ color: "#64748b" }}>
+                        📏 {Number(route.distance_km).toLocaleString()} km
+                      </span>
+                      <span style={{ color: "#64748b" }}>
+                        ⏱ {route.eta_days} days
+                      </span>
+                      <span style={{ color: cost.color, fontWeight: 600 }}>
+                        💰 {cost.text}
+                      </span>
+                      <span style={{ color: risk.color, fontWeight: 600 }}>
+                        ⚠️ {risk.text}
+                      </span>
+                    </div>
+
+                    {/* Carrier */}
+                    <div style={{ marginTop: "0.4rem", fontSize: "0.78rem", color: "#94a3b8" }}>
+                      Carrier: <strong style={{ color: "#475569" }}>{route.carrier}</strong>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Action buttons */}
+            <div style={{ display: "flex", gap: "0.75rem", marginTop: "1.25rem", justifyContent: "flex-end" }}>
               <button
-                style={styles.selectBtn}
-                onClick={() => {
-                  console.log(
-                    `[RerouteModal] Selected route ${route.route_id} for ${shipment.id}`
-                  );
-                  onClose();
+                onClick={onClose}
+                style={{ background: "none", border: "1px solid #e2e8f0", borderRadius: 7, padding: "0.55rem 1.1rem", cursor: "pointer", fontSize: "0.875rem", color: "#64748b" }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleApply}
+                disabled={selected === null}
+                style={{
+                  background: selected !== null ? "#1A2B4A" : "#94a3b8",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: 7,
+                  padding: "0.55rem 1.4rem",
+                  cursor: selected !== null ? "pointer" : "not-allowed",
+                  fontSize: "0.875rem",
+                  fontWeight: 600,
                 }}
               >
-                Select This Route
+                Apply Route
               </button>
             </div>
-          ))}
+          </>
+        )}
       </div>
     </div>
   );
 }
-
-const styles = {
-  overlay: {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: "rgba(0,0,0,0.7)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 9999,
-  },
-  modal: {
-    background: "#1a2332",
-    borderRadius: 12,
-    maxWidth: 600,
-    width: "90%",
-    maxHeight: "85vh",
-    overflowY: "auto",
-    padding: 24,
-    color: "#e0e6ed",
-    boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
-  },
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 16,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 700,
-    color: "#60a5fa",
-    margin: 0,
-  },
-  closeBtn: {
-    background: "none",
-    border: "none",
-    color: "#94a3b8",
-    fontSize: 20,
-    cursor: "pointer",
-    padding: "4px 8px",
-  },
-  info: {
-    display: "flex",
-    alignItems: "center",
-    flexWrap: "wrap",
-    gap: 8,
-    marginBottom: 20,
-    fontSize: 14,
-    color: "#94a3b8",
-  },
-  spinnerBox: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 32,
-    color: "#94a3b8",
-  },
-  spinner: {
-    width: 24,
-    height: 24,
-    border: "3px solid #334155",
-    borderTop: "3px solid #60a5fa",
-    borderRadius: "50%",
-    animation: "spin 0.8s linear infinite",
-  },
-  card: {
-    background: "#0f1923",
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 12,
-    border: "1px solid #1e3a5f",
-  },
-  cardHeader: {
-    display: "flex",
-    alignItems: "center",
-    gap: 10,
-    marginBottom: 12,
-    flexWrap: "wrap",
-  },
-  routeBadge: {
-    background: "#2563eb",
-    color: "#fff",
-    padding: "3px 10px",
-    borderRadius: 4,
-    fontSize: 12,
-    fontWeight: 700,
-  },
-  routeDesc: {
-    fontSize: 14,
-    fontWeight: 600,
-    flex: 1,
-  },
-  recommended: {
-    background: "#16a34a",
-    color: "#fff",
-    padding: "3px 10px",
-    borderRadius: 4,
-    fontSize: 11,
-    fontWeight: 700,
-    letterSpacing: 0.5,
-  },
-  stats: {
-    display: "flex",
-    gap: 20,
-    fontSize: 14,
-    color: "#94a3b8",
-    marginBottom: 12,
-  },
-  selectBtn: {
-    background: "#2563eb",
-    color: "#fff",
-    border: "none",
-    padding: "8px 20px",
-    borderRadius: 6,
-    fontSize: 14,
-    fontWeight: 600,
-    cursor: "pointer",
-    width: "100%",
-  },
-};

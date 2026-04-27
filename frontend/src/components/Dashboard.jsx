@@ -6,6 +6,7 @@ import StatsBar from "./StatsBar";
 import ShipmentList from "./ShipmentList";
 import MapView from "./MapView";
 import AlertPanel from "./AlertPanel";
+import AnalyticsPanel from "./AnalyticsPanel";
 import DisruptionButton from "./DisruptionButton";
 
 const WS_URL = import.meta.env.VITE_WS_URL ?? "ws://localhost:8000/ws";
@@ -141,9 +142,14 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Alert panel */}
-        <div style={{ background: "#fff", borderRadius: 10, boxShadow: "0 1px 4px rgba(0,0,0,0.08)", padding: "1rem 1.25rem" }}>
-          <AlertPanel shipments={shipments} />
+        {/* Alert panel + Analytics — side by side */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+          <div style={{ background: "#fff", borderRadius: 10, boxShadow: "0 1px 4px rgba(0,0,0,0.08)", padding: "1rem 1.25rem" }}>
+            <AlertPanel shipments={shipments} />
+          </div>
+          <div style={{ background: "#fff", borderRadius: 10, boxShadow: "0 1px 4px rgba(0,0,0,0.08)", padding: "1rem 1.25rem" }}>
+            <AnalyticsPanel shipments={shipments} />
+          </div>
         </div>
       </main>
     </div>

@@ -287,7 +287,8 @@ async def process_port(events):
             try:
                 from app.services.anomaly_detector import AnomalyDetector
                 detector = AnomalyDetector()
-                is_anomaly = await detector.check(redis, event.name, score)
+                anomaly_result = detector.detect(congestion=score)
+                is_anomaly = anomaly_result.get("is_anomaly", False)
                 if is_anomaly:
                     # Anomalous congestion spike — publish alert to WebSocket clients
                     import json as _json

@@ -73,7 +73,7 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "3000:3000"
+      - "5173:5173"                           # FIXED — was 3000:3000, Vite uses 5173
     depends_on:
       backend:
         condition: service_healthy
