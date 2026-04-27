@@ -1,0 +1,12 @@
+# Never bake macOS node_modules into the Linux image.
+# The Dockerfile runs `npm install` inside the container, producing
+# the correct Linux (arm64-musl) platform binaries.
+node_modules
+
+# Build output — rebuilt inside the container
+dist
+
+# OS / editor noise
+.DS_Store
+*.swp
+.vscode

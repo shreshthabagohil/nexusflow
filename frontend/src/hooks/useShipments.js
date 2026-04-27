@@ -10,12 +10,19 @@ export function useShipments() {
   const fetchShipments = useCallback(async () => {
     setLoading(true);
     setError(null);
+
     const data = await getShipments();
-    if (data === null) {
-      setError("Failed to load shipments.");
+
+    // getShipments() always returns an array (never null) after our fix.
+    // An empty array here would only happen if mock data itself was empty,
+    // which is a dev misconfiguration — surface it clearly.
+    if (!data || data.length === 0) {
+      setError("No shipment data available.");
+      setShipments([]);
     } else {
       setShipments(data);
     }
+
     setLoading(false);
   }, []);
 
