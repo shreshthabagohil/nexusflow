@@ -179,6 +179,57 @@ async def simulate_disruption(event: dict[str, Any] = Body(default={})) -> dict[
     }
 
 
+# ─── Route optimisation ──────────────────────────────────────────────────────
+
+@router.get("/routes/{shipment_id}")
+async def get_routes(shipment_id: str) -> dict[str, Any]:
+    """
+    Return 3 route options for a shipment (Dijkstra via NetworkX).
+
+    Response:
+      {
+        "shipment_id": "S001",
+        "origin":      "Shanghai",
+        "destination": "Rotterdam",
+        "reroute_options": [ { route_name, waypoints, distance_km, eta_days,
+                               cost_delta, risk_delta, carrier, color, dash_array } ]
+      }
+    """
+    try:
+        redis = await get_redis()
+        raw = await redis.get(f"shipment:{shipment_id}")
+    except Exception as exc:
+        logger.error("get_routes Redis error for '%s': %s", shipment_id, exc)
+        raise HTTPException(status_code=503, detail="Redis unavailable") from exc
+
+    if raw is None:
+        raise HTTPException(status_code=404, detail=f"Shipment '{shipment_id}' not found.")
+
+    try:
+        shipment = json.loads(raw)
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail="Corrupt shipment data") from exc
+
+    origin      = shipment.get("origin_port", "")
+    destination = shipment.get("destination_port", "")
+    carrier     = shipment.get("carrier", "Maersk")
+    risk_score  = int(shipment.get("risk_score", 50))
+
+    try:
+        from app.services.route_optimizer import get_reroute_options
+        options = get_reroute_options(origin, destination, carrier, risk_score)
+    except Exception as exc:
+        logger.error("route_optimizer error for '%s': %s", shipment_id, exc)
+        raise HTTPException(status_code=500, detail=f"Route computation failed: {exc}")
+
+    return {
+        "shipment_id":    shipment_id,
+        "origin":         origin,
+        "destination":    destination,
+        "reroute_options": options,
+    }
+
+
 # ─── Raw feature scoring ─────────────────────────────────────────────────────
 
 @router.post("/score")
