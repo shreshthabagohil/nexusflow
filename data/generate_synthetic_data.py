@@ -22,7 +22,7 @@ REAL_PORTS = [
     {"name": "Rotterdam",    "lat": 51.9,  "lng": 4.5,    "country": "Netherlands"},
     {"name": "Singapore",    "lat": 1.3,   "lng": 103.8,  "country": "Singapore"},
     {"name": "Los Angeles",  "lat": 33.7,  "lng": -118.3, "country": "United States"},
-    {"name": "Dubai",        "lat": 25.0,  "lng": 55.1,   "country": "UAE"},
+    {"name": "Dubai (Jebel Ali)", "lat": 25.0,  "lng": 55.1,   "country": "UAE"},
     {"name": "Hamburg",      "lat": 53.5,  "lng": 10.0,   "country": "Germany"},
     {"name": "Busan",        "lat": 35.1,  "lng": 129.0,  "country": "South Korea"},
     {"name": "Hong Kong",    "lat": 22.3,  "lng": 114.2,  "country": "China"},

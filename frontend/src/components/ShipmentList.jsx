@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function riskColor(score) {
   if (score > 70) return "#EF4444";
@@ -8,6 +9,7 @@ function riskColor(score) {
 
 export default function ShipmentList({ shipments, onSelectShipment }) {
   const [sortDesc, setSortDesc] = useState(false);
+  const navigate = useNavigate();
 
   if (!shipments || shipments.length === 0) {
     return <p style={{ padding: "1rem", color: "#64748b" }}>Loading shipments...</p>;
@@ -51,7 +53,7 @@ export default function ShipmentList({ shipments, onSelectShipment }) {
         {sorted.map((s, i) => (
           <tr
             key={s.id ?? i}
-            onClick={() => onSelectShipment?.(s)}
+            onClick={() => navigate(`/shipments/${s.id}`)}
             style={{
               background: i % 2 === 0 ? "#fff" : "#f7f9fc",
               cursor: "pointer",
