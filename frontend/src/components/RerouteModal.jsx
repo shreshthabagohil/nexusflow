@@ -57,6 +57,13 @@ export default function RerouteModal({ shipment, onClose }) {
 
   if (!shipment) return null;
 
+  // Find the route with highest risk_reduction for "RECOMMENDED" badge
+  const bestIdx = routes.reduce(
+    (best, r, i) =>
+      r.risk_reduction > (routes[best]?.risk_reduction ?? 0) ? i : best,
+    0
+  );
+
   return (
     <div
       style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000 }}

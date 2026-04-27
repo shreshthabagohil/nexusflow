@@ -7,8 +7,10 @@ class Shipment(BaseModel):
     origin_port: str
     destination_port: str
     carrier: str
-    cargo_type: str
-    departure_date: str
+    # Optional so old Redis entries without these fields still deserialise cleanly.
+    # FeatureEngineer falls back to carrier-based defaults when cargo_type is absent.
+    cargo_type: str = ""
+    departure_date: str = ""
     eta: str
     current_lat: float
     current_lng: float

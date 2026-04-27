@@ -84,10 +84,26 @@ export async function getRoutes(shipmentId) {
 
 export async function postSimulateDisruption(event) {
   try {
-    const res = await api.post("/api/simulate/disruption", event); // FIX: was /simulate/disruption
+    // Try the Day 5 endpoint first, fall back to legacy path
+    const res = await api.post("/api/simulation/disrupt", event);
     return res.data;
   } catch (err) {
-    console.error("[api] postSimulateDisruption error:", err.message);
+    try {
+      const res = await api.post("/api/simulate/disruption", event);
+      return res.data;
+    } catch (err2) {
+      console.error("[api] postSimulateDisruption error:", err2.message);
+      return null;
+    }
+  }
+}
+
+export async function getReroute(shipmentId) {
+  try {
+    const res = await api.get(`/api/shipments/${shipmentId}/reroute`);
+    return res.data;
+  } catch (err) {
+    console.error(`[api] getReroute(${shipmentId}) error:`, err.message);
     return null;
   }
 }

@@ -1,22 +1,5 @@
 """
 NexusFlow — Route Optimizer
-============================
-Uses NetworkX (Dijkstra) to generate 3 alternative route options between
-a shipment's origin and destination ports.
-
-Three strategies:
-  1. PRIMARY   — shortest great-circle distance (Dijkstra on distance weight)
-  2. ALT_SAFE  — avoids high-congestion waypoints (Dijkstra on risk weight)
-  3. ALT_FAST  — fewest hops / most direct path (Dijkstra on hop weight)
-
-Each result includes:
-  - route_name        str
-  - waypoints         list[{"lat": float, "lng": float, "port": str}]
-  - distance_km       float
-  - eta_days          float
-  - cost_delta        float   (relative $ change vs primary, negative = cheaper)
-  - risk_delta        float   (relative risk change vs primary, negative = safer)
-  - carrier           str     (recommended carrier for this route)
 """
 
 from __future__ import annotations

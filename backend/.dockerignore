@@ -1,0 +1,32 @@
+# ── Python bytecode ──────────────────────────────────────────────────────────
+# Exclude ALL pycache — the container runs Python 3.11 but the dev machine
+# may generate Python 3.10 or 3.12 bytecode that causes confusing import
+# failures or bloats the build context.
+__pycache__/
+*.py[codz]
+*.pyo
+*$py.class
+
+# ── Test / CI artefacts ───────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# ── Secrets — never bake into the image ──────────────────────────────────────
+.env
+*.env
+*.secret
+
+# ── OS / editor noise ────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# ── Virtual environments — should never be in the repo, but safety net ───────
+.venv/
+venv/
+env/
