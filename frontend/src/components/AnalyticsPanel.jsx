@@ -31,7 +31,7 @@ function buildCarrierStats(shipments) {
 }
 
 function barColor(avgRisk) {
-  if (avgRisk > 70) return "#EF4444";
+  if (avgRisk > 60) return "#EF4444";   // consistent with rest of app
   if (avgRisk > 40) return "#F59E0B";
   return "#10B981";
 }
@@ -41,8 +41,8 @@ function RiskZoneSummary({ green, yellow, red }) {
   const total = green + yellow + red || 1;
   const zones = [
     { label: "Low Risk",    count: green,  color: "#10B981", bg: "#d1fae5", range: "< 40" },
-    { label: "Medium Risk", count: yellow, color: "#F59E0B", bg: "#fef3c7", range: "40–70" },
-    { label: "High Risk",   count: red,    color: "#EF4444", bg: "#fee2e2", range: "> 70" },
+    { label: "Medium Risk", count: yellow, color: "#F59E0B", bg: "#fef3c7", range: "40–60" },
+    { label: "High Risk",   count: red,    color: "#EF4444", bg: "#fee2e2", range: "> 60" },
   ];
 
   return (
@@ -104,8 +104,8 @@ export default function AnalyticsPanel({ shipments = [] }) {
   }
 
   const green  = shipments.filter((s) => Number(s.risk_score) < 40).length;
-  const yellow = shipments.filter((s) => Number(s.risk_score) >= 40 && Number(s.risk_score) <= 70).length;
-  const red    = shipments.filter((s) => Number(s.risk_score) > 70).length;
+  const yellow = shipments.filter((s) => Number(s.risk_score) >= 40 && Number(s.risk_score) <= 60).length;
+  const red    = shipments.filter((s) => Number(s.risk_score) > 60).length;
 
   const carrierData = buildCarrierStats(shipments);
 

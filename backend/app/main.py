@@ -108,6 +108,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     """Startup → yield → shutdown."""
     logger.info("NexusFlow Backend starting…")
 
+    redis = None
     try:
         redis = await get_redis()
         await seed_redis(redis)
@@ -117,11 +118,12 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
             "Redis seed failed (%s). Endpoints will use in-memory fallbacks.", exc
         )
 
-    # ML scoring — runs after seed so all shipments exist in Redis
-    try:
-        await _ml_score_all_shipments(redis)
-    except Exception as exc:
-        logger.warning("ML scoring step failed (%s). Continuing with seed scores.", exc)
+    # ML scoring — only runs if Redis connected successfully
+    if redis is not None:
+        try:
+            await _ml_score_all_shipments(redis)
+        except Exception as exc:
+            logger.warning("ML scoring step failed (%s). Continuing with seed scores.", exc)
 
     yield  # ← application is live
 

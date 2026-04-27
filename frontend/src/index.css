@@ -1,5 +1,231 @@
-* {
+/* ═══════════════════════════════════════════════════════════════
+   NexusFlow — Global Design System
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Design tokens ─────────────────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --bg-base:      #060e1a;
+  --bg-surface:   #0a1628;
+  --bg-card:      #0f1f33;
+  --bg-card-hover:#132540;
+  --bg-elevated:  #162a45;
+
+  /* Borders */
+  --border-subtle:  #142035;
+  --border-default: #1a2d47;
+  --border-bright:  #243f63;
+  --border-focus:   #3b82f6;
+
+  /* Brand / Primary */
+  --color-primary:        #3b82f6;
+  --color-primary-bright: #60a5fa;
+  --color-primary-dim:    #1d4ed8;
+  --color-primary-glow:   rgba(59, 130, 246, 0.18);
+
+  /* Semantic */
+  --color-success:      #10b981;
+  --color-success-dim:  rgba(16, 185, 129, 0.12);
+  --color-warning:      #f59e0b;
+  --color-warning-dim:  rgba(245, 158, 11, 0.12);
+  --color-danger:       #ef4444;
+  --color-danger-dim:   rgba(239, 68, 68, 0.12);
+  --color-purple:       #8b5cf6;
+  --color-purple-dim:   rgba(139, 92, 246, 0.12);
+
+  /* Text */
+  --text-primary:   #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-tertiary:  #64748b;
+  --text-dim:       #4b6280;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm:  0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-md:  0 4px 20px rgba(0, 0, 0, 0.45);
+  --shadow-lg:  0 8px 40px rgba(0, 0, 0, 0.55);
+  --shadow-glow-blue:   0 0 16px rgba(59, 130, 246, 0.3);
+  --shadow-glow-danger: 0 0 16px rgba(239, 68, 68, 0.3);
+
+  /* Transitions */
+  --transition-fast: 0.12s ease;
+  --transition-base: 0.18s ease;
+  --transition-slow: 0.3s ease;
+}
+
+/* ── Reset ──────────────────────────────────────────────────────── */
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
+/* ── Base ───────────────────────────────────────────────────────── */
+html, body, #root {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-base);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "cv11", "ss01";
+}
+
+/* ── Scrollbars ─────────────────────────────────────────────────── */
+::-webkit-scrollbar        { width: 5px; height: 5px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: #1e3554; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #2a4a7f; }
+
+/* ── Keyframe animations ────────────────────────────────────────── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+  50%       { opacity: 0.8; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0); }
+}
+
+@keyframes pulse-danger {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  50%       { box-shadow: 0 0 0 5px rgba(239, 68, 68, 0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-in-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(8px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* ── Utility classes ────────────────────────────────────────────── */
+.animate-fade-in       { animation: fade-in 0.35s ease both; }
+.animate-slide-right   { animation: slide-in-right 0.3s ease both; }
+.animate-count         { animation: count-up 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+/* ── Leaflet dark theme overrides ───────────────────────────────── */
+.leaflet-container {
+  background: var(--bg-base) !important;
+  font-family: var(--font-sans) !important;
+}
+
+.leaflet-tile-pane {
+  filter: brightness(0.75) contrast(1.05) saturate(0.7);
+}
+
+/* Dark popup */
+.leaflet-popup-content-wrapper {
+  background: #0f1f33 !important;
+  border: 1px solid #1a2d47 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6) !important;
+  color: #e2e8f0 !important;
+  padding: 0 !important;
+}
+
+.leaflet-popup-content {
+  margin: 12px 14px !important;
+  font-family: var(--font-sans) !important;
+  font-size: 0.78rem !important;
+  line-height: 1.6 !important;
+  color: #e2e8f0 !important;
+}
+
+.leaflet-popup-tip {
+  background: #0f1f33 !important;
+  border: none !important;
+}
+
+.leaflet-popup-close-button {
+  color: #64748b !important;
+  font-size: 16px !important;
+  padding: 4px 8px !important;
+}
+
+.leaflet-popup-close-button:hover {
+  color: #94a3b8 !important;
+  background: transparent !important;
+}
+
+/* Attribution */
+.leaflet-control-attribution {
+  background: rgba(6, 14, 26, 0.75) !important;
+  color: #4b6280 !important;
+  font-size: 10px !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+.leaflet-control-attribution a {
+  color: #64748b !important;
+}
+
+/* Zoom controls */
+.leaflet-control-zoom {
+  border: 1px solid #1a2d47 !important;
+  border-radius: 8px !important;
+  overflow: hidden;
+  box-shadow: var(--shadow-md) !important;
+}
+
+.leaflet-control-zoom a {
+  background: rgba(10, 22, 40, 0.9) !important;
+  color: #64748b !important;
+  border-bottom: 1px solid #1a2d47 !important;
+  font-size: 16px !important;
+  line-height: 26px !important;
+  width: 26px !important;
+  height: 26px !important;
+  backdrop-filter: blur(6px);
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.leaflet-control-zoom a:last-child {
+  border-bottom: none !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: rgba(30, 53, 80, 0.95) !important;
+  color: #94a3b8 !important;
+}
+
+/* ── Button reset helper ─────────────────────────────────────────── */
+button { font-family: var(--font-sans); }

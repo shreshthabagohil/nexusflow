@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+  <!-- Dark background tile -->
+  <rect width="64" height="64" rx="12" fill="#060e1a"/>
+
+  <!-- Grid lines — subtle -->
+  <line x1="21" y1="4"  x2="21" y2="60" stroke="#ffffff" stroke-opacity="0.07" stroke-width="0.8"/>
+  <line x1="32" y1="4"  x2="32" y2="60" stroke="#ffffff" stroke-opacity="0.07" stroke-width="0.8"/>
+  <line x1="43" y1="4"  x2="43" y2="60" stroke="#ffffff" stroke-opacity="0.07" stroke-width="0.8"/>
+  <line x1="4"  y1="21" x2="60" y2="21" stroke="#ffffff" stroke-opacity="0.07" stroke-width="0.8"/>
+  <line x1="4"  y1="32" x2="60" y2="32" stroke="#ffffff" stroke-opacity="0.07" stroke-width="0.8"/>
+  <line x1="4"  y1="43" x2="60" y2="43" stroke="#ffffff" stroke-opacity="0.07" stroke-width="0.8"/>
+
+  <!-- Connector lines between nodes (drawn first, under nodes) -->
+  <line x1="12" y1="50" x2="27" y2="37" stroke="#94a3b8" stroke-width="1.2" stroke-opacity="0.4"/>
+  <line x1="27" y1="37" x2="37" y2="27" stroke="#94a3b8" stroke-width="1.2" stroke-opacity="0.4"/>
+
+  <!-- Main teal arc: the "predictive route" -->
+  <path d="M 12,50 C 20,44 30,30 52,14" stroke="url(#arcGrad)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+
+  <!-- Arrow head on arc tip -->
+  <polyline points="46,12 52,14 50,20" stroke="#00d4aa" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Node: origin (dim) -->
+  <circle cx="12" cy="50" r="4"   fill="#1e3a5f" stroke="#4b6280" stroke-width="1.2"/>
+  <!-- Node: mid-point (white) -->
+  <circle cx="27" cy="37" r="3.5" fill="#1e3a5f" stroke="#64748b" stroke-width="1.2"/>
+  <!-- Node: active (teal glow) -->
+  <circle cx="37" cy="27" r="5"   fill="#00d4aa" fill-opacity="0.18" stroke="#00d4aa" stroke-width="1.8"/>
+  <circle cx="37" cy="27" r="2.5" fill="#00d4aa"/>
+  <!-- Node: destination tip (arrow handled above) -->
+  <circle cx="52" cy="14" r="3"   fill="#1e3a5f" stroke="#00d4aa" stroke-width="1.4" stroke-opacity="0.6"/>
+
+  <!-- Glow halo on active node -->
+  <circle cx="37" cy="27" r="8" fill="#00d4aa" fill-opacity="0.06"/>
+
+  <defs>
+    <linearGradient id="arcGrad" x1="12" y1="50" x2="52" y2="14" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#3b82f6" stop-opacity="0.6"/>
+      <stop offset="60%"  stop-color="#00d4aa"/>
+      <stop offset="100%" stop-color="#00d4aa"/>
+    </linearGradient>
+  </defs>
+</svg>
