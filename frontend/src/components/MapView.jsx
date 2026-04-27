@@ -1,221 +1,512 @@
-/**
- * MapView — SVG world map with risk-coloured port pins.
- *
- * Uses react-simple-maps so country outlines render from bundled TopoJSON
- * data — no external tile CDN needed, works in any network environment.
- *
- * Props:
- *   shipments     {Array}    Live shipment list (updated via WebSocket)
- *   onViewReroute {Function} Called with shipment object when a pin is clicked
- */
+import "leaflet/dist/leaflet.css";
+import { MapContainer, TileLayer, CircleMarker, Popup, Polyline } from "react-leaflet";
+import { useMemo, useState } from "react";
 
-import { useState } from "react";
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  Marker,
-  Line,
-} from "react-simple-maps";
+// Note: riskFilter + onFilterChange + tierCounts can be passed as props (controlled mode)
+// or omitted to use internal state (standalone mode).
 
-// Public TopoJSON world file (110m resolution — tiny, fast)
-const GEO_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
-
-// Port coordinates [lng, lat] — react-simple-maps uses [lng, lat] order
 const PORT_COORDS = {
-  "Shanghai":          [121.47,  31.23],
-  "Singapore":         [103.82,   1.35],
-  "Rotterdam":         [  4.48,  51.92],
-  "Los Angeles":       [-118.26, 33.74],
-  "Dubai (Jebel Ali)": [ 55.03,  24.99],
-  "Hamburg":           [  9.97,  53.58],
-  "Mumbai":            [ 72.82,  18.93],
-  "Busan":             [129.08,  35.18],
-  "Hong Kong":         [114.17,  22.32],
-  "Antwerp":           [  4.40,  51.22],
-  "New York":          [-74.04,  40.68],
-  "Colombo":           [ 79.84,   6.93],
-  "Port Klang":        [101.40,   3.00],
-  "Long Beach":        [-118.19, 33.75],
-  "Tanjung Pelepas":   [103.55,   1.36],
-  "Yokohama":          [139.64,  35.44],
-  "Durban":            [ 31.02, -29.86],
-  "Santos":            [-46.33, -23.96],
-  "Mombasa":           [ 39.67,  -4.04],
-  "Jeddah":            [ 39.19,  21.49],
-  "Felixstowe":        [  1.35,  51.96],
-  "Vancouver":         [-123.12, 49.28],
-  "Shenzhen":          [114.06,  22.54],
-  "Qingdao":           [120.38,  36.07],
-  "Tianjin":           [117.28,  38.91],
+  "Singapore":          [1.3521,   103.8198],
+  "Mumbai":             [18.9254,   72.8242],
+  "Rotterdam":          [51.9244,    4.4777],
+  "Mombasa":            [-4.0435,   39.6682],
+  "Los Angeles":        [33.7395, -118.2592],
+  "Vancouver":          [49.2827, -123.1207],
+  "Hamburg":            [53.5753,    9.9690],
+  "Dubai (Jebel Ali)":  [24.9857,   55.0272],
+  "Busan":              [35.1796,  129.0756],
+  "Yokohama":           [35.4437,  139.6380],
+  "Antwerp":            [51.2213,    4.3997],
+  "New York":           [40.6840,  -74.0445],
+  "Durban":             [-29.8587,  31.0218],
+  "Colombo":            [6.9333,    79.8428],
+  "Hong Kong":          [22.3193,  114.1694],
+  "Felixstowe":         [51.9559,    1.3512],
+  "Port Klang":         [3.0000,   101.4000],
+  "Long Beach":         [33.7543, -118.1890],
+  "Santos":             [-23.9608, -46.3336],
+  "Tanjung Pelepas":    [1.3630,   103.5534],
+  "Shenzhen":           [22.5431,  114.0579],
+  "Shanghai":           [31.2304,  121.4737],
+  "Qingdao":            [36.0671,  120.3826],
+  "Tianjin":            [38.9142,  117.2804],
+  "Jeddah":             [21.4858,   39.1925],
 };
 
-function riskColour(score) {
-  if (score > 60) return "#ef4444";   // red-500
-  if (score > 40) return "#f97316";   // orange-500
-  return "#22c55e";                   // green-500
+function riskColor(score, status) {
+  if (score > 90) return "#ff2d2d";   // Critical — brighter scarlet
+  if (score > 60) return "#ef4444";   // High
+  if (score > 40) return "#f59e0b";   // Medium
+  return "#10b981";                   // Low
 }
 
-function aggregateByPort(shipments) {
-  const portMap = {};
-  for (const s of shipments) {
-    const score = parseFloat(s.risk_score ?? 0);
-    for (const field of ["origin_port", "destination_port"]) {
-      const port = s[field];
-      if (!port || !PORT_COORDS[port]) continue;
-      if (!portMap[port]) portMap[port] = { maxScore: 0, shipments: [] };
-      if (score > portMap[port].maxScore) portMap[port].maxScore = score;
-      portMap[port].shipments.push(s);
-    }
+function riskTier(score) {
+  if (score > 90) return "critical";
+  if (score > 60) return "high";
+  if (score > 40) return "medium";
+  return "low";
+}
+
+function arcPoints(lat1, lng1, lat2, lng2, n = 28) {
+  const midLat  = (lat1 + lat2) / 2;
+  const midLng  = (lng1 + lng2) / 2;
+  const dist    = Math.sqrt((lat2 - lat1) ** 2 + (lng2 - lng1) ** 2);
+  const ctrlLat = midLat + dist * 0.4;
+  const pts     = [];
+  for (let i = 0; i <= n; i++) {
+    const t = i / n;
+    pts.push([
+      (1 - t) ** 2 * lat1 + 2 * (1 - t) * t * ctrlLat + t ** 2 * lat2,
+      (1 - t) ** 2 * lng1 + 2 * (1 - t) * t * midLng  + t ** 2 * lng2,
+    ]);
   }
-  return portMap;
+  return pts;
 }
 
-export default function MapView({ shipments = [], onViewReroute }) {
-  const [tooltip, setTooltip] = useState(null);
-  const portMap = aggregateByPort(shipments);
+const FILTERS = [
+  { key: "all",       label: "All",       dot: null,      color: "#94a3b8", activeColor: "#e2e8f0" },
+  { key: "critical",  label: "Critical",  dot: "#ff2d2d", color: "#ff6060", activeColor: "#ff9090" },
+  { key: "high",      label: "High",      dot: "#ef4444", color: "#f87171", activeColor: "#fca5a5" },
+  { key: "medium",    label: "Medium",    dot: "#f59e0b", color: "#fbbf24", activeColor: "#fde68a" },
+  { key: "low",       label: "Low",       dot: "#10b981", color: "#34d399", activeColor: "#6ee7b7" },
+  { key: "delayed",   label: "Delayed",   dot: "#fb923c", color: "#fdba74", activeColor: "#fed7aa" },
+  { key: "rerouting", label: "Rerouting", dot: "#8b5cf6", color: "#a78bfa", activeColor: "#c4b5fd" },
+];
 
-  const riskLines = shipments
-    .filter((s) => parseFloat(s.risk_score ?? 0) > 60)
-    .map((s) => {
-      const from = PORT_COORDS[s.origin_port];
-      const to   = PORT_COORDS[s.destination_port];
-      if (!from || !to) return null;
-      return { id: s.id, from, to };
-    })
-    .filter(Boolean);
+const PREVIEW_COUNT = 5; // dots shown per tier in "all" mode
+
+export default function MapView({ shipments, riskFilter: riskFilterProp, onFilterChange, tierCounts: tierCountsProp }) {
+  // Support controlled (from Dashboard) or standalone (internal state) mode
+  const [internalFilter, setInternalFilter] = useState("all");
+  const riskFilter    = riskFilterProp    ?? internalFilter;
+  const setRiskFilter = onFilterChange    ?? setInternalFilter;
+  const controlled    = riskFilterProp    !== undefined;
+
+  // Hovered ship ID — drives route-on-hover behavior
+  const [hoveredId, setHoveredId] = useState(null);
+
+  const isPreviewMode = riskFilter === "all";
+
+  // Count per tier — use prop if provided (avoids duplicate computation)
+  const tierCountsLocal = useMemo(() => {
+    if (tierCountsProp) return tierCountsProp;
+    if (!shipments?.length) return { critical: 0, high: 0, medium: 0, low: 0, delayed: 0, rerouting: 0 };
+    return {
+      critical:  shipments.filter((s) => Number(s.risk_score) > 90).length,
+      high:      shipments.filter((s) => Number(s.risk_score) > 60 && Number(s.risk_score) <= 90).length,
+      medium:    shipments.filter((s) => Number(s.risk_score) >= 40 && Number(s.risk_score) <= 60).length,
+      low:       shipments.filter((s) => Number(s.risk_score) < 40).length,
+      delayed:   shipments.filter((s) => s.status === "delayed").length,
+      rerouting: shipments.filter((s) => s.status === "rerouting").length,
+    };
+  }, [shipments, tierCountsProp]);
+  const tierCounts = tierCountsProp ?? tierCountsLocal;
+
+  // What dots to show
+  const visibleShipments = useMemo(() => {
+    if (!shipments?.length) return [];
+
+    const sortDesc = (arr) =>
+      [...arr].sort((a, b) => Number(b.risk_score) - Number(a.risk_score));
+
+    if (riskFilter === "all") {
+      // Preview mode: top 5 from each score tier
+      return [
+        ...sortDesc(shipments.filter((s) => Number(s.risk_score) > 90)).slice(0, PREVIEW_COUNT),
+        ...sortDesc(shipments.filter((s) => Number(s.risk_score) > 60 && Number(s.risk_score) <= 90)).slice(0, PREVIEW_COUNT),
+        ...sortDesc(shipments.filter((s) => Number(s.risk_score) >= 40 && Number(s.risk_score) <= 60)).slice(0, PREVIEW_COUNT),
+        ...sortDesc(shipments.filter((s) => Number(s.risk_score) < 40)).slice(0, PREVIEW_COUNT),
+      ];
+    }
+
+    if (riskFilter === "delayed")   return shipments.filter((s) => s.status === "delayed");
+    if (riskFilter === "rerouting") return shipments.filter((s) => s.status === "rerouting");
+
+    return shipments.filter((s) => riskTier(Number(s.risk_score)) === riskFilter);
+  }, [shipments, riskFilter]);
+
+  // Ambient arc lines — only shown in preview "all" mode (top high-risk routes as context)
+  // In filter mode: NO ambient arcs. Routes only appear on hover.
+  const ambientArcs = useMemo(() => {
+    if (!isPreviewMode || !shipments?.length) return [];
+    return shipments
+      .filter((s) => Number(s.risk_score) > 60)
+      .slice(0, 12)
+      .map((s) => {
+        const o = PORT_COORDS[s.origin_port];
+        const d = PORT_COORDS[s.destination_port];
+        if (!o || !d) return null;
+        const score = Number(s.risk_score);
+        return { id: s.id, points: arcPoints(o[0], o[1], d[0], d[1]), color: riskColor(score, s.status), score };
+      })
+      .filter(Boolean);
+  }, [shipments, isPreviewMode]);
+
+  // Hovered route — split into completed (origin→current, faded) and remaining (current→dest, bright)
+  // Ship dot sits exactly at the seam between the two arcs.
+  const hoveredRoute = useMemo(() => {
+    if (!hoveredId) return null;
+    const allShips = shipments ?? [];
+    const s = allShips.find((x) => x.id === hoveredId);
+    if (!s) return null;
+    const o     = PORT_COORDS[s.origin_port];
+    const d     = PORT_COORDS[s.destination_port];
+    const color = riskColor(Number(s.risk_score), s.status);
+    const hasPos = s.current_lat != null && s.current_lng != null;
+    const cur   = hasPos ? [s.current_lat, s.current_lng] : null;
+
+    return {
+      // Completed portion: origin port → current position (faded dashed)
+      completed: o && cur  ? arcPoints(o[0], o[1], cur[0], cur[1], 18) : null,
+      // Remaining portion: current position → destination port (bright solid)
+      remaining: cur && d  ? arcPoints(cur[0], cur[1], d[0], d[1], 18) : null,
+      // Fallback full arc if no position data
+      fullArc:   (!cur && o && d) ? arcPoints(o[0], o[1], d[0], d[1]) : null,
+      origin:    o,
+      dest:      d,
+      color,
+      score:     Number(s.risk_score),
+    };
+  }, [hoveredId, shipments]);
+
+  if (!shipments?.length) {
+    return (
+      <div style={{
+        width: "100%", height: "100%", background: "#060e1a",
+        display: "flex", alignItems: "center", justifyContent: "center",
+      }}>
+        <span style={{ color: "#4b6280", fontSize: "0.85rem" }}>Awaiting data…</span>
+      </div>
+    );
+  }
 
   return (
-    <div style={{ position: "relative", width: "100%", height: "100%", background: "#0f172a" }}>
-      <ComposableMap
-        projection="geoMercator"
-        projectionConfig={{ center: [10, 15], scale: 140 }}
-        style={{ width: "100%", height: "100%" }}
+    <div style={{ position: "relative", width: "100%", height: "100%" }}>
+      <MapContainer
+        center={[22, 12]}
+        zoom={2}
+        style={{ height: "100%", width: "100%", background: "#060e1a" }}
+        preferCanvas={true}
+        zoomControl={true}
       >
-        {/* Country fills + visible borders — no CDN tiles needed */}
-        <Geographies geography={GEO_URL}>
-          {({ geographies }) =>
-            geographies.map((geo) => (
-              <Geography
-                key={geo.rsmKey}
-                geography={geo}
-                style={{
-                  default: {
-                    fill:        "#1e293b",
-                    stroke:      "#334155",
-                    strokeWidth: 0.5,
-                    outline:     "none",
-                  },
-                  hover:   { fill: "#1e293b", outline: "none" },
-                  pressed: { fill: "#1e293b", outline: "none" },
-                }}
-              />
-            ))
-          }
-        </Geographies>
+        <TileLayer
+          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+          subdomains="abcd"
+          maxZoom={20}
+        />
 
-        {/* Dashed red lines for at-risk shipment routes */}
-        {riskLines.map((line) => (
-          <Line
-            key={line.id}
-            from={line.from}
-            to={line.to}
-            stroke="#ef4444"
-            strokeWidth={1}
-            strokeOpacity={0.35}
-            strokeDasharray="4 3"
+        {/* Ambient arcs — only in preview "all" mode, top 12 high-risk routes */}
+        {ambientArcs.map((arc) => (
+          <Polyline
+            key={arc.id + "-ambient"}
+            positions={arc.points}
+            pathOptions={{
+              color:     arc.color,
+              weight:    1.2,
+              opacity:   arc.score > 85 ? 0.45 : 0.22,
+              dashArray: "6 10",
+            }}
           />
         ))}
 
-        {/* One marker per port — colour/size by worst risk score */}
-        {Object.entries(portMap).map(([portName, { maxScore, shipments: ps }]) => {
-          const coords = PORT_COORDS[portName];
-          const colour = riskColour(maxScore);
-          const r      = maxScore > 60 ? 6 : maxScore > 40 ? 4.5 : 3.5;
-          const worstShipment = ps.reduce(
-            (best, s) =>
-              parseFloat(s.risk_score ?? 0) > parseFloat(best.risk_score ?? 0) ? s : best,
-            ps[0]
-          );
+        {/* Hover route — completed portion (origin → current ship pos, faded dashed) */}
+        {hoveredRoute?.completed && (
+          <Polyline
+            positions={hoveredRoute.completed}
+            pathOptions={{
+              color:     hoveredRoute.color,
+              weight:    1.8,
+              opacity:   0.35,
+              dashArray: "5 7",
+            }}
+          />
+        )}
+
+        {/* Hover route — remaining portion (current ship pos → destination, bright solid) */}
+        {hoveredRoute?.remaining && (
+          <Polyline
+            positions={hoveredRoute.remaining}
+            pathOptions={{
+              color:   hoveredRoute.color,
+              weight:  2.5,
+              opacity: 0.88,
+            }}
+          />
+        )}
+
+        {/* Fallback full arc when no GPS position available */}
+        {hoveredRoute?.fullArc && (
+          <Polyline
+            positions={hoveredRoute.fullArc}
+            pathOptions={{
+              color:     hoveredRoute.color,
+              weight:    2.5,
+              opacity:   0.75,
+              dashArray: "7 5",
+            }}
+          />
+        )}
+
+        {/* Origin port dot */}
+        {hoveredRoute?.origin && (
+          <CircleMarker
+            center={hoveredRoute.origin}
+            radius={4}
+            pathOptions={{
+              color:       hoveredRoute.color,
+              fillColor:   hoveredRoute.color,
+              fillOpacity: 0.35,
+              weight:      1.5,
+              opacity:     0.6,
+              dashArray:   "3 3",
+            }}
+          />
+        )}
+
+        {/* Destination port dot */}
+        {hoveredRoute?.dest && (
+          <CircleMarker
+            center={hoveredRoute.dest}
+            radius={4}
+            pathOptions={{
+              color:       hoveredRoute.color,
+              fillColor:   hoveredRoute.color,
+              fillOpacity: 0.55,
+              weight:      2,
+              opacity:     0.8,
+            }}
+          />
+        )}
+
+        {/* Ship markers */}
+        {visibleShipments.map((s) => {
+          if (s.current_lat == null || s.current_lng == null) return null;
+          const score     = Number(s.risk_score ?? 0);
+          const isReroute = s.status === "rerouting";
+          const color     = riskColor(score, s.status);
+          const isHovered = s.id === hoveredId;
+
+          // Base dot sizing
+          let radius, strokeWeight, strokeOpacity;
+          if (isPreviewMode) {
+            if (isReroute || score > 60)  { radius = 10; strokeWeight = 7; strokeOpacity = 0.18; }
+            else if (score > 40)           { radius = 7;  strokeWeight = 5; strokeOpacity = 0.15; }
+            else                           { radius = 5;  strokeWeight = 4; strokeOpacity = 0.12; }
+          } else {
+            if (riskFilter === "rerouting") { radius = 4.5; strokeWeight = 4; strokeOpacity = 0.2; }
+            else if (score > 60)            { radius = 4;   strokeWeight = 3; strokeOpacity = 0.2; }
+            else if (score > 40)            { radius = 3.5; strokeWeight = 2; strokeOpacity = 0.18; }
+            else                            { radius = 3;   strokeWeight = 2; strokeOpacity = 0.15; }
+          }
+          // Hovered dot: bigger + brighter ring
+          if (isHovered) { radius += 3; strokeWeight = 8; strokeOpacity = 0.35; }
 
           return (
-            <Marker
-              key={portName}
-              coordinates={coords}
-              onMouseEnter={(evt) =>
-                setTooltip({ portName, maxScore, count: ps.length, x: evt.clientX, y: evt.clientY })
-              }
-              onMouseLeave={() => setTooltip(null)}
-              onClick={() => {
-                if (onViewReroute && maxScore > 60) onViewReroute(worstShipment);
+            <CircleMarker
+              key={s.id}
+              center={[s.current_lat, s.current_lng]}
+              radius={radius}
+              pathOptions={{
+                color:       color,
+                fillColor:   color,
+                fillOpacity: isHovered ? 1 : 0.88,
+                weight:      strokeWeight,
+                opacity:     strokeOpacity,
               }}
-              style={{ cursor: maxScore > 60 ? "pointer" : "default" }}
+              eventHandlers={{
+                mouseover: () => setHoveredId(s.id),
+                mouseout:  () => setHoveredId(null),
+              }}
             >
-              {/* Outer ring for high-risk ports */}
-              {maxScore > 60 && (
-                <circle r={r + 5} fill="none" stroke={colour} strokeWidth={1} strokeOpacity={0.35} />
-              )}
-              <circle r={r} fill={colour} fillOpacity={0.9} stroke="#0f172a" strokeWidth={0.8} />
-            </Marker>
+              <Popup>
+                <div style={{
+                  fontFamily: "'Inter', system-ui, sans-serif",
+                  fontSize:   "0.78rem",
+                  lineHeight: 1.65,
+                  minWidth:   165,
+                  color:      "#e2e8f0",
+                }}>
+                  <div style={{
+                    fontWeight: 700, marginBottom: 5,
+                    color:      "#e2e8f0",
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize:   "0.8rem",
+                    display:    "flex", alignItems: "center", gap: 6,
+                  }}>
+                    {s.id}
+                    {isReroute && (
+                      <span style={{
+                        background: "rgba(139,92,246,0.2)",
+                        color:      "#a78bfa",
+                        border:     "1px solid rgba(139,92,246,0.3)",
+                        borderRadius: 3,
+                        padding:    "0 5px",
+                        fontSize:   "0.6rem",
+                        fontWeight: 700,
+                        letterSpacing: "0.5px",
+                      }}>
+                        REROUTING
+                      </span>
+                    )}
+                  </div>
+                  <div style={{ color: "#94a3b8", fontSize: "0.73rem", display: "flex", alignItems: "center", gap: 4, marginBottom: 3 }}>
+                    {s.origin_port}
+                    <span style={{ color: "#3b82f6" }}>→</span>
+                    {s.destination_port}
+                  </div>
+                  <div style={{ color: "#64748b", fontSize: "0.7rem", marginBottom: 7 }}>
+                    {s.carrier}{s.cargo_type ? ` · ${s.cargo_type}` : ""}
+                  </div>
+                  <div style={{
+                    display:     "inline-flex",
+                    alignItems:  "center", gap: 5,
+                    background:  `${color}18`,
+                    border:      `1px solid ${color}33`,
+                    borderRadius: 4,
+                    padding:     "2px 8px",
+                    fontSize:    "0.72rem", fontWeight: 700, color,
+                  }}>
+                    ⚠ Risk: {score.toFixed(1)}
+                  </div>
+                </div>
+              </Popup>
+            </CircleMarker>
           );
         })}
-      </ComposableMap>
+      </MapContainer>
 
-      {/* Hover tooltip */}
-      {tooltip && (
-        <div
-          style={{
-            position:      "fixed",
-            left:          tooltip.x + 14,
-            top:           tooltip.y - 12,
-            background:    "rgba(15,23,42,0.95)",
-            border:        `1px solid ${riskColour(tooltip.maxScore)}`,
-            borderRadius:  6,
-            padding:       "6px 10px",
-            pointerEvents: "none",
-            zIndex:        9999,
-            fontFamily:    "monospace",
-            fontSize:      12,
-            color:         "#e2e8f0",
-            whiteSpace:    "nowrap",
-          }}
-        >
-          <div style={{ fontWeight: "bold", marginBottom: 2 }}>{tooltip.portName}</div>
-          <div>{tooltip.count} shipment{tooltip.count !== 1 ? "s" : ""}</div>
-          <div>
-            Max risk:{" "}
-            <span style={{ color: riskColour(tooltip.maxScore), fontWeight: "bold" }}>
-              {tooltip.maxScore.toFixed(1)}
-            </span>
-          </div>
-          {tooltip.maxScore > 60 && (
-            <div style={{ color: "#94a3b8", marginTop: 2 }}>Click to reroute</div>
-          )}
+      {/* ── Filter bar — only shown in standalone (uncontrolled) mode ── */}
+      {!controlled && (
+        <div style={{
+          position:       "absolute",
+          top:            10,
+          left:           50,
+          zIndex:         1000,
+          display:        "flex",
+          alignItems:     "center",
+          gap:            3,
+          background:     "linear-gradient(135deg, rgba(10,22,40,0.97) 0%, rgba(6,14,26,0.97) 100%)",
+          borderRadius:   9,
+          padding:        "5px 10px",
+          border:         "1px solid rgba(255,255,255,0.07)",
+          backdropFilter: "blur(16px)",
+          boxShadow:      "inset 0 1px 0 rgba(255,255,255,0.07), 0 8px 32px rgba(0,0,0,0.6), 0 1px 0 rgba(0,0,0,0.4)",
+        }}>
+          <span style={{
+            fontSize: "0.58rem", color: "#4b6280", fontWeight: 700,
+            letterSpacing: "1.2px", textTransform: "uppercase",
+            paddingRight: 7, borderRight: "1px solid rgba(255,255,255,0.06)", marginRight: 2,
+          }}>
+            Filter
+          </span>
+          {FILTERS.map((f) => {
+            const active = riskFilter === f.key;
+            const count  = f.key === "critical" ? tierCounts.critical : f.key === "high" ? tierCounts.high : f.key === "medium" ? tierCounts.medium : f.key === "low" ? tierCounts.low : f.key === "rerouting" ? tierCounts.rerouting : null;
+            return (
+              <button key={f.key} onClick={() => setRiskFilter(f.key)} style={{
+                background: active ? (f.key === "all" ? "rgba(148,163,184,0.12)" : `${f.dot}20`) : "transparent",
+                color: active ? f.activeColor : "#4b6280",
+                border: active ? `1px solid ${f.key === "all" ? "rgba(148,163,184,0.25)" : f.dot + "44"}` : "1px solid transparent",
+                borderRadius: 5, padding: "3px 9px", fontSize: "0.7rem", fontWeight: active ? 700 : 400,
+                cursor: "pointer", transition: "all 0.15s ease", display: "flex", alignItems: "center", gap: 4,
+                boxShadow: active && f.dot ? `0 0 8px ${f.dot}30` : "none",
+              }}
+                onMouseEnter={(e) => { if (!active) e.currentTarget.style.color = "#94a3b8"; }}
+                onMouseLeave={(e) => { if (!active) e.currentTarget.style.color = "#4b6280"; }}
+              >
+                {f.dot && <span style={{ width: 5, height: 5, borderRadius: "50%", background: f.dot, display: "inline-block", flexShrink: 0, opacity: active ? 1 : 0.45, boxShadow: active ? `0 0 6px ${f.dot}` : "none" }} />}
+                {f.label}
+                {count !== null && <span style={{ background: active ? `${f.dot}22` : "rgba(255,255,255,0.05)", color: active ? f.color : "#4b6280", borderRadius: 3, padding: "0 5px", fontSize: "0.6rem", fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>{count}</span>}
+              </button>
+            );
+          })}
         </div>
       )}
 
-      {/* Legend */}
-      <div
-        style={{
-          position:   "absolute",
-          bottom:     12,
-          right:      12,
-          background: "rgba(15,23,42,0.85)",
-          border:     "1px solid #334155",
-          borderRadius: 6,
-          padding:    "8px 12px",
-          fontSize:   11,
-          color:      "#94a3b8",
-        }}
-      >
+      {/* ── Preview mode hint ─────────────────────────────────────── */}
+      {isPreviewMode && (
+        <div style={{
+          position:       "absolute",
+          top:            10,
+          right:          10,
+          zIndex:         1000,
+          background:     "linear-gradient(135deg, rgba(10,22,40,0.96) 0%, rgba(6,14,26,0.96) 100%)",
+          border:         "1px solid rgba(255,255,255,0.06)",
+          borderRadius:   8,
+          padding:        "6px 12px",
+          backdropFilter: "blur(12px)",
+          boxShadow:      "inset 0 1px 0 rgba(255,255,255,0.06), 0 6px 24px rgba(0,0,0,0.5)",
+          display:        "flex",
+          flexDirection:  "column",
+          gap:            3,
+        }}>
+          <div style={{
+            fontSize: "0.58rem", color: "#4b6280", fontWeight: 700,
+            letterSpacing: "0.8px", textTransform: "uppercase", marginBottom: 2,
+          }}>
+            Preview · Top 5 per tier
+          </div>
+          {[
+            { label: `${PREVIEW_COUNT} of ${tierCounts.critical} Critical`, color: "#ff2d2d" },
+            { label: `${PREVIEW_COUNT} of ${tierCounts.high} High`,         color: "#ef4444" },
+            { label: `${PREVIEW_COUNT} of ${tierCounts.medium} Medium`,     color: "#f59e0b" },
+            { label: `${PREVIEW_COUNT} of ${tierCounts.low} Low`,           color: "#10b981" },
+          ].map((r) => (
+            <div key={r.label} style={{ display: "flex", alignItems: "center", gap: 5 }}>
+              <span style={{
+                width: 6, height: 6, borderRadius: "50%",
+                background: r.color, flexShrink: 0,
+                boxShadow: `0 0 5px ${r.color}88`,
+              }} />
+              <span style={{ fontSize: "0.67rem", color: "#64748b" }}>{r.label}</span>
+            </div>
+          ))}
+          <div style={{
+            marginTop:  3,
+            fontSize:   "0.6rem",
+            color:      "#3b5c80",
+            fontStyle:  "italic",
+          }}>
+            Click a filter to see all →
+          </div>
+        </div>
+      )}
+
+      {/* ── Legend (bottom-right) ─────────────────────────────────── */}
+      <div style={{
+        position:       "absolute",
+        bottom:         30,
+        right:          10,
+        zIndex:         1000,
+        background:     "linear-gradient(145deg, rgba(12,26,44,0.97) 0%, rgba(6,14,26,0.97) 100%)",
+        border:         "1px solid rgba(255,255,255,0.06)",
+        borderRadius:   9,
+        padding:        "0.6rem 0.85rem",
+        backdropFilter: "blur(12px)",
+        boxShadow:      "inset 0 1px 0 rgba(255,255,255,0.07), 0 8px 32px rgba(0,0,0,0.55)",
+      }}>
+        <div style={{
+          fontSize: "0.56rem", color: "#4b6280", fontWeight: 700,
+          letterSpacing: "1.1px", textTransform: "uppercase", marginBottom: 6,
+        }}>
+          Risk Level
+        </div>
         {[
-          ["#22c55e", "Low risk  (<40)"],
-          ["#f97316", "Watch  (40–60)"],
-          ["#ef4444", "At risk  (>60)"],
-        ].map(([c, label]) => (
-          <div key={label} style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 3 }}>
-            <div style={{ width: 10, height: 10, borderRadius: "50%", background: c }} />
-            <span>{label}</span>
+          { color: "#10b981", label: "Low  ·  < 40"    },
+          { color: "#f59e0b", label: "Watch  ·  40–60" },
+          { color: "#ef4444", label: "High  ·  > 60"   },
+          { color: "#8b5cf6", label: "Rerouting"       },
+        ].map((l) => (
+          <div key={l.label} style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 4 }}>
+            <span style={{
+              width: 7, height: 7, borderRadius: "50%",
+              background: l.color, flexShrink: 0,
+              boxShadow: `0 0 6px ${l.color}77`,
+            }} />
+            <span style={{ fontSize: "0.67rem", color: "#94a3b8", letterSpacing: "0.2px" }}>
+              {l.label}
+            </span>
           </div>
         ))}
       </div>

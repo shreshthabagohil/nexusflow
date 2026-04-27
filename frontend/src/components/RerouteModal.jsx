@@ -1,222 +1,301 @@
-// frontend/src/components/RerouteModal.jsx
-// Full rerouting modal: fetches 3 Dijkstra route options, lets user select & apply.
+// frontend/src/components/RerouteModal.jsx — matches target UI (medium-blue theme)
 
 import { useState, useEffect } from "react";
 import { getRoutes } from "../services/api";
 
-function costLabel(delta) {
-  if (delta === 0) return { text: "Baseline", color: "#64748b" };
-  if (delta > 0)   return { text: `+$${Math.abs(delta)}K`, color: "#EF4444" };
-  return { text: `-$${Math.abs(delta)}K`, color: "#10B981" };
+function riskColor(score) {
+  if (score > 90) return "#ff2d2d";
+  if (score > 60) return "#ef4444";
+  if (score > 40) return "#f59e0b";
+  return "#10b981";
 }
 
-function riskLabel(delta) {
-  if (delta === 0) return { text: "Same risk", color: "#64748b" };
-  if (delta > 0)   return { text: `+${delta} pts`, color: "#EF4444" };
-  return { text: `${delta} pts`, color: "#10B981" };
+function riskLabel(score) {
+  if (score > 60) return "HIGH";
+  if (score > 40) return "MED";
+  return "LOW";
 }
-
-const ROUTE_COLORS = {
-  "Primary Route":  "#1565C0",
-  "Low-Risk Route": "#E65100",
-  "Express Route":  "#757575",
-};
 
 export default function RerouteModal({ shipment, onClose }) {
-  const [routes, setRoutes]       = useState(null);
-  const [loading, setLoading]     = useState(true);
-  const [error, setError]         = useState(null);
-  const [selected, setSelected]   = useState(null);
-  const [applied, setApplied]     = useState(false);
+  const [routes,   setRoutes]   = useState(null);
+  const [loading,  setLoading]  = useState(true);
+  const [selected, setSelected] = useState(null);
+  const [applied,  setApplied]  = useState(false);
 
   useEffect(() => {
     if (!shipment?.id) return;
     setLoading(true);
-    setError(null);
     setApplied(false);
     setSelected(null);
-
     getRoutes(shipment.id).then((data) => {
-      if (data?.reroute_options?.length > 0) {
-        setRoutes(data.reroute_options);
-        setSelected(0); // pre-select primary
-      } else {
-        setError("No routes available for this shipment.");
-      }
+      setRoutes(data?.reroute_options ?? []);
+      if (data?.reroute_options?.length) setSelected(0);
       setLoading(false);
     });
   }, [shipment?.id]);
 
-  function handleApply() {
-    if (selected === null || !routes) return;
-    setApplied(true);
-    // In a real system we'd POST to /api/shipments/{id}/reroute
-    // For demo we update locally and show success state
-    setTimeout(onClose, 2000);
-  }
-
   if (!shipment) return null;
 
-  // Find the route with highest risk_reduction for "RECOMMENDED" badge
-  const bestIdx = routes.reduce(
-    (best, r, i) =>
-      r.risk_reduction > (routes[best]?.risk_reduction ?? 0) ? i : best,
-    0
-  );
+  const score  = Number(shipment.risk_score ?? 0);
+  const rColor = riskColor(score);
+  const rLabel = riskLabel(score);
 
   return (
     <div
-      style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000 }}
       onClick={onClose}
+      style={{
+        position:       "fixed",
+        inset:          0,
+        background:     "rgba(0,0,0,0.65)",
+        display:        "flex",
+        alignItems:     "center",
+        justifyContent: "center",
+        zIndex:         2000,
+        backdropFilter: "blur(4px)",
+        animation:      "fade-in 0.18s ease",
+      }}
     >
       <div
-        style={{ background: "#fff", borderRadius: 12, padding: "1.75rem", width: "min(580px, 95vw)", boxShadow: "0 8px 40px rgba(0,0,0,0.22)", maxHeight: "90vh", overflowY: "auto" }}
         onClick={(e) => e.stopPropagation()}
+        style={{
+          background:   "#162b46",
+          border:       "1px solid rgba(255,255,255,0.08)",
+          borderRadius: 12,
+          padding:      "1.5rem",
+          width:        "min(520px, 92vw)",
+          maxHeight:    "86vh",
+          overflowY:    "auto",
+          boxShadow:    "0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04)",
+          color:        "#e2e8f0",
+          animation:    "fade-in 0.22s ease",
+        }}
       >
-        {/* Header */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1.25rem" }}>
+        {/* ── Header ── */}
+        <div style={{
+          display:        "flex",
+          justifyContent: "space-between",
+          alignItems:     "flex-start",
+          marginBottom:   "1.25rem",
+        }}>
           <div>
-            <h2 style={{ margin: 0, fontSize: "1.1rem", fontWeight: 700, color: "#1A2B4A" }}>
-              🔄 Reroute Shipment
-            </h2>
-            <p style={{ margin: "4px 0 0", fontSize: "0.83rem", color: "#64748b" }}>
-              {shipment.origin_port} → {shipment.destination_port}
-            </p>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+              <div style={{ width: 3, height: 18, background: "#3b82f6", borderRadius: 2 }} />
+              <h2 style={{ margin: 0, fontSize: "1rem", fontWeight: 700, color: "#e2e8f0" }}>
+                Reroute Options
+              </h2>
+            </div>
+            <div style={{
+              display: "flex", alignItems: "center", gap: 8,
+              fontSize: "0.8rem", paddingLeft: 11,
+            }}>
+              <span style={{ fontWeight: 700, color: "#e2e8f0" }}>{shipment.id}</span>
+              <span style={{ color: "#94a3b8" }}>
+                {shipment.origin_port} → {shipment.destination_port}
+              </span>
+              <span style={{
+                background:   `${rColor}20`,
+                color:        rColor,
+                border:       `1px solid ${rColor}50`,
+                borderRadius: 4,
+                padding:      "2px 9px",
+                fontSize:     "0.7rem",
+                fontWeight:   700,
+              }}>
+                {score.toFixed(1)} {rLabel}
+              </span>
+            </div>
           </div>
-          <button onClick={onClose} style={{ background: "none", border: "none", fontSize: "1.2rem", cursor: "pointer", color: "#64748b", padding: 4 }}>✕</button>
+
+          <button
+            onClick={onClose}
+            style={{
+              background:     "rgba(255,255,255,0.07)",
+              border:         "1px solid rgba(255,255,255,0.12)",
+              color:          "#94a3b8",
+              width:          28,
+              height:         28,
+              display:        "flex",
+              alignItems:     "center",
+              justifyContent: "center",
+              borderRadius:   "50%",
+              cursor:         "pointer",
+              fontSize:       "0.85rem",
+              transition:     "all 0.15s",
+              flexShrink:     0,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.12)";
+              e.currentTarget.style.color      = "#e2e8f0";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.07)";
+              e.currentTarget.style.color      = "#94a3b8";
+            }}
+          >
+            ✕
+          </button>
         </div>
 
-        {/* Shipment summary row */}
-        <div style={{ display: "flex", gap: "1rem", background: "#f8fafc", borderRadius: 8, padding: "0.7rem 1rem", marginBottom: "1.25rem", fontSize: "0.82rem" }}>
-          <span><strong style={{ color: "#1A2B4A" }}>ID:</strong> {shipment.id}</span>
-          <span><strong style={{ color: "#1A2B4A" }}>Carrier:</strong> {shipment.carrier}</span>
-          <span><strong style={{ color: "#1A2B4A" }}>Status:</strong> {shipment.status?.replace("_", " ")}</span>
-          <span>
-            <strong style={{ color: "#1A2B4A" }}>Risk:</strong>{" "}
-            <span style={{ color: shipment.risk_score > 70 ? "#EF4444" : shipment.risk_score > 40 ? "#F59E0B" : "#10B981", fontWeight: 600 }}>
-              {shipment.risk_score}
-            </span>
-          </span>
-        </div>
-
-        {/* Loading state */}
+        {/* ── Loading ── */}
         {loading && (
-          <div style={{ textAlign: "center", padding: "2rem 0", color: "#64748b" }}>
-            <div style={{ fontSize: "1.5rem", marginBottom: 8 }}>🗺️</div>
-            Computing optimal routes…
+          <div style={{ textAlign: "center", padding: "2.5rem 0", color: "#64748b" }}>
+            <div style={{
+              width:        28,
+              height:       28,
+              border:       "2px solid rgba(255,255,255,0.08)",
+              borderTopColor: "#3b82f6",
+              borderRadius: "50%",
+              animation:    "spin 0.8s linear infinite",
+              margin:       "0 auto 12px",
+            }} />
+            <p style={{ fontSize: "0.85rem", margin: 0 }}>Computing optimal routes…</p>
           </div>
         )}
 
-        {/* Error state */}
-        {!loading && error && (
-          <div style={{ padding: "1rem", background: "#fef2f2", border: "1px solid #fecaca", borderRadius: 8, color: "#991b1b", fontSize: "0.875rem" }}>
-            {error}
-          </div>
-        )}
-
-        {/* Success state */}
+        {/* ── Success ── */}
         {applied && (
-          <div style={{ padding: "1rem", background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 8, color: "#065f46", fontSize: "0.9rem", textAlign: "center", fontWeight: 600 }}>
-            ✅ Shipment rerouted via <em>{routes[selected]?.route_name}</em>. Closing…
+          <div style={{
+            padding:      "1rem",
+            background:   "rgba(16,185,129,0.1)",
+            border:       "1px solid rgba(16,185,129,0.25)",
+            borderRadius: 8,
+            color:        "#34d399",
+            textAlign:    "center",
+            fontWeight:   700,
+            fontSize:     "0.88rem",
+          }}>
+            ✓ Rerouted via Low-Risk Route. Closing…
           </div>
         )}
 
-        {/* Route options */}
-        {!loading && !error && !applied && routes && (
-          <>
-            <p style={{ margin: "0 0 0.75rem", fontSize: "0.85rem", color: "#64748b", fontWeight: 500 }}>
-              Select a route option:
-            </p>
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-              {routes.map((route, idx) => {
-                const isSelected = selected === idx;
-                const routeColor = ROUTE_COLORS[route.route_name] ?? route.color ?? "#1565C0";
-                const cost       = costLabel(route.cost_delta);
-                const risk       = riskLabel(route.risk_delta);
+        {/* ── Route options ── */}
+        {!loading && !applied && routes?.map((r, idx) => {
+          const isSelected = selected === idx;
+          const COLORS     = ["#3b82f6", "#f97316", "#6b7280"];
+          const c          = r.color ?? COLORS[idx] ?? "#3b82f6";
 
-                return (
-                  <button
-                    key={idx}
-                    onClick={() => setSelected(idx)}
-                    style={{
-                      background: isSelected ? "#f0f7ff" : "#fafafa",
-                      border: `2px solid ${isSelected ? routeColor : "#e2e8f0"}`,
-                      borderRadius: 10,
-                      padding: "0.9rem 1rem",
-                      cursor: "pointer",
-                      textAlign: "left",
-                      transition: "border-color 0.2s, background 0.2s",
-                    }}
-                  >
-                    {/* Route name + color swatch */}
-                    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.5rem" }}>
-                      <span style={{ width: 14, height: 14, borderRadius: "50%", background: routeColor, flexShrink: 0 }} />
-                      <span style={{ fontWeight: 700, fontSize: "0.9rem", color: "#1A2B4A" }}>
-                        {route.route_name}
-                      </span>
-                      {isSelected && (
-                        <span style={{ marginLeft: "auto", fontSize: "0.75rem", background: routeColor, color: "#fff", borderRadius: 12, padding: "1px 9px" }}>
-                          Selected
-                        </span>
-                      )}
-                    </div>
+          return (
+            <div
+              key={idx}
+              onClick={() => setSelected(idx)}
+              style={{
+                background:   isSelected
+                  ? `linear-gradient(135deg, ${c}15 0%, rgba(12,24,48,0.85) 100%)`
+                  : "rgba(9,18,36,0.55)",
+                border:       `1px solid ${isSelected ? c + "55" : "rgba(255,255,255,0.07)"}`,
+                borderRadius: 8,
+                padding:      "0.9rem 1rem",
+                marginBottom: "0.6rem",
+                cursor:       "pointer",
+                transition:   "all 0.15s ease",
+              }}
+              onMouseEnter={(e) => {
+                if (!isSelected) e.currentTarget.style.background = "rgba(255,255,255,0.04)";
+              }}
+              onMouseLeave={(e) => {
+                if (!isSelected) e.currentTarget.style.background = "rgba(9,18,36,0.55)";
+              }}
+            >
+              {/* Route header row */}
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8, flexWrap: "wrap" }}>
+                <span style={{
+                  background:   c,
+                  color:        "#fff",
+                  borderRadius: 4,
+                  padding:      "2px 8px",
+                  fontSize:     "0.67rem",
+                  fontWeight:   700,
+                  fontFamily:   "'JetBrains Mono', monospace",
+                  flexShrink:   0,
+                }}>
+                  R{String(idx + 1).padStart(3, "0")}
+                </span>
+                <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "#e2e8f0", flex: 1 }}>
+                  {r.waypoints?.map((w) => w.port).join(" → ")}
+                </span>
+                {idx === 0 && (
+                  <span style={{
+                    background:   "rgba(16,185,129,0.15)",
+                    color:        "#34d399",
+                    border:       "1px solid rgba(16,185,129,0.3)",
+                    borderRadius: 4,
+                    padding:      "2px 9px",
+                    fontSize:     "0.65rem",
+                    fontWeight:   700,
+                    letterSpacing:"0.3px",
+                    flexShrink:   0,
+                  }}>
+                    ★ RECOMMENDED
+                  </span>
+                )}
+              </div>
 
-                    {/* Waypoints */}
-                    <div style={{ fontSize: "0.78rem", color: "#64748b", marginBottom: "0.5rem" }}>
-                      {route.waypoints.map((w) => w.port).join(" → ")}
-                    </div>
-
-                    {/* Metrics row */}
-                    <div style={{ display: "flex", gap: "1.25rem", fontSize: "0.82rem" }}>
-                      <span style={{ color: "#64748b" }}>
-                        📏 {Number(route.distance_km).toLocaleString()} km
-                      </span>
-                      <span style={{ color: "#64748b" }}>
-                        ⏱ {route.eta_days} days
-                      </span>
-                      <span style={{ color: cost.color, fontWeight: 600 }}>
-                        💰 {cost.text}
-                      </span>
-                      <span style={{ color: risk.color, fontWeight: 600 }}>
-                        ⚠️ {risk.text}
-                      </span>
-                    </div>
-
-                    {/* Carrier */}
-                    <div style={{ marginTop: "0.4rem", fontSize: "0.78rem", color: "#94a3b8" }}>
-                      Carrier: <strong style={{ color: "#475569" }}>{route.carrier}</strong>
-                    </div>
-                  </button>
-                );
-              })}
+              {/* Stats row */}
+              <div style={{ display: "flex", gap: "1.1rem", fontSize: "0.77rem", color: "#94a3b8" }}>
+                <span>⏱ {r.eta_days} days</span>
+                <span style={{
+                  color: r.cost_delta > 0 ? "#f87171"
+                       : r.cost_delta < 0 ? "#34d399" : "#94a3b8",
+                }}>
+                  💰 {r.cost_delta === 0 ? "Baseline"
+                      : r.cost_delta > 0 ? `+$${r.cost_delta}K`
+                      : `-$${Math.abs(r.cost_delta)}K`}
+                </span>
+                <span style={{
+                  color: r.risk_delta < 0 ? "#34d399"
+                       : r.risk_delta > 0 ? "#f87171" : "#94a3b8",
+                }}>
+                  ⚠ {r.risk_delta === 0 ? "Same risk"
+                     : r.risk_delta > 0 ? `+${r.risk_delta} pts`
+                     : `${r.risk_delta} pts`}
+                </span>
+              </div>
             </div>
+          );
+        })}
 
-            {/* Action buttons */}
-            <div style={{ display: "flex", gap: "0.75rem", marginTop: "1.25rem", justifyContent: "flex-end" }}>
-              <button
-                onClick={onClose}
-                style={{ background: "none", border: "1px solid #e2e8f0", borderRadius: 7, padding: "0.55rem 1.1rem", cursor: "pointer", fontSize: "0.875rem", color: "#64748b" }}
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleApply}
-                disabled={selected === null}
-                style={{
-                  background: selected !== null ? "#1A2B4A" : "#94a3b8",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: 7,
-                  padding: "0.55rem 1.4rem",
-                  cursor: selected !== null ? "pointer" : "not-allowed",
-                  fontSize: "0.875rem",
-                  fontWeight: 600,
-                }}
-              >
-                Apply Route
-              </button>
-            </div>
-          </>
+        {/* ── No options ── */}
+        {!loading && !applied && routes?.length === 0 && (
+          <div style={{ padding: "2rem", textAlign: "center", color: "#4b6280", fontSize: "0.85rem" }}>
+            No reroute options available for this shipment.
+          </div>
+        )}
+
+        {/* ── Apply button ── */}
+        {!loading && !applied && routes?.length > 0 && (
+          <button
+            onClick={() => {
+              setApplied(true);
+              setTimeout(onClose, 1800);
+            }}
+            style={{
+              width:         "100%",
+              background:    "linear-gradient(135deg, #2563eb, #1d4ed8)",
+              color:         "#fff",
+              border:        "none",
+              borderRadius:  8,
+              padding:       "0.75rem",
+              fontSize:      "0.92rem",
+              fontWeight:    700,
+              cursor:        "pointer",
+              marginTop:     4,
+              transition:    "all 0.15s ease",
+              boxShadow:     "0 4px 14px rgba(37,99,235,0.4)",
+              letterSpacing: "0.2px",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "linear-gradient(135deg, #1d4ed8, #1e40af)";
+              e.currentTarget.style.boxShadow  = "0 6px 20px rgba(37,99,235,0.55)";
+              e.currentTarget.style.transform  = "translateY(-1px)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "linear-gradient(135deg, #2563eb, #1d4ed8)";
+              e.currentTarget.style.boxShadow  = "0 4px 14px rgba(37,99,235,0.4)";
+              e.currentTarget.style.transform  = "translateY(0)";
+            }}
+          >
+            Apply Route
+          </button>
         )}
       </div>
     </div>

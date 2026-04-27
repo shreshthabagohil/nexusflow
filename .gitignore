@@ -207,3 +207,23 @@ marimo/_lsp/
 __marimo__/
 .DS_Store
 frontend/.vite
+
+# ── Frontend ──────────────────────────────────────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+# Vite build cache / timestamp files
+frontend/vite.config.js.timestamp-*.mjs
+frontend/vite.config.ts.timestamp-*.mjs
+
+# ── Backend ───────────────────────────────────────────────────────────────────
+backend/.venv/
+backend/node_modules/
+backend/.env
+# ML model artifacts (large binaries — train on server, never commit)
+backend/ml/*.pkl
+backend/ml/*.joblib
+backend/ml/*.bin
+backend/ml/model_*.json

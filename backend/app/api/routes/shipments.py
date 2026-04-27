@@ -24,7 +24,7 @@ from fastapi import APIRouter, Body, HTTPException
 from app.models.schemas import FeatureVector, RiskScoreResponse, Shipment
 from app.services.feature_engineer import FeatureEngineer
 from app.services.redis_client import get_redis
-from app.services.route_optimizer import RouteOptimizer
+from app.services.route_optimizer import get_reroute_options
 from ml.risk_scorer import get_scorer
 
 logger = logging.getLogger(__name__)
@@ -188,14 +188,17 @@ async def get_reroute(shipment_id: str) -> dict[str, Any]:
         raise HTTPException(status_code=404, detail=f"Shipment '{shipment_id}' not found.")
 
     shipment = json.loads(raw)
-    optimizer = RouteOptimizer()
+    origin     = shipment.get("origin_port", "Singapore")
+    destination = shipment.get("destination_port", "Rotterdam")
+    carrier    = shipment.get("carrier", "Maersk")
+    risk_score = int(shipment.get("risk_score", 50))
+
     # Run CPU-bound NetworkX work in a thread so the async event loop stays free
     loop = asyncio.get_event_loop()
+    import functools
     routes = await loop.run_in_executor(
         None,
-        optimizer.find_reroutes,
-        shipment.get("origin_port", "Singapore"),
-        shipment.get("destination_port", "Rotterdam"),
+        functools.partial(get_reroute_options, origin, destination, carrier, risk_score),
     )
     return {"shipment_id": shipment_id, "reroute_options": routes}
 
@@ -244,11 +247,73 @@ async def _run_disruption(event: dict[str, Any]) -> dict[str, Any]:
     Shared disruption logic for both endpoint paths.
 
     Sets high congestion for the target port, then re-scores all shipments
-    whose destination matches the disrupted port by bumping their risk_score.
+    whose origin or destination matches the disrupted port by bumping risk_score.
     Returns the number of shipments affected.
     """
     port = event.get("port", "Rotterdam")
     severity = float(event.get("severity", 9.5))
+
+    try:
+        redis = await get_redis()
+
+        # Update congestion for the disrupted port
+        port_name_to_code = {
+            "Rotterdam": "Rotterdam", "Shanghai": "Shanghai", "Singapore": "Singapore",
+            "Los Angeles": "Los Angeles", "Dubai": "Dubai", "Hamburg": "Hamburg",
+            "Mumbai": "Mumbai", "Busan": "Busan", "Hong Kong": "Hong Kong",
+        }
+        port_key = port_name_to_code.get(port, port)
+        await redis.set(f"congestion:{port_key}", str(min(severity / 10.0, 1.0)))
+
+        # Re-score shipments that touch the disrupted port
+        keys = await redis.keys("shipment:*")
+        affected = 0
+        rescored_shipments = []
+
+        if keys:
+            values = await redis.mget(*keys)
+            for key, v in zip(keys, values):
+                if not v:
+                    continue
+                try:
+                    s = json.loads(v)
+                except (json.JSONDecodeError, TypeError):
+                    continue
+
+                dest   = s.get("destination_port", "")
+                origin = s.get("origin_port", "")
+
+                if port_key in (dest, origin, port):
+                    old_score = float(s.get("risk_score", 30))
+                    bump      = severity * 5  # severity 9.5 → +47.5 risk
+                    new_score = min(99.0, old_score + bump)
+                    s["risk_score"] = round(new_score, 1)
+                    if new_score > 60:
+                        s["status"] = "at_risk"
+                    await redis.set(key, json.dumps(s))
+                    affected += 1
+                    rescored_shipments.append({
+                        "shipment_id": s.get("id"),
+                        "old_score":   old_score,
+                        "new_score":   round(new_score, 1),
+                    })
+
+        return {
+            "status":           "simulated",
+            "message":          f"Disruption simulated at {port}",
+            "port":             port,
+            "severity":         severity,
+            "shipments_queued": affected,
+            "rescored":         rescored_shipments[:10],
+        }
+    except Exception as exc:
+        logger.error("Disruption simulation failed: %s", exc)
+        return {
+            "status":           "error",
+            "message":          f"Disruption simulation failed: {exc}",
+            "shipments_queued": 0,
+        }
+
 
 # ─── Route optimisation ──────────────────────────────────────────────────────
 
@@ -294,77 +359,11 @@ async def get_routes(shipment_id: str) -> dict[str, Any]:
         raise HTTPException(status_code=500, detail=f"Route computation failed: {exc}")
 
     return {
-        "shipment_id":    shipment_id,
-        "origin":         origin,
-        "destination":    destination,
+        "shipment_id":     shipment_id,
+        "origin":          origin,
+        "destination":     destination,
         "reroute_options": options,
     }
-
-
-# ─── Raw feature scoring ─────────────────────────────────────────────────────
-
-    try:
-        redis = await get_redis()
-
-        # Update congestion for the disrupted port
-        # Map port name → code for congestion key
-        port_name_to_code = {
-            "Rotterdam": "Rotterdam", "Shanghai": "Shanghai", "Singapore": "Singapore",
-            "Los Angeles": "Los Angeles", "Dubai": "Dubai", "Hamburg": "Hamburg",
-            "Mumbai": "Mumbai", "Busan": "Busan", "Hong Kong": "Hong Kong",
-        }
-        port_key = port_name_to_code.get(port, port)
-        await redis.set(f"congestion:{port_key}", str(min(severity / 10.0, 1.0)))
-
-        # Re-score shipments: find those routed through the disrupted port
-        keys = await redis.keys("shipment:*")
-        affected = 0
-        rescored_shipments = []
-
-        if keys:
-            values = await redis.mget(*keys)
-            for key, v in zip(keys, values):
-                if not v:
-                    continue
-                try:
-                    s = json.loads(v)
-                except (json.JSONDecodeError, TypeError):
-                    continue
-
-                dest = s.get("destination_port", "")
-                origin = s.get("origin_port", "")
-
-                # If shipment touches the disrupted port, bump risk
-                if port_key in (dest, origin, port):
-                    old_score = float(s.get("risk_score", 30))
-                    bump = severity * 5  # severity 9.5 → +47.5 risk
-                    new_score = min(99.0, old_score + bump)
-                    s["risk_score"] = round(new_score, 1)
-                    if new_score > 60:
-                        s["status"] = "at_risk"
-                    await redis.set(key, json.dumps(s))
-                    affected += 1
-                    rescored_shipments.append({
-                        "shipment_id": s.get("id"),
-                        "old_score": old_score,
-                        "new_score": round(new_score, 1),
-                    })
-
-        return {
-            "status": "simulated",
-            "message": f"Disruption simulated at {port}",
-            "port": port,
-            "severity": severity,
-            "shipments_queued": affected,
-            "rescored": rescored_shipments[:10],  # first 10 for response brevity
-        }
-    except Exception as exc:
-        logger.error("Disruption simulation failed: %s", exc)
-        return {
-            "status": "error",
-            "message": f"Disruption simulation failed: {exc}",
-            "shipments_queued": 0,
-        }
 
 
 @router.post("/simulate/disruption")

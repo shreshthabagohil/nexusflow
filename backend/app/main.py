@@ -41,6 +41,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     """Application lifespan — startup → yield → shutdown."""
     logger.info("NexusFlow Backend starting…")
 
+    redis = None
     try:
         redis = await get_redis()
         await seed_redis(redis)
@@ -54,7 +55,62 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
             exc,
         )
 
-    yield  # ← application is live here
+    # ML scoring — only runs if Redis connected successfully
+    if redis is not None:
+        try:
+            await _ml_score_all_shipments(redis)
+        except Exception as exc:
+            logger.warning("ML scoring step failed (%s). Continuing with seed scores.", exc)
+
+
+async def _ml_score_all_shipments(redis) -> None:  # type: ignore[type-arg]
+    """
+    Run XGBoost scoring on every shipment in Redis at startup.
+
+    Best-effort — any failure is caught by the caller and logged as a warning
+    so the backend starts cleanly even when the ML model isn't loaded yet.
+    """
+    import json as _json
+
+    from ml.risk_scorer import get_scorer
+
+    scorer = get_scorer()
+    if scorer is None:
+        logger.info("_ml_score_all_shipments: model not loaded, skipping initial scoring.")
+        return
+
+    from app.services.feature_engineer import FeatureEngineer
+
+    engineer = FeatureEngineer(redis)
+    keys = await redis.keys("shipment:*")
+    if not keys:
+        return
+
+    scored = 0
+    for key in keys:
+        raw = await redis.get(key)
+        if not raw:
+            continue
+        try:
+            shipment = _json.loads(raw)
+            sid = shipment.get("id", "")
+            vector = await engineer.build(sid)
+            if vector is None:
+                continue
+            import asyncio as _asyncio
+            loop = _asyncio.get_event_loop()
+            risk_score  = await loop.run_in_executor(None, scorer.score,   vector)
+            top_factors = await loop.run_in_executor(None, scorer.explain, vector)
+            shipment["risk_score"]       = risk_score
+            shipment["top_risk_factors"] = top_factors
+            await redis.set(key, _json.dumps(shipment))
+            scored += 1
+        except Exception as exc:
+            logger.debug("_ml_score_all_shipments: skipped %s: %s", key, exc)
+
+    logger.info("_ml_score_all_shipments: scored %d shipments.", scored)
+
+    yield  # ← application is live
 
     logger.info("NexusFlow Backend shutting down…")
     await close_redis()

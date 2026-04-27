@@ -1,29 +1,25 @@
 // frontend/src/hooks/useShipments.js
 import { useState, useEffect, useCallback } from "react";
-import { getShipments } from "../services/api";
+import { getShipments, getMockShipments } from "../services/api";
 
 export function useShipments() {
-  const [shipments, setShipments] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // ── Instant initial state: mock data rendered on first paint, no loading wait ──
+  const [shipments, setShipments] = useState(getMockShipments);
+  const [loading,   setLoading]   = useState(false);
+  const [error,     setError]     = useState(null);
 
   const fetchShipments = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-
-    const data = await getShipments();
-
-    // getShipments() always returns an array (never null) after our fix.
-    // An empty array here would only happen if mock data itself was empty,
-    // which is a dev misconfiguration — surface it clearly.
-    if (!data || data.length === 0) {
-      setError("No shipment data available.");
-      setShipments([]);
-    } else {
-      setShipments(data);
+    // Don't show a spinner — we already have mock data on screen.
+    // Silently try the backend; if it responds with real data, swap it in.
+    try {
+      const data = await getShipments();
+      if (data && data.length > 0) {
+        setShipments(data);
+      }
+    } catch (err) {
+      // Backend unreachable — mock data is already showing, nothing to do.
+      setError(err.message);
     }
-
-    setLoading(false);
   }, []);
 
   useEffect(() => {
