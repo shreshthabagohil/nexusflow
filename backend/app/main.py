@@ -62,6 +62,12 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         except Exception as exc:
             logger.warning("ML scoring step failed (%s). Continuing with seed scores.", exc)
 
+    yield  # ← application is live
+
+    logger.info("NexusFlow Backend shutting down…")
+    await close_redis()
+    logger.info("Shutdown complete.")
+
 
 async def _ml_score_all_shipments(redis) -> None:  # type: ignore[type-arg]
     """
@@ -109,12 +115,6 @@ async def _ml_score_all_shipments(redis) -> None:  # type: ignore[type-arg]
             logger.debug("_ml_score_all_shipments: skipped %s: %s", key, exc)
 
     logger.info("_ml_score_all_shipments: scored %d shipments.", scored)
-
-    yield  # ← application is live
-
-    logger.info("NexusFlow Backend shutting down…")
-    await close_redis()
-    logger.info("Shutdown complete.")
 
 
 # ─── App ──────────────────────────────────────────────────────────────────────
