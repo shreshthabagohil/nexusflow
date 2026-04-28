@@ -535,7 +535,7 @@ function BottomTimeline({ shipments, riskFilter, onShowTable }) {
 // ── Main dashboard ────────────────────────────────────────────────────────────
 export default function Dashboard() {
   const { shipments: fetchedShipments, loading, error, refetch } = useShipments();
-  const [shipments, setShipments] = useState(null);
+  const [simulatedShipments, setSimulatedShipments] = useState(null);
   const { connected, reconnecting } = useWebSocket(WS_URL);
   const [stats,       setStats]       = useState(null);
   const [rerouteShip, setRerouteShip] = useState(null);
@@ -543,13 +543,16 @@ export default function Dashboard() {
   const [showTable,   setShowTable]   = useState(false);
   const [tableSearch, setTableSearch] = useState("");
 
-  // Keep local shipments in sync with fetched shipments
-  useEffect(() => { if (fetchedShipments) setShipments(fetchedShipments); }, [fetchedShipments]);
+  // Use simulated overlay if available, otherwise use live/mock data
+  const shipments = simulatedShipments ?? fetchedShipments;
+
+  // When real data refreshes, clear the simulation overlay so real scores show
+  useEffect(() => { setSimulatedShipments(null); }, [fetchedShipments]);
 
   // Demo-mode simulate: bump scores only for shipments touching the disrupted port
   function handleSimulate(port) {
-    setShipments((prev) =>
-      (prev ?? []).map((s) => {
+    setSimulatedShipments(
+      (fetchedShipments ?? []).map((s) => {
         if (s.origin_port === port || s.destination_port === port) {
           const newScore = Math.min(99, Number(s.risk_score) + 45);
           return { ...s, risk_score: newScore, status: newScore > 60 ? "at_risk" : s.status };
@@ -557,7 +560,7 @@ export default function Dashboard() {
         return s;
       })
     );
-    refetch(); // also try real backend; if it responds, its data wins
+    refetch(); // also try real backend
   }
 
   useEffect(() => { getAnalytics().then(setStats); }, [shipments]);

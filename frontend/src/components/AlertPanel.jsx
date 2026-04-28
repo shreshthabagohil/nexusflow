@@ -80,29 +80,6 @@ export default function AlertPanel({ shipments = [] }) {
           })}
         </div>
       )}
-
-      <div style={styles.list}>
-        {atRisk.map((s) => (
-          <div key={s.id} style={styles.card}>
-            <div style={styles.cardTop}>
-              <span style={styles.shipId}>{s.id}</span>
-              <RiskBadge score={s.risk_score} />
-            </div>
-            <div style={styles.route}>
-              {s.origin_port} → {s.destination_port}
-            </div>
-            <div style={styles.meta}>
-              {s.carrier} · {s.cargo_type || "GENERAL"}
-            </div>
-            <button
-              style={styles.rerouteBtn}
-              onClick={() => onViewReroute?.(s)}
-            >
-              View Reroute
-            </button>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }
