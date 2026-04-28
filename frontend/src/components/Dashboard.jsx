@@ -534,13 +534,31 @@ function BottomTimeline({ shipments, riskFilter, onShowTable }) {
 
 // ── Main dashboard ────────────────────────────────────────────────────────────
 export default function Dashboard() {
-  const { shipments, loading, error, refetch } = useShipments();
+  const { shipments: fetchedShipments, loading, error, refetch } = useShipments();
+  const [shipments, setShipments] = useState(null);
   const { connected, reconnecting } = useWebSocket(WS_URL);
   const [stats,       setStats]       = useState(null);
   const [rerouteShip, setRerouteShip] = useState(null);
   const [riskFilter,  setRiskFilter]  = useState("all");
   const [showTable,   setShowTable]   = useState(false);
   const [tableSearch, setTableSearch] = useState("");
+
+  // Keep local shipments in sync with fetched shipments
+  useEffect(() => { if (fetchedShipments) setShipments(fetchedShipments); }, [fetchedShipments]);
+
+  // Demo-mode simulate: bump scores only for shipments touching the disrupted port
+  function handleSimulate(port) {
+    setShipments((prev) =>
+      (prev ?? []).map((s) => {
+        if (s.origin_port === port || s.destination_port === port) {
+          const newScore = Math.min(99, Number(s.risk_score) + 45);
+          return { ...s, risk_score: newScore, status: newScore > 60 ? "at_risk" : s.status };
+        }
+        return s;
+      })
+    );
+    refetch(); // also try real backend; if it responds, its data wins
+  }
 
   useEffect(() => { getAnalytics().then(setStats); }, [shipments]);
 
@@ -640,6 +658,7 @@ export default function Dashboard() {
           reconnecting={reconnecting}
           onReroute={(s) => setRerouteShip(s)}
           onRefetch={refetch}
+          onSimulate={handleSimulate}
         />
       </div>
 

@@ -260,7 +260,7 @@ function RerouteCard({ s, onReroute }) {
 }
 
 // ── Main sidebar ──────────────────────────────────────────────────────────────
-export default function AlertsSidebar({ shipments = [], connected, reconnecting, onReroute, onRefetch }) {
+export default function AlertsSidebar({ shipments = [], connected, reconnecting, onReroute, onRefetch, onSimulate }) {
   const [simLoading, setSimLoading] = useState(false);
   const [simResult,  setSimResult]  = useState(null);
   const [activeTab,  setActiveTab]  = useState("alerts");
@@ -288,7 +288,11 @@ export default function AlertsSidebar({ shipments = [], connected, reconnecting,
     const res = await postSimulateDisruption({ type: "port_closure", port: "Rotterdam" });
     setSimLoading(false);
     setSimResult(res ? "success" : "error");
-    onRefetch?.();
+    if (res) {
+      onSimulate?.("Rotterdam"); // locally bump Rotterdam ships in demo mode
+    } else {
+      onRefetch?.();
+    }
     setTimeout(() => setSimResult(null), 3000);
   }
 

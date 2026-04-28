@@ -283,7 +283,7 @@ async def _run_disruption(event: dict[str, Any]) -> dict[str, Any]:
                 dest   = s.get("destination_port", "")
                 origin = s.get("origin_port", "")
 
-                if port_key in (dest, origin, port):
+                if port_key in (dest, origin):
                     old_score = float(s.get("risk_score", 30))
                     bump      = severity * 5  # severity 9.5 → +47.5 risk
                     new_score = min(99.0, old_score + bump)
