@@ -546,10 +546,8 @@ export default function Dashboard() {
   // Use simulated overlay if available, otherwise use live/mock data
   const shipments = simulatedShipments ?? fetchedShipments;
 
-  // When real data refreshes, clear the simulation overlay so real scores show
-  useEffect(() => { setSimulatedShipments(null); }, [fetchedShipments]);
-
   // Demo-mode simulate: bump scores only for shipments touching the disrupted port
+  // No refetch — keep simulated state visible until page refresh
   function handleSimulate(port) {
     setSimulatedShipments(
       (fetchedShipments ?? []).map((s) => {
@@ -560,7 +558,6 @@ export default function Dashboard() {
         return s;
       })
     );
-    refetch(); // also try real backend
   }
 
   useEffect(() => { getAnalytics().then(setStats); }, [shipments]);
@@ -577,18 +574,20 @@ export default function Dashboard() {
     };
   }, [shipments]);
 
-  const total     = stats?.total   ?? 0;
-  const atRisk    = stats?.at_risk ?? 0;
-  const atRiskPct = total > 0 ? ((atRisk / total) * 100).toFixed(1) : "0.0";
-
+  // Always derive stats from local shipments state so simulation updates all cards instantly
+  const total        = shipments?.length ?? stats?.total ?? 0;
   const criticalCount = shipments?.filter((s) => Number(s.risk_score) > 90).length ?? 0;
-  const delayedCount  = shipments?.filter((s) => s.status === "delayed").length    ?? 0;
+  const atRiskCount  = shipments?.filter((s) => Number(s.risk_score) > 60).length ?? 0;
+  const onTimeCount  = shipments?.filter((s) => s.status === "on_time").length ?? 0;
+  const atRiskPct    = total > 0 ? ((atRiskCount / total) * 100).toFixed(1) : "0.0";
+  const onTimePct    = total > 0 ? ((onTimeCount / total) * 100).toFixed(1) : (stats?.on_time_pct ?? "0.0");
+  const delayedCount = shipments?.filter((s) => s.status === "delayed").length ?? 0;
 
   const STATS = [
-    { label: "Total Shipments", value: stats?.total ?? "—",                        sub: null,                                         color: "#3b82f6" },
-    { label: "At Risk",         value: stats?.at_risk ?? "—",                      sub: total > 0 ? `${atRiskPct}% of fleet` : null, color: "#ef4444" },
-    { label: "Critical",        value: shipments ? criticalCount : "—",            sub: "score > 90",                                 color: "#ff2d2d" },
-    { label: "On-Time Rate",    value: stats ? `${stats.on_time_pct}%` : "—",      sub: "last 24 h",                                  color: "#10b981" },
+    { label: "Total Shipments", value: total || "—",       sub: null,                                          color: "#3b82f6" },
+    { label: "At Risk",         value: atRiskCount || "—", sub: total > 0 ? `${atRiskPct}% of fleet` : null,  color: "#ef4444" },
+    { label: "Critical",        value: criticalCount,      sub: "score > 90",                                  color: "#ff2d2d" },
+    { label: "On-Time Rate",    value: `${onTimePct}%`,    sub: "last 24 h",                                   color: "#10b981" },
   ];
 
   return (
