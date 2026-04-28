@@ -130,13 +130,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",   # CRA / legacy & docker-compose frontend
-        "http://localhost:5173",   # Vite dev server
-        "http://localhost:4173",   # Vite preview
-        "http://frontend:3000", # Docker internal hostname
-        "https://nexusflow-sand.vercel.app"    
-    ],
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
     allow_credentials=True,
