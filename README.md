@@ -6,7 +6,6 @@
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-nexusflow--sand.vercel.app-blue?style=for-the-badge)](https://nexusflow-sand.vercel.app/)
 [![GitHub](https://img.shields.io/badge/GitHub-nexusflow-black?style=for-the-badge&logo=github)](https://github.com/shreshthabagohil/nexusflow)
-[![Google AI](https://img.shields.io/badge/Powered%20by-Gemini%20AI-orange?style=for-the-badge)](https://ai.google.dev/)
 
 ---
 
@@ -23,7 +22,7 @@ NexusFlow tells you **where it's about to go wrong** — and what to do about it
 
 NexusFlow monitors live shipments globally, scores each for disruption risk using a trained XGBoost AI model, and delivers Pareto-optimal reroute recommendations **within 5 seconds** of any disruption event — giving logistics teams a **24–48 hour warning window** before damage occurs.
 
-A Kafka-based event streaming pipeline ingests weather, port, carrier, and GPS data continuously. The ML engine scores every shipment 0–100, SHAP explains the top 3 risk factors per shipment, and **Google Gemini API** translates the analysis into plain-English alerts anyone on the team can act on — no data science degree required.
+A Kafka-based event streaming pipeline ingests weather, port, carrier, and GPS data continuously. The ML engine scores every shipment 0–100, SHAP explains the top 3 risk factors per shipment, and anyone on the team can act on — no data science degree required.
 
 ---
 
@@ -31,7 +30,6 @@ A Kafka-based event streaming pipeline ingests weather, port, carrier, and GPS d
 
 - **AI Risk Scoring** — XGBoost model scores every shipment 0–100 in real time (AUC > 0.80)
 - **SHAP Explainability** — Top 3 risk factors shown per shipment. No black boxes
-- **Gemini AI Alerts** — Plain-English disruption summaries powered by Google Gemini
 - **Pareto-Optimal Rerouting** — 3 ranked reroute alternatives per disruption (cost vs. time vs. risk)
 - **Anomaly Detection** — Isolation Forest flags unusual port congestion spikes automatically
 - **Live WebSocket Updates** — Dashboard refreshes in under 5 seconds from any event
@@ -48,7 +46,6 @@ A Kafka-based event streaming pipeline ingests weather, port, carrier, and GPS d
 |---|---|
 | **Frontend** | React 18, Vite, react-leaflet, Recharts |
 | **Backend** | FastAPI (Python 3.11), Pydantic, WebSocket |
-| **Google AI** | Gemini API — natural language alert summaries |
 | **ML / AI** | XGBoost, SHAP, Isolation Forest, NetworkX (Dijkstra) |
 | **Streaming** | Apache Kafka, Faust, Zookeeper |
 | **Storage** | Redis (primary state), PostgreSQL (optional) |
@@ -80,12 +77,6 @@ docker-compose up -d
 - **Mobile App** — React Native for field logistics teams
 - **Carbon Footprint Scoring** — ESG compliance optimization
 - **Multi-Modal Routing** — Air, rail, and sea route optimization
-
----
-
-## 👥 Team
-
-Built for **Google Solution Challenge 2026** — Smart Supply Chains track.
 
 ---
 
